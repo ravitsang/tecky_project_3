@@ -1,0 +1,24 @@
+
+image: node:latest
+
+stages:
+  - testing
+  - deploy
+
+variables:
+  POSTGRES_DB: tecky_project_3
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_HOST: postgres
+
+testing:
+
+  services:
+    - postgres:latest
+
+  before_script:
+    - yarn install
+    - yarn knex migrate:latest --env testing
+  stage: testing
+  script:
+    - yarn jest
