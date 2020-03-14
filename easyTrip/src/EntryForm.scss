@@ -1,0 +1,107 @@
+// .card{
+//     width: 400px;
+//     display: flex;
+// }
+
+.planning-form{
+    margin-top: 100px;
+    width: 100px;
+    min-width: 400px;
+    max-height: 350px;
+}
+
+.description{
+    margin-top: 150px;
+    border: white;
+    font-weight: bold;
+    max-height: 200px;
+}
+
+.description-header{
+    font-size: 3.6em;
+}
+
+.description-text{
+    font-size: 1.428em;
+    font-weight: lighter;
+}
+
+.form-header{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.city {
+    width: 100%;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    padding: 11px 10px 11px 10px;
+}
+
+.start-date , .end-date{
+
+    padding: 5px;
+    
+    
+}
+
+.start-date , .end-date {
+    width: 100%;
+}
+
+.btn{
+    margin-top: 40px;
+    
+}
+
+.app{
+    display: flex;
+    justify-content: space-between;
+  
+}
+
+.btn-header{
+    display: flex;
+    justify-content: center;
+}
+
+.date-label{
+    margin-top: 15px;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: initial;
+    font-size: 17px;
+  }
+
+.date{
+    display: none;
+}
+
+@media screen and (max-width:990px){
+
+    .app{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .description{
+        margin-top: 60px;
+        border: white;
+        max-height: 200px;
+        
+    }
+    .description-header{
+        font-size: 2.8em;
+    }
+
+    // .city {
+    //     width: 100%;
+    //     margin-bottom: 30px;
+    //     margin-top: 30px;
+    //     padding-top: 20px;
+    //     padding-bottom: 11px;
+    // }
+}
