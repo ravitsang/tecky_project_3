@@ -69,10 +69,10 @@ export function EntryForm() {
                         </Row>
                         <input className="date" type="text" name="startDate" value={123} />
                         <input className="date" type="text" name="endDate" value={endDateValue}/>
-                        <input className="city" type="city1" name="city1" placeholder="Enter destination (Country, Region, City)"
+                        {/* <input className="city" type="city1" name="city1" placeholder="Enter destination (Country, Region, City)"
                             ref={register({
                                 required: 'Required'
-                            })} />
+                            })} /> */}
                     </form>
                 </CardBody>
             </Card>
