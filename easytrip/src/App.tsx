@@ -3,6 +3,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Navbar, NavItem } from 'react-bootstrap';
 import { Link, Switch, Route } from 'react-router-dom';
 import { history } from './store';
+import Calendar from './Calendar/Calendar';
 // import { useDispatch } from 'react-redux';
 
 export function App() {
@@ -14,7 +15,7 @@ export function App() {
 
       </Navbar>
       <Switch>
-        <Route path='/' />
+        <Route path='/' component={Calendar}/>
       </Switch>
     </ConnectedRouter>
   );
