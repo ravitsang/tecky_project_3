@@ -1,7 +1,3 @@
-// .card{
-//     width: 400px;
-//     display: flex;
-// }
 
 .planning-form{
     margin-top: 100px;
@@ -24,6 +20,7 @@
 .description-text{
     font-size: 1.428em;
     font-weight: lighter;
+    color: rgb(90, 90, 90);
 }
 
 .form-header{
@@ -50,10 +47,6 @@
     width: 100%;
 }
 
-.btn{
-    margin-top: 40px;
-    
-}
 
 .app{
     display: flex;
@@ -70,15 +63,61 @@
     margin-top: 15px;
 }
 
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: initial;
-    font-size: 17px;
+.btn{
+    margin-top: 30px;
+}
+
+
+// ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+//     font-family: Arial, Helvetica, sans-serif;
+//     font-weight: initial;
+//     font-size: 17px;
+//   }
+
+.date-picker{
+    margin-left: 10px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
+}
+
+.DateInput_input::placeholder { 
+    color: #808080;
+    font-size: 16px;
+}
+
+.DateInput_input{ 
+    color: #333333;
+    font-size: 16px;
+    font-weight: normal;
+    padding-left: 30px;
+}
+
+// Will edit everything selected including everything between a range of dates
+.CalendarDay__selected_span {
+    background: #74b0ff; //background
+    color: white; //text
+    border: 1px solid #2684FF; //default styles include a border
+  }
+  
+  // Will edit selected date or the endpoints of a range of dates
+  .CalendarDay__selected {
+    background: #2684FF;
+    color: white;
+  }
+  
+  // Will edit when hovered over. _span style also has this property
+  .CalendarDay__selected:hover {
+    background: #2684FF;
+    color: white;
+  }
+  
+  // Will edit when the second date (end date) in a range of dates
+  // is not yet selected. Edits the dates between your mouse and said date
+  .CalendarDay__hovered_span:hover,
+  .CalendarDay__hovered_span {
+    background: #B3D7FE
   }
 
-.date{
-    display: none;
-}
+
 
 @media screen and (max-width:990px){
 
@@ -88,13 +127,25 @@
     }
     
     .description{
-        margin-top: 60px;
-        border: white;
-        max-height: 200px;
-        
+        margin-top: 10px;
+        line-height: 45px;
+        text-align: center;
+        font-stretch: narrower;
     }
+
+    .description-text{
+        font-size: 1em;
+        line-height: 20px;
+    }
+
     .description-header{
-        font-size: 2.8em;
+        font-size: 2.2em;
+    }
+
+    .planning-form{
+        margin-top: 30px;
+        min-width: 340px;
+        max-height: 350px;
     }
 
     // .city {
