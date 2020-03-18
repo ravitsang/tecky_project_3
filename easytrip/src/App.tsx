@@ -4,18 +4,17 @@ import { Navbar, NavItem } from 'react-bootstrap';
 import { Link, Switch, Route } from 'react-router-dom';
 import { history } from './store';
 import Calendar from './Calendar/Calendar';
+import { EntryForm } from './EntryForm';
+import { MainNav } from './MainNav';
 // import { useDispatch } from 'react-redux';
 
 export function App() {
   // const dispatch = useDispatch();
   return (
     <ConnectedRouter history={history}>
-      <Navbar>
-        <NavItem><Link to="/">Home</Link></NavItem>
-
-      </Navbar>
+      <MainNav />
       <Switch>
-        <Route path='/' component={Calendar}/>
+        <Route path='/' component={Calendar} />
       </Switch>
     </ConnectedRouter>
   );

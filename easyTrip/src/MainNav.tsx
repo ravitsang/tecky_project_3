@@ -85,7 +85,7 @@ export function MainNav() {
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
                 <AppBar position="static">
-                    <Toolbar>
+                    <Toolbar >
 
                         <Typography variant="h6" className={classes.title}>
                             EasyTrip
@@ -105,21 +105,21 @@ export function MainNav() {
                                     inputProps={{ 'aria-label': 'search' }}
                                 />
                             </div>
-                            <Button color="inherit"><Link to="/login"></Link> Login</Button>
+
                         </Responsive>
                         <Responsive maxWidth={767} >
-                             <section>
+                            <section>
                                 <IconButton edge="start" className={classes.menuButton} aria-label="menu">
                                     <MenuIcon />
                                 </IconButton>
-                            </section>            
+                            </section>
                             <section className={classes.rightToolbar}>
                                 <IconButton aria-label="search" color="inherit">
                                     <SearchIcon />
                                 </IconButton>
-                                <Button color="inherit"><Link to="/login">Login</Link> </Button>
                             </section>
                         </Responsive>
+                        <Button color="inherit"><Link to="/login"></Link> Login</Button>
                     </Toolbar>
                 </AppBar>
             </div>
