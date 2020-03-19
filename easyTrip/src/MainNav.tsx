@@ -114,9 +114,14 @@ export function MainNav() {
                                     inputProps={{ 'aria-label': 'search' }}
                                 />
                             </div>
-                            <Button ><Link className="login-btn" to="/login">Login</Link></Button>
+
                         </Responsive>
                         <Responsive maxWidth={767} >
+                            <section>
+                                <IconButton edge="start" className={classes.menuButton} aria-label="menu">
+                                    <MenuIcon />
+                                </IconButton>
+                            </section>
                             <section className={classes.rightToolbar}>
                                 <IconButton aria-label="search" color="inherit">
                                     <SearchIcon />
@@ -124,6 +129,7 @@ export function MainNav() {
                                 <Button ><Link className="login-btn" to="/login">Login</Link></Button>
                             </section>
                         </Responsive>
+                        <Button color="inherit"><Link to="/login"></Link> Login</Button>
                     </Toolbar>
                 </AppBar>
             </div>
