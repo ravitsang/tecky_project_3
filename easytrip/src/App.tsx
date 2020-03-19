@@ -6,7 +6,9 @@ import { history } from './store';
 import { MainNav } from './MainNav';
 import { EntryForm } from './EntryForm';
 import { ShowItinerary } from './ShowItinerary';
+import { ReactGoogleMaps } from './ReactGoogleMaps';
 // import { useDispatch } from 'react-redux';
+import { MarkerClustererComponent } from './MarkerClusterer';
 
 export function App() {
   // const dispatch = useDispatch();
@@ -16,6 +18,7 @@ export function App() {
       <Switch>
         <Route path='/' exact={true} component={EntryForm}/>
         <Route path='/itinerary' component={ShowItinerary}/>
+        <Route path='/map' component={MarkerClustererComponent}/>
       </Switch>
     </ConnectedRouter>
   );
