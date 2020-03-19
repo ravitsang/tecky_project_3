@@ -11,10 +11,9 @@ import { DateRangePicker } from 'react-dates';
 // import Select from 'react-select'
 import { Button, Card as MaterialUICard, makeStyles, createStyles, Theme } from '@material-ui/core';
 import './EntryForm.scss'
-
 import Responsive from "react-responsive";
 import { ReactSelect } from "./ReactSelect";
-
+import Alert from '@material-ui/lab/Alert';
 
 export function EntryForm() {
 
@@ -27,16 +26,63 @@ export function EntryForm() {
         setEndDate(endDate);
     };
 
+    const { handleSubmit, register, setValue , errors} = useForm();
 
-    let startDateValue = startDate ? `${startDate.toDate().getFullYear()}-${startDate.toDate().getMonth() + 1}-${startDate.toDate().getDate()}` : ""
-    let endDateValue = endDate ? `${endDate.toDate().getFullYear()}-${endDate.toDate().getMonth() + 1}-${endDate.toDate().getDate()}` : ""
+    if(startDate){
+        const startDateValue = moment(startDate).format('llll');
+        const splitStartDate = startDateValue.split(' ')//.slice(0,4).join('')
+        const days = splitStartDate[0].split(',')[0]
+        const textMonth = splitStartDate[1]
+        const day = splitStartDate[2].split(',')[0]
+        const year = splitStartDate[3]
+        const month = moment(startDate).format('l').split('/')[0];
+        // console.log(startDateValue);
+        // console.log(splitStartDate);
+        // console.log(startDays);
+        // console.log(startMonth);
+        // console.log(startDay);
+        // console.log(startYear);
+
+        setValue("trip-start-date", {
+            days:days,
+            textMonth:textMonth,
+            month:month,
+            day:day,
+            year:year
+        })
+    }
+
+    if(endDate){
+        const endDateValue = moment(endDate).format('LLLL');
+        const splitendDate = endDateValue.split(' ')//.slice(0,4).join('')
+        const days = splitendDate[0].split(',')[0]
+        const textMonth = splitendDate[1]
+        const day = splitendDate[2].split(',')[0]
+        const year = splitendDate[3]
+        const month = moment(endDate).format('l').split('/')[0];
+        // console.log(endDateValue);
+        // console.log(splitendDate);
+        // console.log(endDays);
+        // console.log(endMonth);
+        // console.log(endDay);
+        // console.log(endYear);
+
+        setValue("trip-end-date", {
+            days:days,
+            textmonth:textMonth,
+            month:month,
+            day:day,
+            year:year
+        })
+
+    }
 
 
-    const { handleSubmit, register, setValue } = useForm();
+
+
+
 
     // set up a custom register using the useEffect Hook and update the value via setValue.
-    setValue("trip-start-date", startDateValue)
-    setValue("trip-end-date", endDateValue)
 
 
     useEffect(() => {
@@ -77,9 +123,17 @@ export function EntryForm() {
                 maxWidth: 345,
                 color: '#212121'
             },
-            submit: {
-                // backgroundColor: '#9e9e9e'
-                // padding:20
+            alert: {
+                marginTop: -40,
+                marginLeft: 25,
+                marginBottom: 10,
+                paddingTop:0,
+                paddingBottom:0
+            },
+            submit:{
+                borderRadius:100,
+                backgroundColor: "#f2f2f2",
+                textTransform: "none"
             }
         }),
     );
@@ -103,6 +157,7 @@ export function EntryForm() {
                                 value={values.selectedOption}
                                 handleSingleChange={handleSignleChange}/>
                             <Row>
+                            { errors.city && <Alert className={classes.alert} severity="error">Destination is required</Alert>}
                                 <Col className="date-picker">
                                     <Responsive
                                         maxWidth={767}>

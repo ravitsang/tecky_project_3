@@ -9,6 +9,18 @@ const initialState = {
 
 export const tripReducer = (state:ITripState = initialState, action:ITripActions) =>{
 
+    switch(action.type){
 
+        case "GET_TRIPDETAIL":
+
+            console.log(state);
+            return{
+                ...state
+            }
+
+        default:
+            console.log(action.type);
+            return state
+    }
 
 }
