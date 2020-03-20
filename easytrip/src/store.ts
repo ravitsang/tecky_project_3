@@ -1,3 +1,6 @@
+import { ITripActions } from './trip/actions';
+import { tripReducer } from './trip/reducers';
+import { ITripState } from './trip/state';
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import logger from "redux-logger";
 import { RouterState, connectRouter, routerMiddleware, CallHistoryMethodAction } from 'connected-react-router';
@@ -11,16 +14,17 @@ export const history = createBrowserHistory();
 
 export interface IRootState {
 
-  router: RouterState // 
+  router: RouterState
+  trip: ITripState
 }
 
  
-export type IRootAction =  CallHistoryMethodAction; 
+export type IRootAction =  CallHistoryMethodAction | ITripActions
 
 
 const rootReducer = combineReducers<IRootState>({
-  router: connectRouter(history) 
-
+  router: connectRouter(history), 
+  trip: tripReducer
 });
 
 declare global {

@@ -27,6 +27,8 @@
     text-align: center;
     font-weight: bold;
     font-size: 1.2em;
+    background-color: #444444;
+    color: white;
 }
 
 .city {
@@ -91,6 +93,10 @@
     padding-left: 30px;
 }
 
+.DateRangePickerInput__showClearDates{
+    padding-right: 0px;
+}
+
 // Will edit everything selected including everything between a range of dates
 .CalendarDay__selected_span {
     background: #74b0ff; //background
@@ -116,6 +122,31 @@
   .CalendarDay__hovered_span {
     background: #B3D7FE
   }
+
+
+  .city-alert{
+    margin-top: -40px;
+    margin-left: 25px;
+    margin-bottom: 10px;
+  }
+
+@media (min-width:767px) and (max-width:990px){
+
+    .planning-form{
+        min-height: 350px;
+    }
+
+    .DateInput_input{ 
+        padding-right: 0px;
+    }
+    .DateRangePickerInput__showClearDates{
+        padding-right: 0px;
+    }
+
+    // .DateInput_input::placeholder { 
+    //     font-size: 16px;
+    // }
+}
 
 
 

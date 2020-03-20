@@ -1,13 +1,11 @@
 import React from 'react';
-import './MainNav.scss';
 import { Link } from 'react-router-dom';
-import { AppBar, Toolbar, IconButton, Typography, Button, Theme, makeStyles, createStyles, InputBase, fade, Grid } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Button, Theme, makeStyles, createStyles, InputBase, fade } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-
 import Responsive from "react-responsive";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-
+import './MainNav.scss';
 
 const theme = createMuiTheme({
     palette: {
@@ -22,10 +20,11 @@ const theme = createMuiTheme({
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            flexGrow: 1,
+            flexGrow: 1
         },
         menuButton: {
             marginRight: theme.spacing(2),
+            color: '#FFFFFF'
         },
         title: {
             flexGrow: 1,
@@ -36,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         search: {
             position: 'relative',
+            marginRight: 20,
             borderRadius: theme.shape.borderRadius,
             backgroundColor: fade(theme.palette.common.white, 0.15),
             '&:hover': {
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up('sm')]: {
                 marginLeft: theme.spacing(1),
                 width: 'auto',
-            },
+            }
         },
         searchIcon: {
             width: theme.spacing(7),
@@ -72,9 +72,15 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         rightToolbar: {
-            marginLeft: 'auto',
-            marginRight: -12,
+            marginLeft: 'auto'
         },
+        appBar: {
+            display: 'flex',
+            justifyContent: 'center'
+        },
+        toolBar:{
+            minHeight: 50,
+        }
     }),
 );
 
@@ -85,12 +91,15 @@ export function MainNav() {
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
                 <AppBar position="static">
-                    <Toolbar >
-
+                    <Toolbar className={classes.toolBar}>
+                        <Responsive maxWidth={599}>
+                            <IconButton edge="start" className={classes.menuButton} aria-label="menu">
+                                <MenuIcon />
+                            </IconButton>
+                        </Responsive>
                         <Typography variant="h6" className={classes.title}>
-                            EasyTrip
+                            <Link className="logo" to="/">EasyTrip</Link>
                         </Typography>
-
                         <Responsive minWidth={768}>
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
@@ -117,6 +126,7 @@ export function MainNav() {
                                 <IconButton aria-label="search" color="inherit">
                                     <SearchIcon />
                                 </IconButton>
+                                <Button ><Link className="login-btn" to="/login">Login</Link></Button>
                             </section>
                         </Responsive>
                         <Button color="inherit"><Link to="/login"></Link> Login</Button>

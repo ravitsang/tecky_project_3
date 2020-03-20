@@ -1,0 +1,60 @@
+.itinerary{
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+    align-items: center;
+}
+
+
+.page{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.vertical { 
+    border-left: 2px solid#DEDEDE; 
+    height: 20px; 
+
+} 
+
+
+.add-hotel-column, .drive-time-column {
+    display: flex; 
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.add-hotel-link, .drive-time{
+    margin-left: 20px;
+}
+
+
+.media-edit{
+    display: flex;
+}
+
+
+.sm-time-edit-column{
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+}
+
+.sm-media-header-row{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width:600px){
+
+    .itinerary{
+        padding-left: 0px
+    }
+
+    .time-display{
+        padding-right: 0px;
+    }
+
+}
