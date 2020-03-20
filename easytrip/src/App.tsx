@@ -11,6 +11,8 @@ import { EntryForm } from './EntryForm';
 import { MainNav } from './MainNav';
 // import { useDispatch } from 'react-redux';
 import { MarkerClustererComponent } from './MarkerClusterer';
+import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export function App() {
   // const dispatch = useDispatch();

@@ -1,10 +1,15 @@
 import React, { useState, useCallback } from 'react'
-import './styles.scss';
+// import './styles.scss';
 import { DndProvider } from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import update from 'immutability-helper'
 import Card from './Card';
-import Table from './Table';
+// import Table from './Table';
+import { CalendarTable } from './CalendarTable';
+import { DaysBar } from '../DaysBar';
+import { Card as MaterialCard, CardContent, makeStyles, createStyles, Theme } from '@material-ui/core';
+import { TabBar } from '../TabBar';
+import './Calendar.scss'
 
 export default function Calendar() {
     {
@@ -67,9 +72,28 @@ export default function Calendar() {
             )
         }
 
+        const useStyles = makeStyles((theme: Theme) =>
+        createStyles({
+            root:{
+                marginLeft: 30,
+                marginRight:100,
+                borderRadius: 0
+            },
+            calendar: {
+                paddingTop: 50,
+                paddingLeft: 30,
+                paddingRight: 0,
+                borderRadius: 0
+                
+            }
+        }),
+    );
+
+    const classes = useStyles();
+
         return (
-            <div className='container'>
-                <div className='title'>Calendar</div>
+            <div>
+                {/* <div className='title'>Calendar</div>
                 <div className='destination'>Hong Kong</div>
                 <div className='main'>
                     <div className='row'>
@@ -142,6 +166,15 @@ export default function Calendar() {
 
                         </div>
                     </div>
+                </div> */}
+                <TabBar/>
+                <div className="page">
+                    <DaysBar />
+                    <MaterialCard className={classes.root}>
+                        <CardContent className={classes.calendar}>
+                            <CalendarTable />
+                        </CardContent>
+                    </MaterialCard>
                 </div>
             </div>
         )

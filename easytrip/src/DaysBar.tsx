@@ -1,9 +1,11 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { IRootState } from "./store";
-import React from 'react'
+import React, { useEffect } from 'react'
 // import { Link } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { storeDays } from "./trip/actions";
+import { IDaysInfor } from "./trip/state";
 
 const useStyles = makeStyles({
     buttonGroup: {
@@ -21,6 +23,11 @@ const useStyles = makeStyles({
 });
 
 
+
+
+
+
+
 export function DaysBar() {
     const classes = useStyles();
 
@@ -35,6 +42,24 @@ export function DaysBar() {
     // function daysInMonth(month, year) {
     //     return new Date(year, month, 0).getDate();
     // }
+    
+    const dispatch = useDispatch();
+
+    let daysInfor:IDaysInfor = {
+        month:startDate.textMonth,
+        days:[]
+    }
+
+
+    // console.log(days);
+
+    useEffect(() => {
+        
+        dispatch(storeDays(daysInfor))
+        console.log('useEffect');
+        console.log(daysInfor);
+
+    }, [dispatch,daysInfor])
 
     if (parseInt(endDate.day) - parseInt(startDate.day) > 0) {
         isOverAMonth = false
@@ -50,15 +75,18 @@ export function DaysBar() {
     console.log(numberOfDays);
     const renderDayButton = (index: number) => {
         if (!isOverAMonth || daysOfAMonth - (parseInt(startDate.day) + index) > -1) {
-            console.log(index);
-            console.log(isOverAMonth);
-            console.log({daysOfAMonth:daysOfAMonth});
-            console.log({startDate:parseInt(startDate.day)});
-            console.log(daysOfAMonth - parseInt(startDate.day) + index);
+            // console.log(index);
+            // console.log(isOverAMonth);
+            // console.log({daysOfAMonth:daysOfAMonth});
+            // console.log({startDate:parseInt(startDate.day)});
+            // console.log(daysOfAMonth - parseInt(startDate.day) + index);
+            // dispatch(storeDays())
+            daysInfor.days.push(parseInt(startDate.day) + index)
             return <Button className={classes.dayButton} href="#">{parseInt(startDate.day) + index}</Button>
         } else {
-            console.log(index);
-            console.log({isOverAMonth:isOverAMonth});
+            // console.log(index);
+            // console.log({isOverAMonth:isOverAMonth});
+            daysInfor.days.push(parseInt(startDate.day) + index - daysOfAMonth)
             return (
                 <Button className={classes.dayButton} href="#">{parseInt(startDate.day) + index - daysOfAMonth}</Button>
             )
