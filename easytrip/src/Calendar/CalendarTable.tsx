@@ -16,9 +16,9 @@ export function CalendarTable() {
         month: "",
         days: []
     };
-    daysInfor = useSelector((state: IRootState) => {
-        return state.trip.daysInfor
-    })
+    // daysInfor = useSelector((state: IRootState) => {
+    //     return state.trip.daysInfor
+    // })
 
     useEffect(() => {
         console.log('calendar useffect');
@@ -47,7 +47,7 @@ export function CalendarTable() {
 
 
     return (
-        <BootstrapTable data={products} scrollTop={'Bottom'}>
+        <BootstrapTable data={products} height='1100' scrollTop={'Top'}>
             <TableHeaderColumn dataField='id' isKey>Unplanned Attraction</TableHeaderColumn>
             {
                 Array(4).fill(null).map((day, index) => {

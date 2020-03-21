@@ -14,6 +14,7 @@ import './EntryForm.scss'
 import Responsive from "react-responsive";
 import { ReactSelect } from "./ReactSelect";
 import Alert from '@material-ui/lab/Alert';
+import { CalTripDuration } from "./CalTripDuration";
 
 export function EntryForm() {
 
@@ -77,7 +78,16 @@ export function EntryForm() {
 
     }
 
-
+    const calTripDuration = (values:any) =>{
+        console.log("caltrip");
+        return (
+            <CalTripDuration 
+            city={values.city.value}
+            startDate={values['trip-start-date']}
+            endDate={values['trip-end-date']}
+            />
+        )
+    } 
 
 
 
@@ -93,14 +103,8 @@ export function EntryForm() {
 
     const onSubmit = (values: any) => {
         console.log(values);
-        const tripDetailString = localStorage.getItem("tripDetail") || "{}"
-        let tripDetail = JSON.parse(tripDetailString);
-        tripDetail = {
-            city: values.city.value,
-            startDate: values['trip-start-date'],
-            endDate: values['trip-end-date']
-        }
-        localStorage.setItem("tripDetail", JSON.stringify(tripDetail));
+        calTripDuration(values)
+       
     }
 
     // react-select setting

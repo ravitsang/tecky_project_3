@@ -1,13 +1,13 @@
-import { ITripState } from './state';
+import { ITripState, IDaysInfor } from './state';
 import { ITripActions } from './actions';
 
 const initialState = {
 
     tripDetail: localStorage.getItem("tripDetail") ? JSON.parse(localStorage.getItem("tripDetail") || "{}") : "{}",
-    daysInfor: {
-        month: "",
-        days: []
-    }
+    dateInfor: [{
+            month: "",
+            days: []
+        }]
 }
 
 

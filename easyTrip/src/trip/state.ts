@@ -23,5 +23,5 @@ export interface IDaysInfor{
 export interface ITripState {
 
     tripDetail:ITrip
-    daysInfor: IDaysInfor
+    dateInfor: IDaysInfor[]
 }

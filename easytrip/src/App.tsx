@@ -5,14 +5,16 @@ import { Link, Switch, Route } from 'react-router-dom';
 import { history } from './store';
 
 import { ShowItinerary } from './ShowItinerary';
-import { ReactGoogleMaps } from './ReactGoogleMaps';
+import { ReactGoogleMaps } from './Map/ReactGoogleMaps';
 import Calendar from './Calendar/Calendar';
 import { EntryForm } from './EntryForm';
 import { MainNav } from './MainNav';
 // import { useDispatch } from 'react-redux';
-import { MarkerClustererComponent } from './MarkerClusterer';
+// import {ResizableCompo} from './Dnd/Resizeable'
+import { MarkerClusterComponent } from './Map/MarkerClusterer';
 import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { DndApp } from './Dnd/DndApp';
 
 export function App() {
   // const dispatch = useDispatch();
@@ -22,8 +24,9 @@ export function App() {
       <Switch>
         <Route path='/' exact={true} component={EntryForm}/>
         <Route path='/itinerary' component={ShowItinerary}/>
-        <Route path='/map' component={MarkerClustererComponent}/>
+        <Route path='/map' component={MarkerClusterComponent}/>
         <Route path='/calendar' component={Calendar} />
+        <Route path='/dnd' component={DndApp} />
       </Switch>
     </ConnectedRouter>
   );
