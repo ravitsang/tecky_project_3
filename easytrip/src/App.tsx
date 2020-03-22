@@ -14,7 +14,10 @@ import { MainNav } from './MainNav';
 import { MarkerClusterComponent } from './Map/MarkerClusterer';
 import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { DndApp } from './Dnd/DndApp';
+import {DemoApp} from './DndCalendar/DndCalendar';
+import { ExternalEvent } from './DndCalendar/ExternalEvent';
+// import { DndApp } from './Dnd/DndApp';
+// import { DNDExample } from './Dnd/dndexample/DNDExample';
 
 export function App() {
   // const dispatch = useDispatch();
@@ -26,7 +29,8 @@ export function App() {
         <Route path='/itinerary' component={ShowItinerary}/>
         <Route path='/map' component={MarkerClusterComponent}/>
         <Route path='/calendar' component={Calendar} />
-        <Route path='/dnd' component={DndApp} />
+        <Route path='/dnd' component={DemoApp} />
+        <Route path='/dnd1' component={ExternalEvent} />
       </Switch>
     </ConnectedRouter>
   );
