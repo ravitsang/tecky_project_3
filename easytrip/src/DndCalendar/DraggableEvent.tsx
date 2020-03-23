@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import './DraggableEvent.scss';
+import "@fullcalendar/core/main.css";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
+
 
 let eventData = [
     { title: "Event 1", id: "1" },
@@ -20,10 +24,11 @@ export function DraggableEvent() {
             </p>
             {events.map((event: any) => (
                 <div
-                    className="fc-event"
+                    className="fc-event fc-resizable"
                     title={event.title}
                     // data={event.id}
                     key={event.id}
+                    
                 >
                     {event.title}
                 </div>

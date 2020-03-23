@@ -16,6 +16,7 @@ import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {DemoApp} from './DndCalendar/DndCalendar';
 import { ExternalEvent } from './DndCalendar/ExternalEvent';
+import Resize from './DndCalendar/resize';
 // import { DndApp } from './Dnd/DndApp';
 // import { DNDExample } from './Dnd/dndexample/DNDExample';
 
@@ -31,6 +32,7 @@ export function App() {
         <Route path='/calendar' component={Calendar} />
         <Route path='/dnd' component={DemoApp} />
         <Route path='/dnd1' component={ExternalEvent} />
+        <Route path='/dnd2' component={Resize} />
       </Switch>
     </ConnectedRouter>
   );
