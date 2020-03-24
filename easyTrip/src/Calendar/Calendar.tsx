@@ -63,15 +63,13 @@ export default function Calendar() {
 
         const renderCard = (card: { id: number; text: string }, index: number) => {
             return (
-                <ResizableBox width={200} height={200} axis="x">
-                    <Card
-                        key={card.id}
-                        index={index}
-                        id={card.id}
-                        text={card.text}
-                        moveCard={moveCard}
-                    />
-                </ResizableBox>
+                <Card
+                    key={card.id}
+                    index={index}
+                    id={card.id}
+                    text={card.text}
+                    moveCard={moveCard}
+                />
             )
         }
 

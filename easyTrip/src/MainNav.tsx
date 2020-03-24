@@ -90,7 +90,7 @@ export function MainNav() {
     return (
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
-                <AppBar position="static">
+                <AppBar position="fixed">
                     <Toolbar className={classes.toolBar}>
                         <Responsive maxWidth={599}>
                             <IconButton edge="start" className={classes.menuButton} aria-label="menu">
