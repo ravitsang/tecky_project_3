@@ -15,10 +15,12 @@
 }
 
 .demo-app-calendar {
-  margin: 0 auto;
-  max-width: 900px;
+  margin: 0;
+  position: fixed;
 }
 
-.main{
-    display: flex;
-}
+// .main{
+//     display: flex;
+//     justify-content: center;
+// }
+

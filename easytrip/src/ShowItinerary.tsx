@@ -1,24 +1,20 @@
 import React from 'react';
 import { Theme, makeStyles, createStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import EditIcon from '@material-ui/icons/Edit';
-import CardHeader from '@material-ui/core/CardHeader';
-import IconButton from '@material-ui/core/IconButton';
+
+import { CardActionArea, CardContent,CardMedia,Typography, CardHeader, IconButton, Fab, Button, Card}  from '@material-ui/core';
+
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
+import EditIcon from '@material-ui/icons/Edit';
+import HotelIcon from '@material-ui/icons/Hotel';
+
 import { useSelector } from 'react-redux';
 import { IRootState } from './store';
 import { DaysBar } from './DaysBar';
-import { Button } from '@material-ui/core';
-import './ShowItinerary.scss'
-import HotelIcon from '@material-ui/icons/Hotel';
-import Fab from '@material-ui/core/Fab';
 import { Link } from 'react-router-dom';
 import Responsive from "react-responsive";
 import { TabBar } from './TabBar';
+import './ShowItinerary.scss'
+import './stylePage.scss'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -90,8 +86,8 @@ export function ShowItinerary() {
 
     return (
         <div>
-            <TabBar/>
-            <div className="page">
+            <TabBar />
+            <div className="main">
                 <Responsive minWidth={600}>
                     <DaysBar />
                 </Responsive>

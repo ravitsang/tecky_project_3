@@ -10,15 +10,15 @@ import Calendar from './Calendar/Calendar';
 import { EntryForm } from './EntryForm';
 import { MainNav } from './MainNav';
 // import { useDispatch } from 'react-redux';
-// import {ResizableCompo} from './Dnd/Resizeable'
+
 import { MarkerClusterComponent } from './Map/MarkerClusterer';
 import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {DemoApp} from './DndCalendar/DndCalendar';
-import { ExternalEvent } from './DndCalendar/ExternalEvent';
-import Resize from './DndCalendar/resize';
-// import { DndApp } from './Dnd/DndApp';
-// import { DNDExample } from './Dnd/dndexample/DNDExample';
+import { DndCalendar } from './DndCalendar/DndCalendar';
+
+
+
+
 
 export function App() {
   // const dispatch = useDispatch();
@@ -26,13 +26,12 @@ export function App() {
     <ConnectedRouter history={history}>
       <MainNav />
       <Switch>
-        <Route path='/' exact={true} component={EntryForm}/>
-        <Route path='/itinerary' component={ShowItinerary}/>
-        <Route path='/map' component={MarkerClusterComponent}/>
+        <Route path='/' exact={true} component={EntryForm} />
+        <Route path='/itinerary' component={ShowItinerary} />
+        <Route path='/dnd' component={DndCalendar} />
         <Route path='/calendar' component={Calendar} />
-        <Route path='/dnd' component={DemoApp} />
-        <Route path='/dnd1' component={ExternalEvent} />
-        <Route path='/dnd2' component={Resize} />
+        <Route path='/map' component={MarkerClusterComponent} />
+
       </Switch>
     </ConnectedRouter>
   );

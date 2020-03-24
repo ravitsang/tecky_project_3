@@ -12,7 +12,7 @@ const useStyles = makeStyles({
       color: "#444444"
   },
   tab:{
-    textTransform: "none",
+    textTransform: "none", 
     fontWeight: 'bold'
   }
 });
@@ -26,18 +26,20 @@ export function TabBar() {
   };
 
   return (
-    <Paper className={classes.root}>
-      <Tabs
-        className={classes.tabs}
-        value={value}
-        onChange={handleChange}
-        indicatorColor="primary"
-        centered
-      >
-        <Tab className={classes.tab} label="Select Attraction"/>
-        <Tab className={classes.tab} label="Show Itinerary" />
-        <Tab className={classes.tab} label="Calender" />
-      </Tabs>
+    <Paper className={classes.root} >
+      <div style={{position: "fixed", marginTop: -50}}>
+        <Tabs
+          className={classes.tabs}
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          centered
+        >
+          <Tab className={classes.tab} label="Select Attraction"/>
+          <Tab className={classes.tab} label="Show Itinerary" />
+          <Tab className={classes.tab} label="Calender" />
+        </Tabs>
+      </div>
     </Paper>
   );
 }

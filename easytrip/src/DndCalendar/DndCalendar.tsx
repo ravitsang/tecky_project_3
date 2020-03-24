@@ -6,13 +6,18 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import moment from 'moment'
-import './DndCalendar.scss'
 import { DraggableEvent } from './DraggableEvent'
+// import bootstrapPlugin from '@fullcalendar/bootstrap';
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 
+import './DndCalendar.scss'
+import './MaterialDesign.scss'
+
+
+import { TabBar } from '../TabBar'
 
 interface ICalendarEvents {
 
@@ -45,7 +50,7 @@ let calendarData: ICalendarData = {
 }
 
 
-export function DemoApp() {
+export function DndCalendar() {
 
     const calendarComponentRef = React.createRef<FullCalendar>()
 
@@ -143,7 +148,7 @@ export function DemoApp() {
         const updatedCalendarEvents = calendar.calendarEvents.map(event => {
 
             console.log(info);
-            
+
             if (event?.id === parseInt(info.event.id)) {
                 console.log('can drop');
                 return {
@@ -171,35 +176,46 @@ export function DemoApp() {
 
 
     return (
-        <div className='demo-app'>
-            <div className='demo-app-top'>
-                <button onClick={toggleWeekends}>toggle weekends</button>&nbsp;
-                    <button onClick={gotoPast}>go to a date in the past</button>&nbsp;
-                        (also, click a date/time to add an event)
+        <div>
+            <div className='test'>
+                <TabBar />
             </div>
             <div className="main">
+                {/* <div className='demo-app-top'>
+                        <button onClick={toggleWeekends}>toggle weekends</button>&nbsp;
+                    <button onClick={gotoPast}>go to a date in the past</button>&nbsp;
+                    (also, click a date/time to add an event)
+                    </div> */}
                 <DraggableEvent />
-                <div className='demo-app-calendar'>
-                    <FullCalendar
-                        defaultView="timeGridWeek"
-                        header={{
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                        }}
-                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, resourceTimeGridPlugin]}
-                        ref={calendarComponentRef}
-                        // weekends={calendar.calendarWeekends}
-                        events={calendar.calendarEvents}
-                        dateClick={handleDateClick}
-                        rerenderDelay={10}
-                        editable={true}
-                        droppable={true}
-                        eventResize={handleEventResize}
-                        eventDrop={handleEventDrop}
-                    />
+                <div>
+                    <div className='demo-app-calendar'>
+                        <FullCalendar
+                            defaultView="timeGridWeek"
+                            header={{
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                            }}
+                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, resourceTimeGridPlugin]}
+                            ref={calendarComponentRef}
+                            weekends={calendar.calendarWeekends}
+                            events={calendar.calendarEvents}
+                            dateClick={handleDateClick}
+                            rerenderDelay={10}
+                            editable={true}
+                            droppable={true}
+                            eventResize={handleEventResize}
+                            eventDrop={handleEventDrop}
+                            // validRange={{
+                            //     start: '2020-03-22',
+                            //     end: '2020-03-26'
+                            // }}
+                            schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                        />
+                    </div>
                 </div>
             </div>
+
         </div>
     )
 }
