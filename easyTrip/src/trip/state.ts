@@ -16,12 +16,35 @@ export interface IDate{
 
 export interface IDaysInfor{
 
-    month:string,
+    month:string[],
     days: number[]
 
 }
+
+export interface ITripSchedule{
+    
+    city: string
+    dateInfor: IDaysInfor[]
+}
+
+
+export interface ICalendarEvents {
+    
+    id: number
+    title: string
+    start: Date
+    end: Date
+}
+
+export interface ITripEvents{
+    id:number
+    title: string
+}
+
 export interface ITripState {
 
-    tripDetail:ITrip
-    dateInfor: IDaysInfor[]
+    tripSchedule: ITripSchedule
+    calendarEvents: ICalendarEvents[]
+    tripEvents:ITripEvents[]
+    externalEvents:ITripEvents[]
 }

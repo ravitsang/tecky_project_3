@@ -13,7 +13,7 @@ export function CalendarTable() {
     //     return state.trip.daysInfor
     // })
     let daysInfor: IDaysInfor = {
-        month: "",
+        month: [],
         days: []
     };
     // daysInfor = useSelector((state: IRootState) => {

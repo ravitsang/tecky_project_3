@@ -78,11 +78,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function ShowItinerary() {
     const classes = useStyles();
-    const date = useSelector((state: IRootState) => state.trip.tripDetail)
-    const startDate = date.startDate
-    const endDate = date.endDate
-    console.log(startDate);
-    console.log(endDate);
+    const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
+
+    const startDateInfor = tripSchedule.dateInfor[0]
+
+
 
     return (
         <div>
@@ -92,8 +92,8 @@ export function ShowItinerary() {
                     <DaysBar />
                 </Responsive>
                 <div className="itinerary">
-                    <Button className={classes.dateButton}
-                        size="medium">{`${startDate.days},${startDate.textMonth} ${startDate.day}`}
+                    <Button className={classes.dateButton}size="medium">
+                        {`${startDateInfor.month[0]}, ${startDateInfor.days[0]}`}
                     </Button>
                     <div className="vertical"></div>
                     <div className="add-hotel-column">

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import FullCalendar from '@fullcalendar/react'
-import { EventInput, Calendar } from '@fullcalendar/core'
+// import { EventInput, Calendar } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
-import moment from 'moment'
-import { DraggableEvent } from './DraggableEvent'
-// import bootstrapPlugin from '@fullcalendar/bootstrap';
+import { ExternalEvent } from './ExternalEvent'
+
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
@@ -18,164 +17,70 @@ import './MaterialDesign.scss'
 
 
 import { TabBar } from '../TabBar'
+import { useDispatch, useSelector } from 'react-redux'
+import { addEvent, resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList } from '../trip/actions'
+import { IRootState } from '../store'
 
-interface ICalendarEvents {
-
-    id: number
-    title: string
-    start: Date
-    end: Date
-}
-
-
-interface ICalendarData {
-
-    calendarWeekends: boolean
-    calendarEvents: ICalendarEvents[]
-}
-
-
-let calendarData: ICalendarData = {
-
-    calendarWeekends: true,
-    calendarEvents: [ // initial event data
-        {
-            id: 1,
-            title: 'Event Now',
-            start: new Date(),
-            end: moment(new Date()).add(2, 'hours').toDate()
-        }
-    ]
-
-}
 
 
 export function DndCalendar() {
 
     const calendarComponentRef = React.createRef<FullCalendar>()
 
+    const dispatch = useDispatch();
 
-    const [calendar, setCalendar] = useState(calendarData);
+    const calendarEvents = useSelector((state: IRootState) => state.trip.calendarEvents)
 
 
-
+    console.log(calendarEvents);
     useEffect(() => {
         let draggableEl: HTMLElement | null = document.getElementById("external-events");
         if (draggableEl) {
             new Draggable(draggableEl, {
-                itemSelector: ".fc-event",
-                eventData: function (eventEl) {
-                    let title = eventEl.getAttribute("title");
-                    let id = eventEl.getAttribute("data");
-                    return {
-                        title: title,
-                        id: id
-                    };
-                }
+                itemSelector: ".fc-event"
             });
         }
     }, [])
 
 
-    const toggleWeekends = () => {
-
-        setCalendar({
-            ...calendar,
-            calendarWeekends: !calendar.calendarWeekends
-        })
-    }
-
-    const gotoPast = () => {
-        let calendarApi = calendarComponentRef.current!.getApi()
-        calendarApi.gotoDate('2000-01-01') // call a method on the Calendar object
-    }
-
     const handleDateClick = (info: any) => {
         if (window.confirm('Would you like to add an event to ' + info.dateStr + ' ?')) {
-            console.log(info);
 
-            const ids = calendar.calendarEvents.map(event => event.id)
-            const id = Math.max(...ids) + 1
-            console.log(ids);
-
-            const updatedCalendarEvents = calendar.calendarEvents.concat({
-                id: id,
-                title: 'New Event',
-                start: info.date,
-                end: moment(info.date).add(1, 'hours').toDate()
-            })
-
-            console.log(updatedCalendarEvents);
-
-            setCalendar({
-                ...calendar,
-                calendarEvents: updatedCalendarEvents
-            })
-
-            console.log(calendar);
+            dispatch(addEvent(info))
         }
     }
 
     const handleEventResize = (info: any) => {
 
-
-        const updatedCalendarEvents: ICalendarEvents[] = calendar.calendarEvents.map(event => {
-
-            if (event?.id === parseInt(info.event.id)) {
-                console.log('can update');
-
-                return {
-                    ...event,
-                    end: info.event.end
-                }
-            } else {
-                console.log('cannot update');
-                return event;
-            }
-        })
-
-        if (updatedCalendarEvents) {
-            setCalendar({
-                ...calendar,
-                calendarEvents: updatedCalendarEvents
-            })
-        }
+        dispatch(resizeEvent(info))
 
     }
 
     const handleEventDrop = (info: any) => {
 
-        const updatedCalendarEvents = calendar.calendarEvents.map(event => {
+        dispatch(moveEvent(info));
 
-            console.log(info);
-
-            if (event?.id === parseInt(info.event.id)) {
-                console.log('can drop');
-                return {
-                    ...event,
-                    start: info.event.start,
-                    end: info.event.end
-                }
-            } else {
-                console.log('cannot drop');
-                return event;
-            }
-        })
-
-        console.log(updatedCalendarEvents);
-
-        if (updatedCalendarEvents) {
-            setCalendar({
-                ...calendar,
-                calendarEvents: updatedCalendarEvents
-            })
-        }
     }
 
 
+    const handleExternalEventDrop = (info: any) => {
 
+        dispatch(addExternalEvent(info));
+        dispatch(deleteExternalEventList(info));
+        console.log('handleExternalEventDrop');
+
+
+    }
+
+    const handleEventClick = (info: any) => {
+
+        console.log('handleEventClick');
+
+
+    }
 
     return (
+
         <div>
             <div className='test'>
                 <TabBar />
@@ -186,7 +91,8 @@ export function DndCalendar() {
                     <button onClick={gotoPast}>go to a date in the past</button>&nbsp;
                     (also, click a date/time to add an event)
                     </div> */}
-                <DraggableEvent />
+                {console.log("test")}
+                <ExternalEvent />
                 <div>
                     <div className='demo-app-calendar'>
                         <FullCalendar
@@ -198,18 +104,21 @@ export function DndCalendar() {
                             }}
                             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, resourceTimeGridPlugin]}
                             ref={calendarComponentRef}
-                            weekends={calendar.calendarWeekends}
-                            events={calendar.calendarEvents}
-                            dateClick={handleDateClick}
+                            weekends={false}
+                            events={calendarEvents}
                             rerenderDelay={10}
                             editable={true}
                             droppable={true}
+                            dateClick={handleDateClick}
+                            eventClick={handleEventClick}
                             eventResize={handleEventResize}
                             eventDrop={handleEventDrop}
-                            // validRange={{
-                            //     start: '2020-03-22',
-                            //     end: '2020-03-26'
-                            // }}
+                            drop={handleExternalEventDrop}
+
+                            validRange={{
+                                start: '2020-03-22',
+                                end: '2020-03-26'
+                            }}
                             schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
                         />
                     </div>

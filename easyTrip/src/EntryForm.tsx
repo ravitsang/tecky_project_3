@@ -8,13 +8,15 @@ import moment from "moment";
 import 'react-dates/initialize';
 import "react-dates/lib/css/_datepicker.css";
 import { DateRangePicker } from 'react-dates';
-// import Select from 'react-select'
+
 import { Button, Card as MaterialUICard, makeStyles, createStyles, Theme } from '@material-ui/core';
 import './EntryForm.scss'
 import Responsive from "react-responsive";
 import { ReactSelect } from "./ReactSelect";
 import Alert from '@material-ui/lab/Alert';
-import { CalTripDuration } from "./CalTripDuration";
+
+import { IDaysInfor } from "./trip/state";
+
 
 export function EntryForm() {
 
@@ -37,12 +39,6 @@ export function EntryForm() {
         const day = splitStartDate[2].split(',')[0]
         const year = splitStartDate[3]
         const month = moment(startDate).format('l').split('/')[0];
-        // console.log(startDateValue);
-        // console.log(splitStartDate);
-        // console.log(startDays);
-        // console.log(startMonth);
-        // console.log(startDay);
-        // console.log(startYear);
 
         setValue("trip-start-date", {
             days: days,
@@ -61,16 +57,11 @@ export function EntryForm() {
         const day = splitendDate[2].split(',')[0]
         const year = splitendDate[3]
         const month = moment(endDate).format('l').split('/')[0];
-        // console.log(endDateValue);
-        // console.log(splitendDate);
-        // console.log(endDays);
-        // console.log(endMonth);
-        // console.log(endDay);
-        // console.log(endYear);
+
 
         setValue("trip-end-date", {
             days: days,
-            textmonth: textMonth,
+            textMonth: textMonth,
             month: month,
             day: day,
             year: year
@@ -79,14 +70,62 @@ export function EntryForm() {
     }
 
     const calTripDuration = (values: any) => {
-        console.log("caltrip");
-        return (
-            <CalTripDuration
-                city={values.city.value}
-                startDate={values['trip-start-date']}
-                endDate={values['trip-end-date']}
-            />
-        )
+
+        let numberOfDays = 0;
+        let isOverAMonth = true
+        let dateInfor: IDaysInfor[] = []
+
+        let startMonthDays = []
+        let endMonthDays = []
+
+        const city = values.city.value;
+        const startDate = values['trip-start-date']
+        const endDate = values['trip-end-date']
+
+        const daysOfAMonth = new Date(parseInt(startDate.year), parseInt(startDate.month), 0).getDate()
+
+        // calculate num of days of the trip
+        if (parseInt(endDate.day) - parseInt(startDate.day) > 0) {
+            isOverAMonth = false
+            numberOfDays = parseInt(endDate.day) - parseInt(startDate.day) + 1
+        } else {
+            numberOfDays = daysOfAMonth - parseInt(startDate.day) + (parseInt(endDate.day)) + 1
+        }
+
+        for (let i = 0; i < numberOfDays; i++) {
+            // within a month case
+            if (!isOverAMonth || daysOfAMonth - (parseInt(startDate.day) + i) > -1) {
+                startMonthDays.push(parseInt(startDate.day) + i)
+            } else { 
+                // over a month case
+                endMonthDays.push(parseInt(startDate.day) + i - daysOfAMonth)
+            }
+
+        }
+
+        // console.log(startDate.month);
+        // console.log(startMonthDays);
+
+        // console.log(endDate.month);
+        // console.log(endMonthDays);
+        
+        dateInfor.push({
+            month: [startDate.textMonth,startDate.month],
+            days: startMonthDays
+        })
+
+        console.log(endDate);
+        dateInfor.push({
+            month: [endDate.textMonth,endDate.month],
+            days: endMonthDays
+        })
+
+        const tripSchedule = {
+            city: city,
+            dateInfor:dateInfor
+        }
+        localStorage.setItem("tripSchedule", JSON.stringify(tripSchedule));
+
     }
 
 
