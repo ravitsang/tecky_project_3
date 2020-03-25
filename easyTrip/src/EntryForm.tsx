@@ -184,8 +184,8 @@ export function EntryForm() {
     const classes = useStyles();
 
     return (
-        <div className="entryformroot">
-            <Container className="app">
+
+            <div className="app">
                 <Card className="description">
                     <CardBody>
                         <CardTitle className="description-header">The new way to plan your next trip</CardTitle>
@@ -245,8 +245,7 @@ export function EntryForm() {
                         </CardBody>
                     </MaterialUICard>
                 </div>
-            </Container>
-        </div>
+            </div>
     )
 
 }

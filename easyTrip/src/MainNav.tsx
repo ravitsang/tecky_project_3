@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         search: {
-            position: 'relative',
+            position: 'absolute',
+            left:'45%',
             marginRight: 20,
             borderRadius: theme.shape.borderRadius,
             backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -117,16 +118,10 @@ export function MainNav() {
 
                         </Responsive>
                         <Responsive maxWidth={767} >
-                            <section>
-                                <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-                                    <MenuIcon />
-                                </IconButton>
-                            </section>
                             <section className={classes.rightToolbar}>
                                 <IconButton aria-label="search" color="inherit">
                                     <SearchIcon />
                                 </IconButton>
-                                <Button ><Link className="login-btn" to="/login">Login</Link></Button>
                             </section>
                         </Responsive>
                         <Button color="inherit"><Link to="/login"></Link> Login</Button>
