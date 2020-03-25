@@ -42,7 +42,7 @@ const options = {
 };
 
 
-export function MarkerClustererComponent() {
+export function MarkerClusterComponent() {
 
     return (
         <LoadScript>

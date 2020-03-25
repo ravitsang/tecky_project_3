@@ -1,4 +1,11 @@
 
+
+.container{
+    border:none;
+}
+.card{
+    cursor: auto;
+}
 .planning-form{
     margin-top: 100px;
     width: 100px;
@@ -11,6 +18,8 @@
     border: white;
     font-weight: bold;
     max-height: 200px;
+    background-color:transparent;
+    color:white;
 }
 
 .description-header{
@@ -20,7 +29,7 @@
 .description-text{
     font-size: 1.428em;
     font-weight: lighter;
-    color: rgb(90, 90, 90);
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .form-header{
@@ -51,9 +60,13 @@
 
 
 .app{
-    display: flex;
-    justify-content: space-between;
-  
+    display:flex;
+    background-image: url('./assets/entrybg.jpg');
+    background-size:cover;
+    width:100%;
+    height:100%;
+    padding: 2rem 3rem 10rem 3rem;
+    margin-top:5rem;
 }
 
 .btn-header{

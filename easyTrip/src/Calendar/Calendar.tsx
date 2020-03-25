@@ -4,7 +4,13 @@ import { DndProvider } from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import update from 'immutability-helper'
 import Card from './Card';
-import Table from './Table';
+// import Table from './Table';
+import { CalendarTable } from './CalendarTable';
+import { DaysBar } from '../DaysBar';
+import { Card as MaterialCard, CardContent, makeStyles, createStyles, Theme } from '@material-ui/core';
+import { TabBar } from '../TabBar';
+import './Calendar.scss'
+import { ResizableBox } from 'react-resizable';
 
 export default function Calendar() {
     {
@@ -57,19 +63,40 @@ export default function Calendar() {
 
         const renderCard = (card: { id: number; text: string }, index: number) => {
             return (
-                <Card
-                    key={card.id}
-                    index={index}
-                    id={card.id}
-                    text={card.text}
-                    moveCard={moveCard}
-                />
+                <ResizableBox width={200} height={200} axis="x">
+                    <Card
+                        key={card.id}
+                        index={index}
+                        id={card.id}
+                        text={card.text}
+                        moveCard={moveCard}
+                    />
+                </ResizableBox>
             )
         }
 
+        const useStyles = makeStyles((theme: Theme) =>
+            createStyles({
+                root: {
+                    marginLeft: 30,
+                    marginRight: 100,
+                    borderRadius: 0
+                },
+                calendar: {
+                    paddingTop: 50,
+                    paddingLeft: 30,
+                    paddingRight: 0,
+                    borderRadius: 0
+
+                }
+            }),
+        );
+
+        const classes = useStyles();
+
         return (
-            <div className='container'>
-                <div className='title'>Calendar</div>
+            <div>
+                {/* <div className='title'>Calendar</div>
                 <div className='destination'>Hong Kong</div>
                 <div className='main'>
                     <div className='row'>
@@ -142,6 +169,28 @@ export default function Calendar() {
 
                         </div>
                     </div>
+                </div> */}
+                <TabBar />
+                <div className="page">
+                    <div className="days-bar">
+                        <DaysBar />
+                    </div>
+                    <div className='col-3 unplanned'>
+                        <div className='unplanned-title'>Unplanned Attraction</div>
+                        <div className='unplanned-table'>
+                            <DndProvider backend={Backend}>
+                                {cards.map((card, i) => renderCard(card, i))}
+                            </DndProvider>
+                        </div>
+                    </div>
+                    <ResizableBox className="box" width={200} height={200} axis="x">
+                        <span className="text">Only resizable by "x" axis.</span>
+                    </ResizableBox>
+                    <MaterialCard className={classes.root}>
+                        <CardContent className={classes.calendar}>
+                            <CalendarTable />
+                        </CardContent>
+                    </MaterialCard>
                 </div>
             </div>
         )

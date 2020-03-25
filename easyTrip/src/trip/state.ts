@@ -13,7 +13,15 @@ export interface IDate{
     textMonth:string
 }
 
+
+export interface IDaysInfor{
+
+    month:string,
+    days: number[]
+
+}
 export interface ITripState {
 
     tripDetail:ITrip
+    dateInfor: IDaysInfor[]
 }

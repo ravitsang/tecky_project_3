@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { GoogleMap, useLoadScript } from '@react-google-maps/api'
-import { MarkerClustererComponent } from './MarkerClusterer';
+import { MarkerClusterComponent } from './MarkerClusterer';
 import { Spinner } from 'reactstrap';
 
 
@@ -41,7 +41,7 @@ export function ReactGoogleMaps() {
             onLoad={onLoad}
         >
             {
-                <MarkerClustererComponent/>
+                <MarkerClusterComponent/>
             }
         </GoogleMap>
     }
