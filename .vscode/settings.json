@@ -1,0 +1,31 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "BAD003",
+            "dialect": "PostgreSQL",
+            "name": "BAD003",
+            "password": "lexington",
+            "port": 5432,
+            "server": "localhost",
+            "username": "lexington"
+        },
+        {
+            "database": "fileserver",
+            "dialect": "PostgreSQL",
+            "name": "fileserver",
+            "password": "lexington",
+            "port": 5432,
+            "server": "localhost",
+            "username": "lexington"
+        },
+        {
+            "database": "capstone-project",
+            "dialect": "PostgreSQL",
+            "name": "capstone-project",
+            "password": "lexington",
+            "port": 5432,
+            "server": "localhost",
+            "username": "lexington"
+        }
+    ]
+}

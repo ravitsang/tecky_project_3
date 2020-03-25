@@ -4,6 +4,8 @@ import cors from 'cors';
 import Knex from 'knex';
 import { AttractionService } from './services/AttractionService';
 import { AttractionRouter } from './routers/AttractionRouter';
+import { ScheduleItemService } from './services/ScheduleItemService';
+import { ScheduleItemRouter } from './routers/ScheduleItemRouter';
 
 
 const knexConfig = require('./knexfile');
@@ -15,8 +17,11 @@ app.use(cors());
 
 const attractionService = new AttractionService(knex);
 const attractionRouter = new AttractionRouter(attractionService);
+const scheduleItemService = new ScheduleItemService(knex);
+const scheduleItemRouter = new ScheduleItemRouter(scheduleItemService);
 
 app.use('/attraction',attractionRouter.router());
+app.use('/schedule',scheduleItemRouter.router());
 
 
 const PORT = process.env.PORT || 8080;
