@@ -8,8 +8,10 @@ export function getAllAttractionsThunk(){
         const res = await fetch(`${REACT_APP_API_SERVER}/attraction`);
         const result = await res.json();
 
+        
+        console.log(result);
         if(result.success){ 
-            dispatch(getAllAttractions(result.data));
+            dispatch(getAllAttractions(result.data.rows));
         }else{
             dispatch(failed(result.msg));
         }

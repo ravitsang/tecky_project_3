@@ -102,27 +102,39 @@ export function EntryForm() {
             }
 
         }
-
-        // console.log(startDate.month);
-        // console.log(startMonthDays);
-
-        // console.log(endDate.month);
-        // console.log(endMonthDays);
+        console.log(startDate);
+        console.log(endDate);
+        // let startMonth = startDate.month
+        // let endMonth = endDate.month
+        // const lastDayIndex = endMonthDays.length - 1;
+        // let endDay = endMonthDays[lastDayIndex]
+    
+    
+        const startDateString = `${startDate.year}-${startDate.month.length < 2 ? 0 + startDate.month : startDate.month}-${startDate.day.length < 2 ? 0 + startDate.day : startDate.day}`
+        const endDateString = `${endDate.year}-${endDate.month.length < 2 ? 0 + endDate.month : endDate.month}-${endDate.day.length < 2 ? 0 + endDate.day : endDate.day}`
         
+        console.log(startDateString);
+        console.log(endDateString);
+
         dateInfor.push({
+            startDate: startDateString,
+            year: startDate.year,
             month: [startDate.textMonth,startDate.month],
             days: startMonthDays
         })
 
         console.log(endDate);
         dateInfor.push({
+            endDate: endDateString,
+            year: endDate.year,
             month: [endDate.textMonth,endDate.month],
             days: endMonthDays
         })
 
         const tripSchedule = {
             city: city,
-            dateInfor:dateInfor
+            dateInfor:dateInfor,
+            tripDays:numberOfDays
         }
         localStorage.setItem("tripSchedule", JSON.stringify(tripSchedule));
 

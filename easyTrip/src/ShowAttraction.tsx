@@ -30,6 +30,9 @@ export function ShowAttraction(props:RouteComponentProps<{scheduleItemId:string}
     const dispatch = useDispatch();
 
     const attractions = useSelector((state:IRootState)=> state.attraction.attractions);
+
+    console.log(attractions);
+    
     const isClick = useSelector((state:IRootState)=> state.attraction.isClick);
     const scheduleItems = useSelector((state:IRootState)=> state.scheduleItem.scheduleItems);
 
@@ -38,9 +41,9 @@ export function ShowAttraction(props:RouteComponentProps<{scheduleItemId:string}
         dispatch(getAllScheduleItemsThunk());
     },[dispatch])
 
-    const renderAttractions=(i:number,key:string,attractions:IAttraction[],isClick:boolean)=>{
+    const renderAttractions=(i:number,key:string,attractions:IAttraction,isClick:boolean)=>{
         return <MediaCard
-            attractions={attractions}
+            attraction={attractions}
             key={key}
             value={"+"}
             attractionOnClick={()=>handleClick(i)}

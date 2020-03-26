@@ -1,50 +1,64 @@
-export interface ITrip{
+export interface ITrip {
 
-    city:string
+    city: string
     startDate: IDate
     endDate: IDate
 }
 
-export interface IDate{
-    days:string,
-    month:string,
-    day:string,
-    year:string,
-    textMonth:string
+export interface IDate {
+    days: string,
+    month: string,
+    day: string,
+    year: string,
+    textMonth: string
 }
 
 
-export interface IDaysInfor{
+export interface IDaysInfor {
 
-    month:string[],
+    startDate?:string
+    endDate?:string
+    year: number
+    month: string[],
     days: number[]
 
 }
 
-export interface ITripSchedule{
-    
+export interface ITripSchedule {
+
     city: string
     dateInfor: IDaysInfor[]
+    tripDays: number
 }
 
+export interface IConstraint{
+    start?: Date
+    end?: Date
+}
 
 export interface ICalendarEvents {
-    
+
     id: number
     title: string
     start: Date
     end: Date
+    overlap?: boolean
+    backgroundColor?: string
+    durationEditable?: boolean
+    constraint?:IConstraint
 }
 
-export interface ITripEvents{
-    id:number
+export interface ITripEvents {
+    id: number
     title: string
 }
+
 
 export interface ITripState {
 
     tripSchedule: ITripSchedule
     calendarEvents: ICalendarEvents[]
-    tripEvents:ITripEvents[]
-    externalEvents:ITripEvents[]
+    tripEvents: ITripEvents[]
+    externalEvents: ITripEvents[]
+    eventTimeConstraint: Date []
 }
