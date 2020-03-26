@@ -20,17 +20,20 @@ import { DndCalendar } from './DndCalendar/DndCalendar';
 
 
 
+import  { ShowAttraction }  from './ShowAttraction';
+
 export function App() {
   // const dispatch = useDispatch();
   return (
     <ConnectedRouter history={history}>
       <MainNav />
       <Switch>
-        <Route path='/' exact={true} component={EntryForm} />
-        <Route path='/itinerary' component={ShowItinerary} />
-        <Route path='/dnd' component={DndCalendar} />
-        <Route path='/calendar' component={Calendar} />
-        <Route path='/map' component={MarkerClusterComponent} />
+        <Route path='/' exact={true} component={EntryForm}/>
+        <Route path='/attraction' component={ShowAttraction}/>
+        <Route path='/itinerary' component={ShowItinerary}/>
+        <Route path='/map' component={MarkerClusterComponent}/>
+        <Route path='/calendar' component={DndCalendar} />
+
 
       </Switch>
     </ConnectedRouter>

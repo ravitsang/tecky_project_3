@@ -6,6 +6,12 @@ import logger from "redux-logger";
 import { RouterState, connectRouter, routerMiddleware, CallHistoryMethodAction } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import thunk, { ThunkDispatch as OldThunkDispatch } from "redux-thunk";
+import { IAttractionActions } from './attraction/actions';
+import { IAttractionState } from './attraction/state';
+import { attractionReducer } from './attraction/reducers';
+import { IScheduleItemState } from './scheduleItem/state';
+import { scheduleItemReducer } from './scheduleItem/reducer';
+import { IScheduleItemActions } from './scheduleItem/actions';
 
 
 
@@ -16,15 +22,19 @@ export interface IRootState {
 
   router: RouterState
   trip: ITripState
+  attraction: IAttractionState
+  scheduleItem: IScheduleItemState
 }
 
  
-export type IRootAction =  CallHistoryMethodAction | ITripActions
+export type IRootAction =  CallHistoryMethodAction | ITripActions | IAttractionActions | IScheduleItemActions
 
 
 const rootReducer = combineReducers<IRootState>({
   router: connectRouter(history), 
-  trip: tripReducer
+  trip: tripReducer,
+  attraction: attractionReducer,
+  scheduleItem: scheduleItemReducer
 });
 
 declare global {
