@@ -13,6 +13,7 @@ export function CalendarTable() {
     //     return state.trip.daysInfor
     // })
     let daysInfor: IDaysInfor = {
+        year: 0,
         month: [],
         days: []
     };

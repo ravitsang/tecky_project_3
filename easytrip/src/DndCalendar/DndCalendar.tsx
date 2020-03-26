@@ -18,8 +18,9 @@ import './MaterialDesign.scss'
 
 import { TabBar } from '../TabBar'
 import { useDispatch, useSelector } from 'react-redux'
-import { addEvent, resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList } from '../trip/actions'
+import { addEvent, resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList, displayEventClick, addStartEndTime } from '../trip/actions'
 import { IRootState } from '../store'
+import { EventModal } from './EventModal';
 
 
 
@@ -30,9 +31,23 @@ export function DndCalendar() {
     const dispatch = useDispatch();
 
     const calendarEvents = useSelector((state: IRootState) => state.trip.calendarEvents)
+    const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
 
-
+    console.log(tripSchedule);
     console.log(calendarEvents);
+    let startMonth = tripSchedule.dateInfor[0].month[1]
+    let endMonth = tripSchedule.dateInfor[1].month[1]
+    const lastDayIndex = tripSchedule.dateInfor[1].days.length-1;
+    let endDay = tripSchedule.dateInfor[1].days[lastDayIndex]
+
+
+    const startDate = `${tripSchedule.dateInfor[0].year}-${startMonth.length < 2 ? 0 + startMonth : startMonth}-${tripSchedule.dateInfor[0].days[0]}`
+    const endDate = `${tripSchedule.dateInfor[1].year}-${endMonth.length < 2 ? 0 + endMonth : endMonth}-${endDay < 10 ? 0 + endMonth.toString() : endMonth}`
+
+
+    console.log(startDate);
+    console.log(endDate);
+
     useEffect(() => {
         let draggableEl: HTMLElement | null = document.getElementById("external-events");
         if (draggableEl) {
@@ -40,6 +55,7 @@ export function DndCalendar() {
                 itemSelector: ".fc-event"
             });
         }
+        dispatch(addStartEndTime(startDate,endDate))
     }, [])
 
 
@@ -72,7 +88,13 @@ export function DndCalendar() {
 
     }
 
+
+    let eventClick = null;
     const handleEventClick = (info: any) => {
+
+        
+        dispatch(displayEventClick(info));
+
 
         console.log('handleEventClick');
 
@@ -96,17 +118,18 @@ export function DndCalendar() {
                 <div>
                     <div className='demo-app-calendar'>
                         <FullCalendar
-                            defaultView="timeGridWeek"
+                            defaultView="timeGrid"
+                            dayCount={5}
                             header={{
-                                left: 'prev,next today',
+                                left: 'prev',
                                 center: 'title',
-                                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                                right: 'next'
                             }}
-                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, resourceTimeGridPlugin]}
+                            // titleFormat={'[Hong Kong]'}
+                            plugins={[timeGridPlugin, interactionPlugin]}
                             ref={calendarComponentRef}
-                            weekends={false}
                             events={calendarEvents}
-                            rerenderDelay={10}
+                            // rerenderDelay={10}
                             editable={true}
                             droppable={true}
                             dateClick={handleDateClick}
@@ -114,15 +137,25 @@ export function DndCalendar() {
                             eventResize={handleEventResize}
                             eventDrop={handleEventDrop}
                             drop={handleExternalEventDrop}
-
-                            validRange={{
-                                start: '2020-03-22',
-                                end: '2020-03-26'
-                            }}
+                            allDaySlot={false}
+                            defaultDate={startDate}
+                            slotDuration={'00:60:00'}
+                            // displayEventTime={false}
+                            aspectRatio={1.7}
+                            dateIncrement={{day:1}}
+                            visibleRange={
+                                {
+                                    start: '2020-03-01',
+                                    end: '2020-03-30'
+                                }
+                            }
+                            // timeGridEventMinHeight={30}
+                            // scrollTime={'12:00:00'}
                             schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
                         />
                     </div>
                 </div>
+                {eventClick && <EventModal />}
             </div>
 
         </div>

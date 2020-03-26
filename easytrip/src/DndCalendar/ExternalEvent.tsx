@@ -24,7 +24,18 @@ const useStyles = makeStyles((theme: Theme) =>
             height: 500,
             marginTop: 80,
             marginRight: 50,
-            marginLeft: 50
+            marginLeft: 50,
+            textAlign: 'center'
+        },
+        header: {
+            backgroundColor: "#424242",
+            color: '#fafafa',
+            textAlign: "center",
+            height: 60
+            
+        },
+        title: {
+            fontSize: 20
         }
     }),
 );
@@ -40,13 +51,17 @@ export function ExternalEvent() {
 
     const classes = useStyles();
 
-    const externalEvents = useSelector((state:IRootState)=> state.trip.externalEvents)
+    const externalEvents = useSelector((state: IRootState) => state.trip.externalEvents)
 
 
     return (
         <Card className={classes.root}>
             <div id='external-events'>
                 <CardHeader
+                    className={classes.header}
+                    classes={{
+                        title: classes.title,
+                    }}
                     title="Unplanned Event">
                 </CardHeader>
                 <CardContent>
@@ -62,10 +77,6 @@ export function ExternalEvent() {
                         </div>
                     ))}
                 </CardContent>
-                <p>
-                    <input type='checkbox' id='drop-remove' />
-                    {/* <label for='drop-remove'>remove after drop</label> */}
-                </p>
             </div>
         </Card>
     )
