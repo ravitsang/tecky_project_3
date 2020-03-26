@@ -96,7 +96,7 @@ export function EntryForm() {
             // within a month case
             if (!isOverAMonth || daysOfAMonth - (parseInt(startDate.day) + i) > -1) {
                 startMonthDays.push(parseInt(startDate.day) + i)
-            } else { 
+            } else {
                 // over a month case
                 endMonthDays.push(parseInt(startDate.day) + i - daysOfAMonth)
             }
@@ -108,18 +108,18 @@ export function EntryForm() {
         // let endMonth = endDate.month
         // const lastDayIndex = endMonthDays.length - 1;
         // let endDay = endMonthDays[lastDayIndex]
-    
-    
+
+
         const startDateString = `${startDate.year}-${startDate.month.length < 2 ? 0 + startDate.month : startDate.month}-${startDate.day.length < 2 ? 0 + startDate.day : startDate.day}`
         const endDateString = `${endDate.year}-${endDate.month.length < 2 ? 0 + endDate.month : endDate.month}-${endDate.day.length < 2 ? 0 + endDate.day : endDate.day}`
-        
+
         console.log(startDateString);
         console.log(endDateString);
 
         dateInfor.push({
             startDate: startDateString,
             year: startDate.year,
-            month: [startDate.textMonth,startDate.month],
+            month: [startDate.textMonth, startDate.month],
             days: startMonthDays
         })
 
@@ -127,17 +127,17 @@ export function EntryForm() {
         dateInfor.push({
             endDate: endDateString,
             year: endDate.year,
-            month: [endDate.textMonth,endDate.month],
+            month: [endDate.textMonth, endDate.month],
             days: endMonthDays
         })
 
         const tripSchedule = {
             city: city,
-            dateInfor:dateInfor,
-            tripDays:numberOfDays
+            dateInfor: dateInfor,
+            tripDays: numberOfDays
         }
         localStorage.setItem("tripSchedule", JSON.stringify(tripSchedule));
-
+        window.location.href = "/attraction";
     }
 
 
@@ -197,67 +197,67 @@ export function EntryForm() {
 
     return (
 
-            <div className="app">
-                <Card className="description">
+        <div className="app">
+            <Card className="description">
+                <CardBody>
+                    <CardTitle className="description-header">The new way to plan your next trip</CardTitle>
+                    <CardText className="description-text">Create a fully customized day-by-day itinerary for free</CardText>
+                </CardBody>
+            </Card>
+            <div className="planning-form" >
+                <MaterialUICard className={classes.root}>
+                    <CardHeader className="form-header">Itinerary Planner</CardHeader>
                     <CardBody>
-                        <CardTitle className="description-header">The new way to plan your next trip</CardTitle>
-                        <CardText className="description-text">Create a fully customized day-by-day itinerary for free</CardText>
+                        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+                            <ReactSelect
+                                value={values.selectedOption}
+                                handleSingleChange={handleSignleChange} />
+                            <Row>
+                                {errors.city && <Alert className={classes.alert} severity="error">Destination is required</Alert>}
+                                <Col className="date-picker">
+                                    <Responsive
+                                        maxWidth={767}>
+                                        <DateRangePicker
+                                            startDate={startDate}
+                                            startDateId="trip-start-date"
+                                            endDate={endDate}
+                                            endDateId="trip-end-date"
+                                            onDatesChange={handleDatesChange}
+                                            focusedInput={focusedInput}
+                                            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                                            displayFormat="ddd MM/DD"
+                                            withPortal={true}
+                                            numberOfMonths={1}
+                                            required
+                                        />
+                                    </Responsive>
+                                    <Responsive
+                                        minWidth={768}>
+                                        <DateRangePicker
+                                            startDate={startDate}
+                                            startDateId="trip-start-date"
+                                            endDate={endDate}
+                                            endDateId="trip-end-date"
+                                            onDatesChange={handleDatesChange}
+                                            focusedInput={focusedInput}
+                                            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                                            displayFormat="ddd MM/DD"
+                                            withPortal={true}
+                                            required
+                                        />
+                                    </Responsive>
+                                </Col>
+                            </Row>
+                            <Row className="btn-header">
+                                <Col className="btn">
+                                    <Button className={classes.submit} variant="contained" size="large" type="submit">Start Planning</Button>
+                                </Col>
+                            </Row>
+                        </form>
                     </CardBody>
-                </Card>
-                <div className="planning-form" >
-                    <MaterialUICard className={classes.root}>
-                        <CardHeader className="form-header">Itinerary Planner</CardHeader>
-                        <CardBody>
-                            <form className="form" onSubmit={handleSubmit(onSubmit)}>
-                                <ReactSelect
-                                    value={values.selectedOption}
-                                    handleSingleChange={handleSignleChange} />
-                                <Row>
-                                    {errors.city && <Alert className={classes.alert} severity="error">Destination is required</Alert>}
-                                    <Col className="date-picker">
-                                        <Responsive
-                                            maxWidth={767}>
-                                            <DateRangePicker
-                                                startDate={startDate}
-                                                startDateId="trip-start-date"
-                                                endDate={endDate}
-                                                endDateId="trip-end-date"
-                                                onDatesChange={handleDatesChange}
-                                                focusedInput={focusedInput}
-                                                onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-                                                displayFormat="ddd MM/DD"
-                                                withPortal={true}
-                                                numberOfMonths={1}
-                                                required
-                                            />
-                                        </Responsive>
-                                        <Responsive
-                                            minWidth={768}>
-                                            <DateRangePicker
-                                                startDate={startDate}
-                                                startDateId="trip-start-date"
-                                                endDate={endDate}
-                                                endDateId="trip-end-date"
-                                                onDatesChange={handleDatesChange}
-                                                focusedInput={focusedInput}
-                                                onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-                                                displayFormat="ddd MM/DD"
-                                                withPortal={true}
-                                                required
-                                            />
-                                        </Responsive>
-                                    </Col>
-                                </Row>
-                                <Row className="btn-header">
-                                    <Col className="btn">
-                                        <Button className={classes.submit} variant="contained" size="large" type="submit">Start Planning</Button>
-                                    </Col>
-                                </Row>
-                            </form>
-                        </CardBody>
-                    </MaterialUICard>
-                </div>
+                </MaterialUICard>
             </div>
+        </div>
     )
 
 }
