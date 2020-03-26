@@ -1,5 +1,4 @@
 import Knex from "knex";
-import { ScheduleItem } from "./models";
 
 export class ScheduleItemService{
     constructor(private knex:Knex){
@@ -7,11 +6,11 @@ export class ScheduleItemService{
     }
 
     async getScheduleItems(){
-        const scheduleItems:ScheduleItem[] = await this.knex.raw(`
+        const scheduleItems = await this.knex.raw(`
         SELECT "schedule_item".id, "attraction".name as attraction_name,type FROM "schedule_item" 
             JOIN "trip" ON "trip".id = "schedule_item".trip_id
             JOIN "attraction" ON "attraction".id = "schedule_item".attraction_id`)
-        return scheduleItems;
+        return scheduleItems.rows;
     }
 
     async createScheduleItem(tripId:number,attractionId:number){

@@ -43,7 +43,7 @@ export async function seed(knex: Knex): Promise<any> {
         "https://mk0royalpark5y8ter7s.kinstacdn.com/wp-content/uploads/OCEAN-PARK_20190924.jpg",
         "https://timable.com/res/pic/5ee17a7fe3bf4ecf52d46f9e6ce9d5813.jpg",
         "https://media-cdn.tripadvisor.com/media/photo-s/0c/5e/56/13/hong-kong-museum-of-history.jpg",
-        "https://lh3.googleusercontent.com/proxy/vDaBVdPi7ndDaXbbn2DiSXC7h-qGmZlz60MefILmGuAW5VYVnCxe89CzhVrBPG9Z0HUYbVlxFQe4qQr3f4ASyrXSndhAmrmz-Tf-q7hQf6L2"
+        "https://blogs.uml.edu/hongkong2013/wp-content/uploads/sites/5/2013/07/DSC01736-Copy.jpg"
     ]);
     const pmqImage = attractionImageResult.rows[0].id;
     const opImage = attractionImageResult.rows[1].id;
