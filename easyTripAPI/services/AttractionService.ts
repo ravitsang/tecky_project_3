@@ -1,5 +1,4 @@
 import Knex from "knex";
-import { Attraction } from '../services/models';
 
 export class AttractionService{
     constructor(private knex:Knex){
@@ -7,15 +6,15 @@ export class AttractionService{
     }
 
     async getAllAttractions(){
-        const attractions:Attraction[] = await this.knex.raw(`
+        const attractions = await this.knex.raw(`
         SELECT "attraction".id, "city".name as city_name,"attraction".name, description, location ,telephone, "attraction".url, "attraction_image".url as attraction_image FROM "attraction" 
             JOIN "attraction_image" ON "attraction_image".id = "attraction".attraction_image_id
             JOIN "city" ON "city".id = "attraction".city_id`)
-        return attractions;
+        return attractions.rows;
     }
 
     async getFilteredAttraction(tagId:number){
-        const filteredAttractions:Attraction[] = await this.knex.raw(`
+        const filteredAttractions = await this.knex.raw(`
         SELECT "attraction".id,"city".name as city_name,"tag".name as tag_name,"attraction".name as attraction_name, description, location ,telephone, "attraction".url, "attraction_image".url as attraction_image FROM "attraction" 
             JOIN "attraction_image" ON "attraction_image".id = "attraction".attraction_image_id
             JOIN "city" ON "city".id = "attraction".city_id
@@ -25,7 +24,7 @@ export class AttractionService{
                 tag_id: tagId
             }
         )
-        return filteredAttractions;
+        return filteredAttractions.rows;
     }
 
     async isTagIdExist(tagId:number){

@@ -1,8 +1,8 @@
 export interface IAttraction{
     id: number
     tag: string
-    attractionImage: string
-    city: string
+    attraction_image: string
+    city_name: string
     name: string
     description: string
     location: string
