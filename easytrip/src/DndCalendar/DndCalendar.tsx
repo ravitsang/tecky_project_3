@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 import FullCalendar from '@fullcalendar/react'
-// import { EventInput, Calendar } from '@fullcalendar/core'
-import dayGridPlugin from '@fullcalendar/daygrid'
+
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
-import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { ExternalEvent } from './ExternalEvent'
 
 
@@ -18,10 +16,12 @@ import './MaterialDesign.scss'
 
 import { TabBar } from '../TabBar'
 import { useDispatch, useSelector } from 'react-redux'
-import { addEvent, resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList, displayEventClick, addStartEndTime } from '../trip/actions'
+import { addEvent, resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList, displayEventClick, addStartEndEvent, updateConstraint } from '../trip/actions'
 import { IRootState } from '../store'
 import { EventModal } from './EventModal';
+import { AddEventSnackbar } from './SnackBar';
 
+import {ToastDismissExample} from './Toasts'
 
 
 export function DndCalendar() {
@@ -32,21 +32,13 @@ export function DndCalendar() {
 
     const calendarEvents = useSelector((state: IRootState) => state.trip.calendarEvents)
     const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
+    const eventTimeConstraint = useSelector((state: IRootState) => state.trip.eventTimeConstraint)
 
-    console.log(tripSchedule);
-    console.log(calendarEvents);
-    let startMonth = tripSchedule.dateInfor[0].month[1]
-    let endMonth = tripSchedule.dateInfor[1].month[1]
-    const lastDayIndex = tripSchedule.dateInfor[1].days.length-1;
-    let endDay = tripSchedule.dateInfor[1].days[lastDayIndex]
+    const startDate = tripSchedule.dateInfor[0].startDate
+    let startConstraint: any = eventTimeConstraint[0];
+    let endConstraint: any = eventTimeConstraint[1];
 
 
-    const startDate = `${tripSchedule.dateInfor[0].year}-${startMonth.length < 2 ? 0 + startMonth : startMonth}-${tripSchedule.dateInfor[0].days[0]}`
-    const endDate = `${tripSchedule.dateInfor[1].year}-${endMonth.length < 2 ? 0 + endMonth : endMonth}-${endDay < 10 ? 0 + endMonth.toString() : endMonth}`
-
-
-    console.log(startDate);
-    console.log(endDate);
 
     useEffect(() => {
         let draggableEl: HTMLElement | null = document.getElementById("external-events");
@@ -55,15 +47,20 @@ export function DndCalendar() {
                 itemSelector: ".fc-event"
             });
         }
-        dispatch(addStartEndTime(startDate,endDate))
+        dispatch(addStartEndEvent())
     }, [])
 
-
+    let opentoasts = false;
     const handleDateClick = (info: any) => {
-        if (window.confirm('Would you like to add an event to ' + info.dateStr + ' ?')) {
 
-            dispatch(addEvent(info))
-        }
+        opentoasts = true
+        console.log(opentoasts);
+        // if (info.date - startConstraint > 0 && info.date - endConstraint < 0) {
+        //     if (window.confirm('Would you like to add an event to ' + info.dateStr + ' ?')) {
+
+        //         dispatch(addEvent(info))
+        //     }
+        // }
     }
 
     const handleEventResize = (info: any) => {
@@ -76,14 +73,26 @@ export function DndCalendar() {
 
         dispatch(moveEvent(info));
 
+
+        console.log(info.oldEvent.id);
+        if (info.oldEvent.id === '1' || info.oldEvent.id === '2') {
+            dispatch(updateConstraint(parseInt(info.oldEvent.id)))
+        }
+        console.log(info);
+
     }
 
 
     const handleExternalEventDrop = (info: any) => {
 
-        dispatch(addExternalEvent(info));
-        dispatch(deleteExternalEventList(info));
-        console.log('handleExternalEventDrop');
+        console.log(info.date - startConstraint > 0);
+
+        if (info.date - startConstraint > 0 && info.date - endConstraint < 0) {
+            console.log(info.date);
+            dispatch(addExternalEvent(info));
+            dispatch(deleteExternalEventList(info));
+            console.log('handleExternalEventDrop');
+        }
 
 
     }
@@ -92,7 +101,7 @@ export function DndCalendar() {
     let eventClick = null;
     const handleEventClick = (info: any) => {
 
-        
+
         dispatch(displayEventClick(info));
 
 
@@ -114,6 +123,8 @@ export function DndCalendar() {
                     (also, click a date/time to add an event)
                     </div> */}
                 {console.log("test")}
+                <AddEventSnackbar/>
+                <ToastDismissExample/>
                 <ExternalEvent />
                 <div>
                     <div className='demo-app-calendar'>
@@ -142,13 +153,20 @@ export function DndCalendar() {
                             slotDuration={'00:60:00'}
                             // displayEventTime={false}
                             aspectRatio={1.7}
-                            dateIncrement={{day:1}}
-                            visibleRange={
-                                {
-                                    start: '2020-03-01',
-                                    end: '2020-03-30'
-                                }
-                            }
+                            dateIncrement={{ day: 1 }}
+                            // eventConstraint={
+                            //     {
+                            //         start: calendarEvents[0]?.start,
+                            //         end: calendarEvents[1]?.end
+                            //     }
+                            // }
+                            // visibleRange={
+                            //     {
+                            //         start: '2020-03-01',
+                            //         end: '2020-03-30'
+                            //     }
+                            // }
+
                             // timeGridEventMinHeight={30}
                             // scrollTime={'12:00:00'}
                             schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
@@ -156,6 +174,7 @@ export function DndCalendar() {
                     </div>
                 </div>
                 {eventClick && <EventModal />}
+                
             </div>
 
         </div>
