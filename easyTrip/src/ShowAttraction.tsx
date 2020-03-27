@@ -11,7 +11,8 @@ import AttractionCard from './AttractionCard';
 import './ShowAttraction.scss'
 import { FaPlus } from 'react-icons/fa';
 import { TiTick } from 'react-icons/ti';
-// import ScheduleCard from './ScheduleCard';
+import ScheduleCard from './ScheduleCard';
+
 
 
 export function ShowAttraction(props:RouteComponentProps<{tripId:string,scheduleItemId:string}>){
@@ -22,7 +23,7 @@ export function ShowAttraction(props:RouteComponentProps<{tripId:string,schedule
     const isClick = useSelector((state:IRootState)=> state.attraction.isClick);
     const currentTrip = useSelector((state:IRootState)=> 
         state.scheduleItem.scheduleItems.find(scheduleItem=>scheduleItem.tripId === parseInt(props.match.params.tripId)));
-    const scheduleItems = currentTrip ? currentTrip : {} ;
+    // const scheduleItems = currentTrip ? currentTrip :  ;
 
     useEffect(()=>{
         dispatch(getAllAttractionsThunk());
@@ -34,26 +35,30 @@ export function ShowAttraction(props:RouteComponentProps<{tripId:string,schedule
             attraction={attraction}
             key={key}
             value={"+"}
-            attractionOnClick={()=>handleClick(i)}
+            attractionOnClick={()=>handleAttractionClick(i)}
             isClick={isClick} />
     }
 
-    // const renderScheduleItems=(i:number,key:string,scheduleItem:IScheduleItem)=>{
-    //     return <ScheduleCard
-    //         scheduleItem={scheduleItem}
-    //         key={key}
-    //         binOnClick={()=>handleClick(i)} />
-    // }
+    const renderScheduleItems=(i:number,key:string,scheduleItem:IScheduleItem)=>{
+        return <ScheduleCard
+            scheduleItem={scheduleItem}
+            key={key}
+            binOnClick={()=>handleBinClick(i)} />
+    }
 
-    const handleClick=(i:number)=>{
+    const handleAttractionClick=(i:number)=>{
         isClick ? deleteScheduleItemThunk(parseInt(props.match.params.scheduleItemId)) 
                 : createScheduleItemThunk();
     }
 
+    const handleBinClick=(i:number)=>{
+        deleteScheduleItemThunk(parseInt(props.match.params.scheduleItemId)) 
+    }
+
     return(
         <div className="container">
-            {/* <div className="schedule-area">               
-                {scheduleItems.map(scheduleItem=>(
+            <div className="schedule-area">               
+                {/* {scheduleItems.map(scheduleItem=>(
                     <div>
                         {
                             renderScheduleItems(
@@ -63,8 +68,8 @@ export function ShowAttraction(props:RouteComponentProps<{tripId:string,schedule
                             )
                         }
                     </div>
-                ))}
-            </div> */}
+                ))} */}
+            </div>
             <div className="attraction-area">
                 {attractions.map(attraction =>(
                     <div key={`attraction_${attraction.id}`}>

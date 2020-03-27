@@ -11,7 +11,7 @@ export function getAllAttractionsThunk(){
         
         console.log(result);
         if(result.success){ 
-            dispatch(getAllAttractions(result.data.rows));
+            dispatch(getAllAttractions(result.data));
         }else{
             dispatch(failed(result.msg));
         }
