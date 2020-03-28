@@ -36,8 +36,12 @@ export function DndCalendar() {
     const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
     const eventTimeConstraint = useSelector((state: IRootState) => state.trip.eventTimeConstraint)
 
-    console.log(eventTimeConstraint);
-    const startDate = tripSchedule.dateInfor[0].startDate
+    const startDate = tripSchedule.dateInfor[0].startDate;
+    const endDate = tripSchedule.dateInfor[1].endDate;
+
+    const start = Date.parse((startDate ? startDate : ""));
+    const end = Date.parse((endDate ? endDate : ""));
+
     let startConstraint: any = eventTimeConstraint[0];
     let endConstraint: any = eventTimeConstraint[1];
 
@@ -62,7 +66,8 @@ export function DndCalendar() {
         setIsShowingSnack(!isShowingSnack);
     }
 
-
+    let countDay = (end - start) / 1000 / 60 / 60 / 24 + 1;
+    console.log(countDay);
     useEffect(() => {
         let draggableEl: HTMLElement | null = document.getElementById("external-events");
         if (draggableEl) {
@@ -71,6 +76,7 @@ export function DndCalendar() {
             });
         }
         dispatch(addStartEndEvent())
+
     }, [])
 
 
@@ -178,7 +184,7 @@ export function DndCalendar() {
                     <div className='demo-app-calendar'>
                         <FullCalendar
                             defaultView="timeGrid"
-                            dayCount={5}
+                            dayCount={countDay < 5 ? countDay : 5}
                             header={{
                                 left: 'prev',
                                 center: '',
