@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -11,6 +11,8 @@ import moment from 'moment';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { LocationSelect } from './LocationSelect'
+import { useForm } from 'react-hook-form';
+import { MUITimePicker, TimeOptionType } from './MUITimePicker';
 // import 'date-fns';
 
 // import DateFnsUtils from '@date-io/date-fns';
@@ -54,10 +56,15 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: "center"
         },
         createButton: {
-            textTransform: "none",
-            width: 277,
-            height: 50,
-            fontSize: 14
+            fontWeight: 'bold',
+            width: 150,
+            height: 40,
+            backgroundColor: "#444444",
+            color: "#FFFFFF",
+            borderRadius: 100,
+            fontSize: 15,
+            marginBottom: 20,
+            textTransform: "none"
         },
         createButtonColumn: {
             display: 'flex',
@@ -66,7 +73,11 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         formTitle: {
             marginBottom: 40,
-            textTransform: 'none'
+            textTransform: 'none',
+            fontSize: 18,
+            color: '#424242 !important',
+            fontWeight: 800,
+            paddingTop: 0
         },
         formControl: {
             margin: theme.spacing(1),
@@ -77,21 +88,22 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         dateTime: {
             display: 'flex',
-            marginTop: 32
+            marginTop: 32,
+            marginBottom: 32
         },
         date: {
 
         },
         description: {
             marginTop: 40,
-            marginBottom: 40
+            marginBottom: 20
         },
         closePosition: {
             display: 'flex',
             justifyContent: 'flex-end'
         },
-        closeButton:{
-            padding:0
+        closeButton: {
+            padding: 0
         }
     }),
 );
@@ -104,19 +116,66 @@ export interface IAddEventForm {
 
 
 export function AddEventForm(props: IAddEventForm) {
+
+    const startTime = moment(props.eventInfo.date).format('LT');
+    const endTime = moment(props.eventInfo.date).add(1, 'hour').format('LT');
+
+
+        // console.log(startTimeString);
+    // console.log(endTimeString);
+
     const classes = useStyles();
 
-    const [age, setAge] = React.useState('');
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setAge(event.target.value as string);
+    const { handleSubmit, register, setValue, errors } = useForm();
+
+    useEffect(() => {
+        // register({ name: "eventName" }, { required: true });
+        // register({ name: "date" }, { required: true });
+        // register({ name: "startTime" }, { required: true });
+        // register({ name: "endTime" }, { required: true });
+        register({ name: "location" }, { required: true });
+        // register({ name: "description" }, { required: true });
+
+    }, [register])
+
+    const onSubmit = (values: any) => {
+        console.log(values);
+    }
+
+    const handleEventNameChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setValue("eventName", event.target.value as string)
+    };
+
+    setValue("date",props.eventInfo.date)
+
+    const handleDateChange = (date: Date | null) => {
+        setValue("date", date)
+    };
+
+    setValue("startTime",startTime)
+
+    const handleStartTimeChange = (event: any, newValue: TimeOptionType | null) => {
+        setValue("startTime", newValue?.time)
+        
+    };
+
+    setValue("endTime", endTime)
+
+    const handleEndTimeChange = (event: any, newValue: TimeOptionType | null) => {
+        setValue("endTime", newValue?.time)
+    };
+
+    const handleDescriptionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setValue("description", event.target.value as string)
+    };
+
+    const handleLocationChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setValue("location", event.target.value as string)
     };
 
 
-    console.log(props.eventInfo);
 
-    let startTimeString = moment(props.eventInfo.date).format('LT');
-    const startTime = startTimeString.split(' ')[0] + startTimeString.split(' ')[1].toLowerCase()
 
     return (
         <div>
@@ -141,121 +200,55 @@ export function AddEventForm(props: IAddEventForm) {
                                     <CloseIcon fontSize="small" />
                                 </IconButton>
                             </div>
-                            <Button className={classes.formTitle} disabled>Create custom event</Button>
-                            <TextField
-                                className={classes.eventName}
-                                id="outlined-full-width"
-                                label="Event Name"
-                                style={{ margin: 8 }}
-                                placeholder="Enter custom event name"
-                                fullWidth
-                                margin="normal"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
-                            />
-                            <div className={classes.dateTime}>
-                                <FormControl className={classes.date}>
-                                    <MaterialUIPickers date={props.eventInfo.date} />
-                                </FormControl>
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                                        Start Time
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-placeholder-label-label"
-                                        id="demo-simple-select-placeholder-label"
-                                        value={age}
-                                        onChange={handleChange}
-                                        displayEmpty
-                                        className={classes.selectEmpty}
-                                    >
-                                        <MenuItem value="">
-                                            <em>{startTime}</em>
-                                        </MenuItem>
-                                        <MenuItem value={"00:00"}>12:00am</MenuItem>
-                                        <MenuItem value={"00:30"}>12:30am</MenuItem>
-                                        {
-                                            Array(11).fill(null).map((num, index) => {
-                                                return (
-                                                    <>
-                                                        <MenuItem value={`${1 + index}:00`}>{1 + index}:00am</MenuItem>
-                                                        <MenuItem value={`${1 + index}:30`}>{1 + index}:30am</MenuItem>
-                                                    </>
-                                                )
-                                            })
-                                        }
-                                        <MenuItem value={"12:00"}>12:00pm</MenuItem>
-                                        <MenuItem value={"12:30"}>12:30pm</MenuItem>
-                                        {Array(11).fill(null).map((num, index) => {
-                                            return (
-                                                <>
-                                                    <MenuItem value={`${1 + index}:00`}>{1 + index}:00pm</MenuItem>
-                                                    <MenuItem value={`${1 + index}:30`}>{1 + index}:30pm</MenuItem>
-                                                </>
-                                            )
-                                        }
-                                        )}
+                            <Button className={classes.formTitle} disabled>Add custom event</Button>
+                            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+                                <TextField
+                                    className={classes.eventName}
+                                    id="outlined-full-width"
+                                    label="Event Name"
+                                    style={{ margin: 8 }}
+                                    placeholder="Enter custom event name"
+                                    fullWidth
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    variant="outlined"
+                                    onChange={handleEventNameChange}
+                                />
+                                <div className={classes.dateTime}>
+                                    <FormControl className={classes.date}>
+                                        <MaterialUIPickers
+                                            date={props.eventInfo.date}
+                                            handleDateChange={handleDateChange}
+                                        />
+                                    </FormControl>
+                                    <MUITimePicker
+                                        startTime={startTime}
+                                        handleStartTimeChange={handleStartTimeChange}
+                                        endTime={endTime}
+                                        handleEndTimeChange={handleEndTimeChange}
+                                    />
+                                </div>
+                                <LocationSelect
+                                    handleLocationChange={handleLocationChange} />
+                                <TextField
+                                    className={classes.description}
+                                    id="outlined-multiline-static"
+                                    label="Enter Description"
+                                    multiline
+                                    rows="4"
+                                    placeholder="Enter Description"
+                                    variant="outlined"
+                                    onChange={handleDescriptionChange}
+                                    style={{ width: 514 }}
+                                />
 
-                                    </Select>
-                                </FormControl>
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                                        End time
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-placeholder-label-label"
-                                        id="demo-simple-select-placeholder-label"
-                                        value={age}
-                                        onChange={handleChange}
-                                        displayEmpty
-                                        className={classes.selectEmpty}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value={"00:00"}>12:00am</MenuItem>
-                                        <MenuItem value={"00:30"}>12:30am</MenuItem>
-                                        {
-                                            Array(11).fill(null).map((num, index) => {
-                                                return (
-                                                    <>
-                                                        <MenuItem value={`${1 + index}:00`}>{1 + index}:00am</MenuItem>
-                                                        <MenuItem value={`${1 + index}:30`}>{1 + index}:30am</MenuItem>
-                                                    </>
-                                                )
-                                            })
-                                        }
-                                        <MenuItem value={"12:00"}>12:00pm</MenuItem>
-                                        <MenuItem value={"12:30"}>12:30pm</MenuItem>
-                                        {Array(11).fill(null).map((num, index) => {
-                                            return (
-                                                <>
-                                                    <MenuItem value={`${1 + index}:00`}>{1 + index}:00pm</MenuItem>
-                                                    <MenuItem value={`${1 + index}:30`}>{1 + index}:30pm</MenuItem>
-                                                </>
-                                            )
-                                        }
-                                        )}
 
-                                    </Select>
-                                </FormControl>
-                            </div>
-                            <TextField
-                                className={classes.description}
-                                id="outlined-multiline-static"
-                                label="Description"
-                                multiline
-                                rows="4"
-                                placeholder="Enter Description"
-                                variant="outlined"
-                            />
-                            <LocationSelect />
-                            <div className={classes.createButtonColumn}>
-                                <Button className={classes.createButton}>Save</Button>
-                            </div>
-
+                                <div className={classes.createButtonColumn}>
+                                    <Button className={classes.createButton} variant="contained" type="submit" size="small">Save</Button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </Fade>

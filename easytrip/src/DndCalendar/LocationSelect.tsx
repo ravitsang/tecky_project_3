@@ -22,7 +22,6 @@ function loadScript(src: string, position: HTMLElement | null, id: string) {
 
 const autocompleteService = { current: null };
 
-
 const { REACT_APP_API_KEY } = process.env
 
 const useStyles = makeStyles(theme => ({
@@ -46,14 +45,19 @@ interface PlaceType {
   };
 }
 
-export function LocationSelect() {
+export interface ILocationSelect{
+
+  handleLocationChange:(event: React.ChangeEvent<{ value: unknown }>) => void
+}
+
+
+export function LocationSelect(props:ILocationSelect) {
   const classes = useStyles();
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState<PlaceType[]>([]);
   const loaded = React.useRef(false);
 
 
-  console.log(REACT_APP_API_KEY);
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
@@ -68,6 +72,9 @@ export function LocationSelect() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+    // props.handleLocationChange(options)
+    console.log(setOptions);
+    console.log(loaded);
   };
 
   const fetch = React.useMemo(
@@ -107,7 +114,7 @@ export function LocationSelect() {
   return (
     <Autocomplete
       id="google-map-demo"
-      style={{ width: 300 }}
+      style={{ width: 514 }}
       getOptionLabel={option => (typeof option === 'string' ? option : option.description)}
       filterOptions={x => x}
       options={options}

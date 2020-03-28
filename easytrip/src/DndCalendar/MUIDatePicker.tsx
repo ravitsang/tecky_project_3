@@ -11,28 +11,29 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        date:{
-            marginTop:8
+        date: {
+            marginTop: 8
         }
     })
 )
 
 
-export interface IMaterialUIPickers{
-    date:Date
+export interface IMaterialUIPickers {
+    date: string
+    handleDateChange: (date: Date | null) => void
 }
 
-export function MaterialUIPickers(props:IMaterialUIPickers) {
-    // The first commit of Material-UI
-    const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-        props.date,
-    );
+export function MaterialUIPickers(props: IMaterialUIPickers) {
     const classes = useStyles();
-    const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date);
-    };
+    // The first commit of Material-UI
+    // const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+    //     props.defaultDate,
+    // );
+    // const handleDateChange = (date: Date | null) => {
+    //     props.handleDateChange(date);
+    // };
 
-    
+
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -45,8 +46,8 @@ export function MaterialUIPickers(props:IMaterialUIPickers) {
                     margin="normal"
                     id="date-picker-inline"
                     label="Date picker inline"
-                    value={selectedDate}
-                    onChange={handleDateChange}
+                    value={props.date}
+                    onChange={(date)=> props.handleDateChange(date)}
                     KeyboardButtonProps={{
                         'aria-label': 'change date',
                     }}
