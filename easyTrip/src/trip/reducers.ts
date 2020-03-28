@@ -10,7 +10,25 @@ let id = 0;
 
 const initialState: ITripState = {
 
-    tripSchedule: localStorage.getItem("tripSchedule") ? JSON.parse(localStorage.getItem("tripSchedule") || "{}") : "{}",
+    tripSchedule: localStorage.getItem("tripSchedule") ? JSON.parse(localStorage.getItem("tripSchedule") || "{}") : {
+        city: "",
+        dateInfor: [
+            {
+                startDate: undefined,
+                endDate: undefined,
+                year: 0,
+                month: [],
+                days: []
+            },
+            {
+                startDate: undefined,
+                endDate: undefined,
+                year: 0,
+                month: [],
+                days: []
+            }],
+        tripDays: 0
+    },
     calendarEvents: [],
     tripEvents: [
         { id: 1, title: 'Ocean Park' },
@@ -37,32 +55,10 @@ const initialState: ITripState = {
 export const tripReducer = (state: ITripState = initialState, action: ITripActions) => {
 
 
-    // state.tripSchedule = {
-    //     city: "",
-    //     dateInfor: [
-    //         {
-    //             startDate: "",
-    //             endDate: "",
-    //             year: 0,
-    //             month: [],
-    //             days: []
-    //         },
-    //         {
-    //             startDate: "",
-    //             endDate: "",
-    //             year: 0,
-    //             month: [],
-    //             days: []
-    //         }
-    //     ],
-    //     tripDays: 0
-    // }
-
 
     let startDate = state.tripSchedule?.dateInfor[0].startDate ? state.tripSchedule.dateInfor[0].startDate : "";
     let endDate = state.tripSchedule?.dateInfor[1].endDate ? state.tripSchedule.dateInfor[1].endDate : "";
-    // let startDate = "";
-    // let endDate = "";
+
 
     switch (action.type) {
 
