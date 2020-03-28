@@ -3,13 +3,14 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Button, TextField, FormControl, InputLabel, Select, MenuItem, IconButton } from '@material-ui/core';
 import { EventSnackbar } from './SnackBar';
 
 import { MaterialUIPickers } from './MUIDatePicker'
 import moment from 'moment';
+import CloseIcon from '@material-ui/icons/Close';
 
-import {LocationSelect} from './LocationSelect'
+import { LocationSelect } from './LocationSelect'
 // import 'date-fns';
 
 // import DateFnsUtils from '@date-io/date-fns';
@@ -39,10 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
             border: '1px solid #FFFFFF',
             boxShadow: theme.shadows[5],
             padding: theme.spacing(2, 4, 3),
-            paddingTop: 50,
-            paddingBottom: 50,
-            paddingLeft: 50,
-            paddingRight: 50,
+            paddingTop: 40,
+            paddingBottom: 40,
+            paddingLeft: 40,
+            paddingRight: 40,
             outline: 0,
             display: 'flex',
             flexDirection: "column"
@@ -84,6 +85,13 @@ const useStyles = makeStyles((theme: Theme) =>
         description: {
             marginTop: 40,
             marginBottom: 40
+        },
+        closePosition: {
+            display: 'flex',
+            justifyContent: 'flex-end'
+        },
+        closeButton:{
+            padding:0
         }
     }),
 );
@@ -127,6 +135,12 @@ export function AddEventForm(props: IAddEventForm) {
                 <Fade in={props.isShowing}>
                     <div className={classes.paper}>
                         <div className={classes.root}>
+                            <div className={classes.closePosition}>
+                                <IconButton className={classes.closeButton}
+                                    classes={{ label: 'Mui-disabled' }} size="medium" aria-label="close" color="inherit" onClick={props.hide}>
+                                    <CloseIcon fontSize="small" />
+                                </IconButton>
+                            </div>
                             <Button className={classes.formTitle} disabled>Create custom event</Button>
                             <TextField
                                 className={classes.eventName}
@@ -235,19 +249,6 @@ export function AddEventForm(props: IAddEventForm) {
                                 multiline
                                 rows="4"
                                 placeholder="Enter Description"
-                                variant="outlined"
-                            />
-                            <TextField
-                                className={classes.location}
-                                id="outlined-full-width"
-                                label="Location"
-                                style={{ margin: 8 }}
-                                placeholder="Enter a Location"
-                                fullWidth
-                                margin="normal"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 variant="outlined"
                             />
                             <LocationSelect />

@@ -22,6 +22,9 @@ function loadScript(src: string, position: HTMLElement | null, id: string) {
 
 const autocompleteService = { current: null };
 
+
+const { REACT_APP_API_KEY } = process.env
+
 const useStyles = makeStyles(theme => ({
   icon: {
     color: theme.palette.text.secondary,
@@ -49,10 +52,12 @@ export function LocationSelect() {
   const [options, setOptions] = React.useState<PlaceType[]>([]);
   const loaded = React.useRef(false);
 
+
+  console.log(REACT_APP_API_KEY);
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=AIzaSyC-I_3E93cGlHdFPNaHg92rCyWqKSbbCfc&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_API_KEY}&libraries=places`,
         document.querySelector('head'),
         'google-maps',
       );
