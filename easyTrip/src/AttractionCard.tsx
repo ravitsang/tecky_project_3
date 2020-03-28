@@ -12,7 +12,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { IconType } from 'react-icons/lib/cjs';
 import { IAttraction } from './attraction/state';
 
-interface ICardProps extends RouteComponentProps{
+interface IAttractionCardProps extends RouteComponentProps{
   value: string | undefined
   attractionOnClick:()=>void
   isClick: boolean
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-export function MediaCard(props:ICardProps){
+export function AttractionCard(props:IAttractionCardProps){
   const classes = useStyles();
   
   
@@ -41,16 +41,15 @@ export function MediaCard(props:ICardProps){
       <CardActionArea >
         <CardMedia
           className={classes.media}
-          image="https://timable.com/res/pic/5ee17a7fe3bf4ecf52d46f9e6ce9d5813.jpg"
+          image={props.attraction.attraction_image}
           title={props.attraction.name}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            "Tai Kwun"
+           {props.attraction.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Located in the heart of Central on Hong Kong Island, Tai Kwun's site is bordered on three sides by Old Bailey Street, Hollywood Road and Arbuthnot Road, while Chancery Lane runs along the southern (upper) prison wall.
-            Tai Kwun is situated in a vibrant and bustling part of the city, with easy access to other important heritage sites. Nestled between the skyscrapers of Central and Mid-Levels, Tai Kwun looks onto Hollywood Road, a busy street dotted with galleries, antique shops, restaurants and bars. The Central-Mid-Levels Escalator is connected to the compound by a new footbridge constructed at the intersection of Hollywood Road and Old Bailey Street in order to provide easier and more convenient access to the site.
+            {props.attraction.description}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -63,4 +62,4 @@ export function MediaCard(props:ICardProps){
   );
 }
 
-export default withRouter(MediaCard);
+export default withRouter(AttractionCard);

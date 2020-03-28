@@ -36,8 +36,10 @@ const initialState: ITripState = {
 
 export const tripReducer = (state: ITripState = initialState, action: ITripActions) => {
 
-    let startDate = state.tripSchedule.dateInfor[0].startDate ? state.tripSchedule.dateInfor[0].startDate : ""
-    let endDate = state.tripSchedule.dateInfor[1].endDate ? state.tripSchedule.dateInfor[1].endDate : ""
+    // let startDate = state.tripSchedule.dateInfor[0].startDate ? state.tripSchedule.dateInfor[0].startDate : ""
+    // let endDate = state.tripSchedule.dateInfor[1].endDate ? state.tripSchedule.dateInfor[1].endDate : ""
+    let startDate = "";
+    let endDate = "";
 
     switch (action.type) {
 
