@@ -7,38 +7,26 @@ export interface State extends SnackbarOrigin {
 }
 
 export interface IAddEventSnackbar {
-    open: boolean
+    message: string
+    isShowing: boolean
+    hide: () => void
 }
 
+const vertical = 'bottom'
+const horizontal = 'right'
 
+console.log('snackbar');
 
-export function AddEventSnackbar() {
-    const [state, setState] = React.useState<State>({
-        open: true,
-        vertical: 'bottom',
-        horizontal: 'right',
-    });
-    const { vertical, horizontal, open } = state;
-
-    // const handleClick = (newState: SnackbarOrigin) => () => {
-    //     setState({ open: true, ...newState });
-    // };
-
-
-
-    const handleClose = () => {
-        setState({ ...state, open: false });
-    };
-
+export function EventSnackbar(props: IAddEventSnackbar) {
 
     return (
         <div>
             <Snackbar
                 anchorOrigin={{ vertical, horizontal }}
                 key={`${vertical},${horizontal}`}
-                open={open}
-                onClose={handleClose}
-                message="Event was deleted"
+                open={props.isShowing}
+                onClose={props.hide}
+                message={props.message}
             />
         </div>
     );

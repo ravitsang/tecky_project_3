@@ -6,7 +6,7 @@ import { history } from './store';
 
 import { ShowItinerary } from './ShowItinerary';
 import { ReactGoogleMaps } from './Map/ReactGoogleMaps';
-import Calendar from './Calendar/Calendar';
+
 import { EntryForm } from './EntryForm';
 import { MainNav } from './MainNav';
 // import { useDispatch } from 'react-redux';

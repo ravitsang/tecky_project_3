@@ -3,16 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { AppBar } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
     flexGrow: 1
   },
-  tabs:{
-      color: "#444444"
+  tabs: {
+    color: "#444444"
   },
-  tab:{
-    textTransform: "none", 
+  tab: {
+    textTransform: "none",
     fontWeight: 'bold'
   }
 });
@@ -26,8 +27,9 @@ export function TabBar() {
   };
 
   return (
+
     <Paper className={classes.root} >
-      <div style={{position: "fixed", marginTop: -50}}>
+      <div>
         <Tabs
           className={classes.tabs}
           value={value}
@@ -35,11 +37,12 @@ export function TabBar() {
           indicatorColor="primary"
           centered
         >
-          <Tab className={classes.tab} label="Select Attraction"/>
+          <Tab className={classes.tab} label="Select Attraction" />
           <Tab className={classes.tab} label="Show Itinerary" />
           <Tab className={classes.tab} label="Calender" />
         </Tabs>
       </div>
     </Paper>
+
   );
 }

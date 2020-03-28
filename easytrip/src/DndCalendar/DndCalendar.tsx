@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 import { ExternalEvent } from './ExternalEvent'
-
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
@@ -19,10 +19,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addEvent, resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList, displayEventClick, addStartEndEvent, updateConstraint } from '../trip/actions'
 import { IRootState } from '../store'
 import { EventModal } from './EventModal';
-import { AddEventSnackbar } from './SnackBar';
+import { EventSnackbar } from './SnackBar';
 
-import {ToastDismissExample} from './Toasts'
-
+// import {ToastDismissExample} from './Toasts'
+// import { AddEventModal } from './AddEventModal';
+import { AddEventPopover } from './AddEventPopover';
+import { AddEventForm } from './AddEventForm';
 
 export function DndCalendar() {
 
@@ -34,11 +36,27 @@ export function DndCalendar() {
     const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
     const eventTimeConstraint = useSelector((state: IRootState) => state.trip.eventTimeConstraint)
 
+
     const startDate = tripSchedule.dateInfor[0].startDate
     let startConstraint: any = eventTimeConstraint[0];
     let endConstraint: any = eventTimeConstraint[1];
 
+    // const [openAddEvent, setOpenAddEvent] = useState(false);
+    const [isShowing, setIsShowing] = useState(false);
+    const [mouseEvent, setMouseEvent] = useState(false);
+    const [eventInfo, setEventInfo] = useState();
 
+    function popOverToggle() {
+        setIsShowing(!isShowing);
+    }
+
+
+    const [isShowingSnack, setIsShowingSnack] = useState(false);
+
+    function snackToggle() {
+        setIsShowingSnack(!isShowingSnack);
+    }
+    
 
     useEffect(() => {
         let draggableEl: HTMLElement | null = document.getElementById("external-events");
@@ -50,17 +68,23 @@ export function DndCalendar() {
         dispatch(addStartEndEvent())
     }, [])
 
-    let opentoasts = false;
+
+    const deleteMessage = "Event added successfully"
+
     const handleDateClick = (info: any) => {
 
-        opentoasts = true
-        console.log(opentoasts);
-        // if (info.date - startConstraint > 0 && info.date - endConstraint < 0) {
-        //     if (window.confirm('Would you like to add an event to ' + info.dateStr + ' ?')) {
+        if (info.date - startConstraint > 0 && info.date - endConstraint < 0) {
+            setMouseEvent(info.jsEvent)
+            setIsShowing(true)
+            console.log(isShowing);
+            setEventInfo(info)
+            // setIsShowingSnack(true)
 
-        //         dispatch(addEvent(info))
-        //     }
-        // }
+        }else{
+            console.log('cannot add event');
+        }
+
+
     }
 
     const handleEventResize = (info: any) => {
@@ -113,18 +137,23 @@ export function DndCalendar() {
     return (
 
         <div>
-            <div className='test'>
+            <div className='tab-column'>
                 <TabBar />
             </div>
-            <div className="main">
+            <div className="calendar-page">
                 {/* <div className='demo-app-top'>
                         <button onClick={toggleWeekends}>toggle weekends</button>&nbsp;
                     <button onClick={gotoPast}>go to a date in the past</button>&nbsp;
                     (also, click a date/time to add an event)
                     </div> */}
-                {console.log("test")}
-                <AddEventSnackbar/>
-                <ToastDismissExample/>
+
+                {/* <EventSnackbar /> */}
+                { isShowing && <EventSnackbar message={deleteMessage} isShowing={isShowingSnack} hide={snackToggle}/>}
+                {isShowing && <AddEventPopover
+                                    isShowing={isShowing}
+                                    hide={popOverToggle}
+                                    mouseEvent={mouseEvent}
+                                    eventInfo={eventInfo}/>}
                 <ExternalEvent />
                 <div>
                     <div className='demo-app-calendar'>
@@ -133,11 +162,11 @@ export function DndCalendar() {
                             dayCount={5}
                             header={{
                                 left: 'prev',
-                                center: 'title',
+                                center: '',
                                 right: 'next'
                             }}
                             // titleFormat={'[Hong Kong]'}
-                            plugins={[timeGridPlugin, interactionPlugin]}
+                            plugins={[timeGridPlugin, interactionPlugin,listPlugin]}
                             ref={calendarComponentRef}
                             events={calendarEvents}
                             // rerenderDelay={10}

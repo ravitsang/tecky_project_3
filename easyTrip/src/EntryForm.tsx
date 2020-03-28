@@ -16,6 +16,8 @@ import { ReactSelect } from "./ReactSelect";
 import Alert from '@material-ui/lab/Alert';
 
 import { IDaysInfor } from "./trip/state";
+import { useDispatch } from "react-redux";
+import { push } from "connected-react-router";
 
 
 export function EntryForm() {
@@ -29,6 +31,7 @@ export function EntryForm() {
         setEndDate(endDate);
     };
 
+    const dispatch = useDispatch()
     const { handleSubmit, register, setValue, errors } = useForm();
 
     if (startDate) {
@@ -155,6 +158,7 @@ export function EntryForm() {
     const onSubmit = (values: any) => {
         console.log(values);
         calTripDuration(values)
+        dispatch(push('/calendar'))
 
     }
 

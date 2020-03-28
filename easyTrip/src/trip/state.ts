@@ -24,12 +24,7 @@ export interface IDaysInfor {
 
 }
 
-export interface ITripSchedule {
 
-    city: string
-    dateInfor: IDaysInfor[]
-    tripDays: number
-}
 
 export interface IConstraint{
     start?: Date
@@ -53,6 +48,12 @@ export interface ITripEvents {
     title: string
 }
 
+export interface ITripSchedule {
+
+    city: string
+    dateInfor: IDaysInfor[]
+    tripDays: number
+}
 
 export interface ITripState {
 
