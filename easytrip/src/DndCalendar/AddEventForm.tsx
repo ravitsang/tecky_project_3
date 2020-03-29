@@ -117,25 +117,29 @@ export interface IAddEventForm {
 
 export function AddEventForm(props: IAddEventForm) {
 
-    const startTime = moment(props.eventInfo.date).format('LT');
-    const endTime = moment(props.eventInfo.date).add(1, 'hour').format('LT');
 
 
-        // console.log(startTimeString);
-    // console.log(endTimeString);
+
+
+    const [startTime, setStartTime] = useState(moment(props.eventInfo.date).format('LT'))
+    const [endTime, setEndTime] = useState(moment(props.eventInfo.date).add(1, 'hour').format('LT'))
+    const [date, setDate] = useState(props.eventInfo.date)
+
 
     const classes = useStyles();
 
 
+    // react hooks form settings
+
     const { handleSubmit, register, setValue, errors } = useForm();
 
     useEffect(() => {
-        // register({ name: "eventName" }, { required: true });
-        // register({ name: "date" }, { required: true });
-        // register({ name: "startTime" }, { required: true });
-        // register({ name: "endTime" }, { required: true });
+        register({ name: "eventName" }, { required: true });
+        register({ name: "date" }, { required: true });
+        register({ name: "startTime" }, { required: true });
+        register({ name: "endTime" }, { required: true });
         register({ name: "location" }, { required: true });
-        // register({ name: "description" }, { required: true });
+        register({ name: "description" }, { required: true });
 
     }, [register])
 
@@ -147,22 +151,29 @@ export function AddEventForm(props: IAddEventForm) {
         setValue("eventName", event.target.value as string)
     };
 
-    setValue("date",props.eventInfo.date)
+    setValue("date", props.eventInfo.date)
 
     const handleDateChange = (date: Date | null) => {
+        setDate(date)
         setValue("date", date)
     };
 
-    setValue("startTime",startTime)
+    setValue("startTime", startTime)
 
     const handleStartTimeChange = (event: any, newValue: TimeOptionType | null) => {
+        if (newValue) {
+            setStartTime(newValue.time)
+        }
         setValue("startTime", newValue?.time)
-        
+
     };
 
     setValue("endTime", endTime)
 
     const handleEndTimeChange = (event: any, newValue: TimeOptionType | null) => {
+        if (newValue) {
+            setEndTime(newValue.time)
+        }
         setValue("endTime", newValue?.time)
     };
 
@@ -170,8 +181,10 @@ export function AddEventForm(props: IAddEventForm) {
         setValue("description", event.target.value as string)
     };
 
-    const handleLocationChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setValue("location", event.target.value as string)
+    const handleLocationChange = (event: React.ChangeEvent<{ value: unknown }>, value: any) => {
+        console.log(value);
+        console.log(value?.description);
+        setValue("location", value?.description as string)
     };
 
 
@@ -202,24 +215,43 @@ export function AddEventForm(props: IAddEventForm) {
                             </div>
                             <Button className={classes.formTitle} disabled>Add custom event</Button>
                             <form className="form" onSubmit={handleSubmit(onSubmit)}>
-                                <TextField
-                                    className={classes.eventName}
-                                    id="outlined-full-width"
-                                    label="Event Name"
-                                    style={{ margin: 8 }}
-                                    placeholder="Enter custom event name"
-                                    fullWidth
-                                    margin="normal"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    variant="outlined"
-                                    onChange={handleEventNameChange}
-                                />
+                                {
+                                    !errors.eventName &&
+                                    <TextField
+                                        className={classes.eventName}
+                                        id="outlined-full-width"
+                                        label="Event Name"
+                                        style={{ margin: 8 }}
+                                        placeholder="Enter custom event name"
+                                        fullWidth
+                                        margin="normal"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        variant="outlined"
+                                        onChange={handleEventNameChange}
+                                    />}
+                                {
+                                    errors.eventName &&
+                                    <TextField
+                                        className={classes.eventName}
+                                        id="outlined-full-width"
+                                        label="Event Name"
+                                        style={{ margin: 8 }}
+                                        fullWidth
+                                        margin="normal"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        variant="outlined"
+                                        onChange={handleEventNameChange}
+                                        error
+                                        helperText="Event name is required."
+                                    />}
                                 <div className={classes.dateTime}>
                                     <FormControl className={classes.date}>
                                         <MaterialUIPickers
-                                            date={props.eventInfo.date}
+                                            date={date}
                                             handleDateChange={handleDateChange}
                                         />
                                     </FormControl>
@@ -231,18 +263,42 @@ export function AddEventForm(props: IAddEventForm) {
                                     />
                                 </div>
                                 <LocationSelect
+                                    errors={errors.location}
                                     handleLocationChange={handleLocationChange} />
-                                <TextField
-                                    className={classes.description}
-                                    id="outlined-multiline-static"
-                                    label="Enter Description"
-                                    multiline
-                                    rows="4"
-                                    placeholder="Enter Description"
-                                    variant="outlined"
-                                    onChange={handleDescriptionChange}
-                                    style={{ width: 514 }}
-                                />
+                                {
+                                    !errors.description &&
+                                    <TextField
+                                        className={classes.description}
+                                        id="outlined-multiline-static"
+                                        label="Description"
+                                        multiline
+                                        rows="4"
+                                        placeholder="Enter Description"
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={handleDescriptionChange}
+                                        style={{ width: 514 }}
+                                    />}
+                                {
+                                    errors.description &&
+                                    <TextField
+                                        className={classes.description}
+                                        id="outlined-multiline-static"
+                                        label="Description"
+                                        multiline
+                                        rows="4"
+                                        variant="outlined"
+                                        onChange={handleDescriptionChange}
+                                        style={{ width: 514 }}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        error
+                                        helperText="Description is required."
+                                    />
+                                }
 
 
                                 <div className={classes.createButtonColumn}>

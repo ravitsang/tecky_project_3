@@ -47,7 +47,8 @@ interface PlaceType {
 
 export interface ILocationSelect{
 
-  handleLocationChange:(event: React.ChangeEvent<{ value: unknown }>) => void
+  errors:boolean
+  handleLocationChange:(event: React.ChangeEvent<{ value: unknown }>, value:any ) => void
 }
 
 
@@ -73,8 +74,11 @@ export function LocationSelect(props:ILocationSelect) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
     // props.handleLocationChange(options)
-    console.log(setOptions);
-    console.log(loaded);
+    // console.log(setOptions);
+    // console.log(loaded);
+    // console.log(options);
+    // console.log(event.target.value);
+
   };
 
   const fetch = React.useMemo(
@@ -106,10 +110,14 @@ export function LocationSelect(props:ILocationSelect) {
       }
     });
 
+    // console.log(autocompleteService.current);
     return () => {
       active = false;
     };
   }, [inputValue, fetch]);
+
+
+
 
   return (
     <Autocomplete
@@ -120,6 +128,8 @@ export function LocationSelect(props:ILocationSelect) {
       options={options}
       autoComplete
       includeInputInList
+      // autoSelect={true}
+      onChange={(event: any, value:any )=> props.handleLocationChange(event,value)}
       renderInput={params => (
         <TextField
           {...params}
@@ -135,6 +145,8 @@ export function LocationSelect(props:ILocationSelect) {
           option.structured_formatting.main_text,
           matches.map((match: any) => [match.offset, match.offset + match.length]),
         );
+
+
 
         return (
           <Grid container alignItems="center">
