@@ -15,6 +15,13 @@ export function getFilteredAttraction(tagId:number,attractions:IAttraction[]){
     }
 }
 
+export function addAttraction(attractionId:number){
+    return{
+        type: "ADD_ATTRACTION" as "ADD_ATTRACTION",
+        attractionId
+    }
+}
+
 export function failed(msg:string){
     return{
         type: "FAILED" as "FAILED",
@@ -24,6 +31,7 @@ export function failed(msg:string){
 
 
 type actionCreators = typeof getAllAttractions |
+                        typeof addAttraction |
                         typeof getFilteredAttraction |
                         typeof failed
 

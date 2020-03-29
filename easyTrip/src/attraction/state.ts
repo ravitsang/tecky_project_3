@@ -8,9 +8,9 @@ export interface IAttraction{
     location: string
     telephone: string
     url:string
+    isClick: boolean
 }
 
 export interface IAttractionState{
-    attractions: IAttraction[],
-    isClick: boolean
+    attractions: IAttraction[]
 }

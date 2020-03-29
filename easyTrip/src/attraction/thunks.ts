@@ -30,3 +30,9 @@ export function getFilteredAttractionThunk(tagId:number){
         }
     }
 }
+
+export function addAttractionThunk(attractionId:number){
+    return async (dispatch:ThunkDispatch)=>{
+        
+    }
+}

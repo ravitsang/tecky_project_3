@@ -1,5 +1,6 @@
 import { ThunkDispatch } from '../store'
 import { createScheduleItem, failed, deleteScheduleItem, getAllScheduleItems } from "./actions";
+import { IAttraction } from '../attraction/state';
 
 const REACT_APP_API_SERVER = process.env
 
@@ -16,7 +17,7 @@ export function getAllScheduleItemsThunk(){
     }
 }
 
-export function createScheduleItemThunk(){
+export function createScheduleItemThunk(attraction:IAttraction){
     return async (dispatch:ThunkDispatch)=>{
         const res = await fetch(`${REACT_APP_API_SERVER}/schedule`,{
             method: "POST"
@@ -24,7 +25,7 @@ export function createScheduleItemThunk(){
         const result = await res.json();
 
         if(result.success){ 
-            dispatch(createScheduleItem(result.data.id));
+            // dispatch(createScheduleItem(result.data.id));
         }else{
             dispatch(failed(result.msg));
         }

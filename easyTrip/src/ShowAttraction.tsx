@@ -1,42 +1,48 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from './store';
 import { IAttraction } from './attraction/state';
 import { IScheduleItem } from './scheduleItem/state';
 import { getAllAttractionsThunk } from './attraction/thunks';
-import { getAllScheduleItemsThunk, createScheduleItemThunk, deleteScheduleItemThunk } from './scheduleItem/thunks';
-import { SimpleMap } from './Map';
+import SimpleMap from './Map';
 import AttractionCard from './AttractionCard';
 import './ShowAttraction.scss'
-import { FaPlus } from 'react-icons/fa';
-import { TiTick } from 'react-icons/ti';
-import ScheduleCard from './ScheduleCard';
+import ScheduleCard, { EmptyScheduleCard } from './ScheduleCard';
+import { Col, Row, Container } from 'reactstrap';
+import { addAttraction } from './attraction/actions';
+import { deleteScheduleItem, createScheduleItem } from './scheduleItem/actions';
+import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    title: {
+      margin: theme.spacing(4, 0, 2),
+    },
+  }),
+);
 
-
-export function ShowAttraction(props:RouteComponentProps<{tripId:string,scheduleItemId:string}>){
-    const dispatch = useDispatch();
+export function ShowAttraction(){
     
-    const attractions = useSelector((state:IRootState)=> state.attraction.attractions,shallowEqual);
-    console.log(attractions)
-    const isClick = useSelector((state:IRootState)=> state.attraction.isClick);
-    const currentTrip = useSelector((state:IRootState)=> 
-        state.scheduleItem.scheduleItems.find(scheduleItem=>scheduleItem.tripId === parseInt(props.match.params.tripId)));
-    // const scheduleItems = currentTrip ? currentTrip :  ;
+    const dispatch = useDispatch();
+    const classes = useStyles();
+    
+    const attractions = useSelector((state:IRootState)=> state.attraction.attractions);
+    const scheduleItems = useSelector((state:IRootState)=> state.scheduleItem.scheduleItems);
 
+    
+    
     useEffect(()=>{
         dispatch(getAllAttractionsThunk());
-        dispatch(getAllScheduleItemsThunk());
+        // dispatch(getAllScheduleItems());
     },[dispatch])
 
-    const renderAttractions=(i:number,key:string,attraction:IAttraction,isClick:boolean)=>{
+    const renderAttractions=(i:number,key:string,attraction:IAttraction)=>{
         return <AttractionCard
             attraction={attraction}
             key={key}
             value={"+"}
             attractionOnClick={()=>handleAttractionClick(i)}
-            isClick={isClick} />
+            />
     }
 
     const renderScheduleItems=(i:number,key:string,scheduleItem:IScheduleItem)=>{
@@ -47,43 +53,75 @@ export function ShowAttraction(props:RouteComponentProps<{tripId:string,schedule
     }
 
     const handleAttractionClick=(i:number)=>{
-        isClick ? deleteScheduleItemThunk(parseInt(props.match.params.scheduleItemId)) 
-                : createScheduleItemThunk();
+        attractions.map(attraction=>{
+            if(attraction.id === i){
+                // dispatch(addAttraction(attraction.id));
+                dispatch(createScheduleItem(attraction));
+
+                const scheduleItemsString = localStorage.getItem('scheduleItems') || "[]";
+                const scheduleItems = JSON.parse(scheduleItemsString);
+                scheduleItems.push({
+                attractionId: attraction.id,
+                name: attraction.name
+                });
+                localStorage.setItem('scheduleItems',JSON.stringify(scheduleItems));
+            }
+        })
+
+        
     }
 
     const handleBinClick=(i:number)=>{
-        deleteScheduleItemThunk(parseInt(props.match.params.scheduleItemId)) 
+        scheduleItems.map(scheduleItem=>{
+            if(scheduleItem.id === i){
+                dispatch(deleteScheduleItem(scheduleItem.id));
+                const scheduleItemsString = localStorage.getItem('scheduleItems') || "[]";
+                const newScheduleItems:IScheduleItem[] = JSON.parse(scheduleItemsString);
+                newScheduleItems.splice(newScheduleItems.indexOf(scheduleItem),1)
+                localStorage.setItem('scheduleItems',JSON.stringify(newScheduleItems));
+            }
+        });
     }
 
     return(
-        <div className="container">
-            <div className="schedule-area">               
-                {/* {scheduleItems.map(scheduleItem=>(
-                    <div>
-                        {
-                            renderScheduleItems(
-                                scheduleItem.id,
-                                `scheduleItem_${scheduleItem.id}`,
-                                scheduleItem
-                            )
-                        }
-                    </div>
-                ))} */}
+        <div>
+            <div className="map-area">
+                {/* <SimpleMap /> */}
             </div>
-            <div className="attraction-area">
-                {attractions.map(attraction =>(
-                    <div key={`attraction_${attraction.id}`}>
-                        {
-                            renderAttractions(
-                                attraction.id,
-                                `$attraction_${attraction.id}`,
-                                attraction,
-                                false
-                            )
-                        }
-                    </div>
-                ))}
-            </div>
+            <Container>
+                <Typography variant="h6" className={classes.title}>
+                    Selected Attractions
+                </Typography>
+                <Row>
+                    <Col className="schedule-area" md="3">
+                        {scheduleItems.length === 0 && <EmptyScheduleCard/>}         
+                        {scheduleItems.length > 0 && scheduleItems.map(scheduleItem=>(
+                            <div key={`scheduleItem_${scheduleItem.id}`}>
+                                {
+                                    renderScheduleItems(
+                                        scheduleItem.id,
+                                        `scheduleItem_${scheduleItem.id}`,
+                                        scheduleItem
+                                    )
+                                }
+                            </div>
+                        ))}
+                    </Col> 
+                    <Col className="attraction-area" md="9">
+                        {attractions.map(attraction =>(
+                            <div key={`attraction_${attraction.id}`}>
+                                {
+                                    renderAttractions(
+                                        attraction.id,
+                                        `$attraction_${attraction.id}`,
+                                        attraction
+                                    )
+                                }
+                            </div>
+                        ))}
+                    </Col>
+                </Row>
+            </Container>
         </div>
     )
 }

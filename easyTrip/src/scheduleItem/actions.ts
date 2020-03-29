@@ -1,4 +1,5 @@
 import { IScheduleItem } from "./state"
+import { IAttraction } from "../attraction/state"
 
 
 export function getAllScheduleItems(scheduleItems:IScheduleItem[]){
@@ -8,10 +9,10 @@ export function getAllScheduleItems(scheduleItems:IScheduleItem[]){
     }
 }
 
-export function createScheduleItem(scheduleItemId:number){
+export function createScheduleItem(attraction:IAttraction){
     return{
         type: "CREATE_SCHEDULE_ITEM" as "CREATE_SCHEDULE_ITEM",
-        scheduleItemId
+        attraction
     }
 }
 

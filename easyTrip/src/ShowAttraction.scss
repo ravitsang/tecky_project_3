@@ -1,3 +1,8 @@
+.map-area{
+    width: 100%;
+    height: 500px;
+}
+
 .attraction-area{
     display: flex;
     flex-wrap: wrap;
@@ -9,4 +14,5 @@
 
 .attraction-row{
     display: flex;
+    flex-wrap: wrap;
 }
