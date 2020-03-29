@@ -30,6 +30,8 @@ export function TabBar() {
 
   const dispatch = useDispatch();
 
+  //因為個TabBar唔係好似Navbar咁樣分開放，而係放左係每一頁入面，一撳完會重新個State變返做0，再撳多下先會變。
+
 
 
   return (
