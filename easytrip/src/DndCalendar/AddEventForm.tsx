@@ -13,6 +13,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { LocationSelect } from './LocationSelect'
 import { useForm } from 'react-hook-form';
 import { MUITimePicker, TimeOptionType } from './MUITimePicker';
+import { useDispatch } from 'react-redux';
+import { addEvent } from '../trip/actions';
 // import 'date-fns';
 
 // import DateFnsUtils from '@date-io/date-fns';
@@ -57,8 +59,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         createButton: {
             fontWeight: 'bold',
-            width: 150,
-            height: 40,
+            width: 100,
+            height: 45,
             backgroundColor: "#444444",
             color: "#FFFFFF",
             borderRadius: 100,
@@ -69,12 +71,13 @@ const useStyles = makeStyles((theme: Theme) =>
         createButtonColumn: {
             display: 'flex',
             justifyContent: "center",
-            paddingTop: 20
+            paddingTop: 30
         },
         formTitle: {
-            marginBottom: 40,
+            marginBottom: 50,
+            marginTop: -10,
             textTransform: 'none',
-            fontSize: 18,
+            fontSize: 23,
             color: '#424242 !important',
             fontWeight: 800,
             paddingTop: 0
@@ -112,22 +115,21 @@ export interface IAddEventForm {
     isShowing: boolean
     hide: () => void
     eventInfo: any
+    showAddEventMessageToggle: () => void
 }
 
 
 export function AddEventForm(props: IAddEventForm) {
 
-
-
-
-
+    const [eventName, setEventName] = useState('')
     const [startTime, setStartTime] = useState(moment(props.eventInfo.date).format('LT'))
     const [endTime, setEndTime] = useState(moment(props.eventInfo.date).add(1, 'hour').format('LT'))
     const [date, setDate] = useState(props.eventInfo.date)
-
+    const [desciption, setDesciption] = useState('')
 
     const classes = useStyles();
 
+    const dispatch = useDispatch()
 
     // react hooks form settings
 
@@ -145,9 +147,13 @@ export function AddEventForm(props: IAddEventForm) {
 
     const onSubmit = (values: any) => {
         console.log(values);
+        props.showAddEventMessageToggle()
+        dispatch(addEvent(props.eventInfo))
+        props.hide()
     }
 
     const handleEventNameChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setEventName(event.target.value as string)
         setValue("eventName", event.target.value as string)
     };
 
@@ -161,9 +167,8 @@ export function AddEventForm(props: IAddEventForm) {
     setValue("startTime", startTime)
 
     const handleStartTimeChange = (event: any, newValue: TimeOptionType | null) => {
-        if (newValue) {
-            setStartTime(newValue.time)
-        }
+
+        setStartTime(newValue?.time as string)
         setValue("startTime", newValue?.time)
 
     };
@@ -171,13 +176,13 @@ export function AddEventForm(props: IAddEventForm) {
     setValue("endTime", endTime)
 
     const handleEndTimeChange = (event: any, newValue: TimeOptionType | null) => {
-        if (newValue) {
-            setEndTime(newValue.time)
-        }
+        setEndTime(newValue?.time as string)
         setValue("endTime", newValue?.time)
     };
 
     const handleDescriptionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+
+        setDesciption(event.target.value as string)
         setValue("description", event.target.value as string)
     };
 
@@ -229,6 +234,7 @@ export function AddEventForm(props: IAddEventForm) {
                                             shrink: true,
                                         }}
                                         variant="outlined"
+                                        value={eventName}
                                         onChange={handleEventNameChange}
                                     />}
                                 {
@@ -246,6 +252,7 @@ export function AddEventForm(props: IAddEventForm) {
                                         variant="outlined"
                                         onChange={handleEventNameChange}
                                         error
+                                        value={eventName}
                                         helperText="Event name is required."
                                     />}
                                 <div className={classes.dateTime}>
@@ -278,6 +285,7 @@ export function AddEventForm(props: IAddEventForm) {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        value={desciption}
                                         onChange={handleDescriptionChange}
                                         style={{ width: 514 }}
                                     />}
@@ -290,11 +298,12 @@ export function AddEventForm(props: IAddEventForm) {
                                         multiline
                                         rows="4"
                                         variant="outlined"
-                                        onChange={handleDescriptionChange}
-                                        style={{ width: 514 }}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        value={desciption}
+                                        onChange={handleDescriptionChange}
+                                        style={{ width: 514 }}
                                         error
                                         helperText="Description is required."
                                     />

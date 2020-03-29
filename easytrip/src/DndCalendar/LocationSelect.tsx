@@ -133,10 +133,14 @@ export function LocationSelect(props:ILocationSelect) {
       renderInput={params => (
         <TextField
           {...params}
-          label="Add a location"
+          label="Location"
           variant="outlined"
           fullWidth
           onChange={handleChange}
+          placeholder="Enter Location"
+          InputLabelProps={{
+            shrink: true,
+        }}
         />
       )}
       renderOption={option => {
