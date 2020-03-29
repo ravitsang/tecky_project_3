@@ -1,3 +1,5 @@
+import { IScheduleItem } from "../scheduleItem/state";
+
 export interface ITrip {
 
     city: string
@@ -43,11 +45,6 @@ export interface ICalendarEvents {
     constraint?:IConstraint
 }
 
-export interface ITripEvents {
-    id: number
-    title: string
-}
-
 export interface ITripSchedule {
 
     city: string
@@ -55,11 +52,23 @@ export interface ITripSchedule {
     tripDays: number
 }
 
+export interface ITripEvents {
+    id: number
+    title: string
+    location?: string
+    description?: string
+    startTime?: Date
+    endTime?: Date
+    date?: string
+    image?: string
+
+}
+
 export interface ITripState {
 
     tripSchedule: ITripSchedule
     calendarEvents: ICalendarEvents[]
     tripEvents: ITripEvents[]
-    externalEvents: ITripEvents[]
+    externalEvents: IScheduleItem[]
     eventTimeConstraint: Date []
 }

@@ -79,7 +79,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export function ShowItinerary() {
     const classes = useStyles();
     const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
+    const tripEvents = useSelector((state: IRootState) => state.trip.tripEvents)
 
+    console.log(tripEvents);
     const startDateInfor = tripSchedule.dateInfor[0]
 
 
