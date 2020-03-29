@@ -10,7 +10,25 @@ let id = 0;
 
 const initialState: ITripState = {
 
-    tripSchedule: localStorage.getItem("tripSchedule") ? JSON.parse(localStorage.getItem("tripSchedule") || "{}") : "{}",
+    tripSchedule: localStorage.getItem("tripSchedule") ? JSON.parse(localStorage.getItem("tripSchedule") || "{}") : {
+        city: "",
+        dateInfor: [
+            {
+                startDate: undefined,
+                endDate: undefined,
+                year: 0,
+                month: [],
+                days: []
+            },
+            {
+                startDate: undefined,
+                endDate: undefined,
+                year: 0,
+                month: [],
+                days: []
+            }],
+        tripDays: 0
+    },
     calendarEvents: [],
     tripEvents: [
         { id: 1, title: 'Ocean Park' },
@@ -36,10 +54,11 @@ const initialState: ITripState = {
 
 export const tripReducer = (state: ITripState = initialState, action: ITripActions) => {
 
-    // let startDate = state.tripSchedule.dateInfor[0].startDate ? state.tripSchedule.dateInfor[0].startDate : ""
-    // let endDate = state.tripSchedule.dateInfor[1].endDate ? state.tripSchedule.dateInfor[1].endDate : ""
-    let startDate = "";
-    let endDate = "";
+
+
+    let startDate = state.tripSchedule?.dateInfor[0].startDate ? state.tripSchedule.dateInfor[0].startDate : "";
+    let endDate = state.tripSchedule?.dateInfor[1].endDate ? state.tripSchedule.dateInfor[1].endDate : "";
+
 
     switch (action.type) {
 
@@ -156,7 +175,7 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
             return {
                 ...state,
                 eventTimeConstraint: [new Date(startDate), new Date(endDate)],
-                calendarEvents: state.calendarEvents.concat([
+                calendarEvents: [
                     {
                         id: 1,
                         title: 'Arrival',
@@ -184,7 +203,7 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                             start: new Date(startDate)
                         }
                     }
-                ])
+                ]
             }
 
         // case "DISPLAY_EVENT_CLICK":
@@ -196,14 +215,14 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
         case "UPDATE_CONSTRAINT":
             console.log(action.eventId);
             const updateTime = state.calendarEvents.find(event => event.id === action.eventId)
-            const startTime = updateTime?.start ? updateTime?.start : new Date ()
-            const endTime = updateTime?.end ? updateTime?.end : new Date ()
+            const startTime = updateTime?.start ? updateTime?.start : new Date()
+            const endTime = updateTime?.end ? updateTime?.end : new Date()
 
 
             console.log(updateTime);
             return {
                 ...state,
-                eventTimeConstraint: action.eventId === 1 ? [startTime,state.eventTimeConstraint[1]] : [state.eventTimeConstraint[0],endTime],
+                eventTimeConstraint: action.eventId === 1 ? [startTime, state.eventTimeConstraint[1]] : [state.eventTimeConstraint[0], endTime],
                 calendarEvents: state.calendarEvents.map(event => {
 
                     if (event.id !== 1 && action.eventId === 1) {

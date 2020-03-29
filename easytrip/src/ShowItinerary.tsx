@@ -1,7 +1,7 @@
 import React from 'react';
 import { Theme, makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { CardActionArea, CardContent,CardMedia,Typography, CardHeader, IconButton, Fab, Button, Card}  from '@material-ui/core';
+import { CardActionArea, CardContent, CardMedia, Typography, CardHeader, IconButton, Fab, Button, Card } from '@material-ui/core';
 
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import EditIcon from '@material-ui/icons/Edit';
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 height: 144,
                 width: 216,
                 display: 'flex',
-                padding:0
+                padding: 0
             }
 
         },
@@ -86,13 +86,15 @@ export function ShowItinerary() {
 
     return (
         <div>
-            <TabBar />
+            <div className='tab-column'>
+                <TabBar />
+            </div>
             <div className="main">
                 <Responsive minWidth={600}>
                     <DaysBar />
                 </Responsive>
                 <div className="itinerary">
-                    <Button className={classes.dateButton}size="medium">
+                    <Button className={classes.dateButton} size="medium">
                         {`${startDateInfor.month[0]}, ${startDateInfor.days[0]}`}
                     </Button>
                     <div className="vertical"></div>

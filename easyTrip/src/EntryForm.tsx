@@ -140,7 +140,7 @@ export function EntryForm() {
             tripDays: numberOfDays
         }
         localStorage.setItem("tripSchedule", JSON.stringify(tripSchedule));
-        window.location.href = "/attraction";
+        window.location.href = "/calendar";
     }
 
 
@@ -158,7 +158,7 @@ export function EntryForm() {
     const onSubmit = (values: any) => {
         console.log(values);
         calTripDuration(values)
-        dispatch(push('/calendar'))
+        // dispatch(push('/calendar'))
 
     }
 
@@ -170,9 +170,6 @@ export function EntryForm() {
         setReactSelectValue({ selectedOption });
         console.log(selectedOption);
     }
-
-    // console.log({ startDateValue: startDateValue });
-    // console.log({ endDateValue: endDateValue });
 
 
     //material ui setting

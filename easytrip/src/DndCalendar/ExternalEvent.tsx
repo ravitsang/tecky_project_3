@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             maxWidth: 250,
+            minWidth:250,
             height: 500,
             marginTop: 80,
             marginRight: 50,

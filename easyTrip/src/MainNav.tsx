@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         search: {
             position: 'absolute',
-            left:'45%',
+            left: '45%',
             marginRight: 20,
             borderRadius: theme.shape.borderRadius,
             backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             justifyContent: 'center'
         },
-        toolBar:{
+        toolBar: {
             minHeight: 50,
         }
     }),
@@ -124,7 +124,11 @@ export function MainNav() {
                                 </IconButton>
                             </section>
                         </Responsive>
-                        <Button color="inherit"><Link to="/login"></Link> Login</Button>
+                        <Button color="inherit"><Link to="/">EntryForm</Link> </Button>
+                        <Button color="inherit"><Link to="/attraction">ShowAttraction</Link></Button>
+                        <Button color="inherit"><Link to="/itinerary">ShowItinerary</Link></Button>
+                        <Button color="inherit"><Link to="/map">MarkerClusterComponent</Link></Button>
+                        <Button color="inherit"><Link to="/calendar">DndCalendar</Link></Button>
                     </Toolbar>
                 </AppBar>
             </div>

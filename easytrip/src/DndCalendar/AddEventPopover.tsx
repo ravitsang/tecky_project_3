@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface IAddEventPopover {
     isShowing: boolean
     hide: () => void
+    isShowingForm: () => void
     mouseEvent: any
     eventInfo: any
 }
@@ -59,23 +60,23 @@ export function AddEventPopover(props: IAddEventPopover) {
     // const dispatch = useDispatch();
 
     const [isShowingForm, setIsShowingForm] = useState(false)
-    const [isHidePopover, setIsHidePopover] = useState(false)
+    const [isHidePopover, setIsHidePopover] = useState(null)
 
 
     function toggleForm() {
         setIsShowingForm(!isShowingForm)
     }
 
-    function togglePopover() {
-        setIsHidePopover(!isHidePopover)
-    }
+    // function togglePopover() {
+    //     setIsHidePopover(null)
+    // }
 
 
     const handleOnClick = () => {
         // dispatch(addEvent(props.eventInfo))
-        setIsShowingForm(true)
-        setIsHidePopover(true)
-        // props.hide()
+        props.isShowingForm()
+        // setIsHidePopover(true)
+        props.hide()
     }
 
     console.log(props.mouseEvent);
@@ -94,7 +95,7 @@ export function AddEventPopover(props: IAddEventPopover) {
                 open={props.isShowing}
                 anchorReference="anchorPosition"
                 anchorPosition={{ top: props.mouseEvent.clientY , left: props.mouseEvent.clientX }}
-                onClose={togglePopover}
+                onClose={()=>props.hide()}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',

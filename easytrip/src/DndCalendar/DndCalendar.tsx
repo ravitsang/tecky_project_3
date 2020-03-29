@@ -36,18 +36,27 @@ export function DndCalendar() {
     const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
     const eventTimeConstraint = useSelector((state: IRootState) => state.trip.eventTimeConstraint)
 
+    const startDate = tripSchedule.dateInfor[0].startDate;
+    const endDate = tripSchedule.dateInfor[1].endDate;
 
-    const startDate = tripSchedule.dateInfor[0].startDate
+    const start = Date.parse((startDate ? startDate : ""));
+    const end = Date.parse((endDate ? endDate : ""));
+
     let startConstraint: any = eventTimeConstraint[0];
     let endConstraint: any = eventTimeConstraint[1];
 
-    // const [openAddEvent, setOpenAddEvent] = useState(false);
-    const [isShowing, setIsShowing] = useState(false);
+    const [isShowingPopover, setIsShowingPopover] = useState(false);
     const [mouseEvent, setMouseEvent] = useState(false);
     const [eventInfo, setEventInfo] = useState();
 
+    const [isShowingForm, setIsShowingForm] = useState(false);
+
     function popOverToggle() {
-        setIsShowing(!isShowing);
+        setIsShowingPopover(!isShowingPopover);
+    }
+
+    function addEventFormToggle() {
+        setIsShowingForm(!isShowingForm);
     }
 
 
@@ -56,8 +65,9 @@ export function DndCalendar() {
     function snackToggle() {
         setIsShowingSnack(!isShowingSnack);
     }
-    
 
+    let countDay = (end - start) / 1000 / 60 / 60 / 24 + 1;
+    console.log(countDay);
     useEffect(() => {
         let draggableEl: HTMLElement | null = document.getElementById("external-events");
         if (draggableEl) {
@@ -66,6 +76,7 @@ export function DndCalendar() {
             });
         }
         dispatch(addStartEndEvent())
+
     }, [])
 
 
@@ -73,16 +84,20 @@ export function DndCalendar() {
 
     const handleDateClick = (info: any) => {
 
+        setIsShowingPopover(false)
+
+        console.log(info);
+
         if (info.date - startConstraint > 0 && info.date - endConstraint < 0) {
-            setMouseEvent(info.jsEvent)
-            setIsShowing(true)
-            console.log(isShowing);
+            setMouseEvent(info.jsEvent) // need to use setstate to store mouseEvent?
+            setIsShowingPopover(true)
             setEventInfo(info)
             // setIsShowingSnack(true)
 
-        }else{
+        } else {
             console.log('cannot add event');
         }
+
 
 
     }
@@ -148,25 +163,35 @@ export function DndCalendar() {
                     </div> */}
 
                 {/* <EventSnackbar /> */}
-                { isShowing && <EventSnackbar message={deleteMessage} isShowing={isShowingSnack} hide={snackToggle}/>}
-                {isShowing && <AddEventPopover
-                                    isShowing={isShowing}
-                                    hide={popOverToggle}
-                                    mouseEvent={mouseEvent}
-                                    eventInfo={eventInfo}/>}
+                {/* { isShowingPopover && <EventSnackbar message={deleteMessage} isShowing={isShowingSnack} hide={snackToggle}/>} */}
+                {
+                    isShowingPopover && <AddEventPopover
+                        isShowing={isShowingPopover}
+                        hide={popOverToggle}
+                        isShowingForm={addEventFormToggle}
+                        mouseEvent={mouseEvent}
+                        eventInfo={eventInfo} />
+                }
+                {
+                    isShowingForm &&
+                    <AddEventForm
+                        isShowing={isShowingForm}
+                        hide={addEventFormToggle}
+                        eventInfo={eventInfo} />
+                }
                 <ExternalEvent />
                 <div>
                     <div className='demo-app-calendar'>
                         <FullCalendar
                             defaultView="timeGrid"
-                            dayCount={5}
+                            dayCount={countDay < 5 ? countDay : 5}
                             header={{
                                 left: 'prev',
                                 center: '',
                                 right: 'next'
                             }}
                             // titleFormat={'[Hong Kong]'}
-                            plugins={[timeGridPlugin, interactionPlugin,listPlugin]}
+                            plugins={[timeGridPlugin, interactionPlugin, listPlugin]}
                             ref={calendarComponentRef}
                             events={calendarEvents}
                             // rerenderDelay={10}
@@ -180,6 +205,7 @@ export function DndCalendar() {
                             allDaySlot={false}
                             defaultDate={startDate}
                             slotDuration={'00:60:00'}
+                            eventOverlap={false}
                             // displayEventTime={false}
                             aspectRatio={1.7}
                             dateIncrement={{ day: 1 }}
@@ -203,7 +229,7 @@ export function DndCalendar() {
                     </div>
                 </div>
                 {eventClick && <EventModal />}
-                
+
             </div>
 
         </div>

@@ -22,6 +22,8 @@ function loadScript(src: string, position: HTMLElement | null, id: string) {
 
 const autocompleteService = { current: null };
 
+const { REACT_APP_API_KEY } = process.env
+
 const useStyles = makeStyles(theme => ({
   icon: {
     color: theme.palette.text.secondary,
@@ -43,16 +45,24 @@ interface PlaceType {
   };
 }
 
-export function LocationSelect() {
+export interface ILocationSelect{
+
+  errors:boolean
+  handleLocationChange:(event: React.ChangeEvent<{ value: unknown }>, value:any ) => void
+}
+
+
+export function LocationSelect(props:ILocationSelect) {
   const classes = useStyles();
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState<PlaceType[]>([]);
   const loaded = React.useRef(false);
 
+
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=AIzaSyC-I_3E93cGlHdFPNaHg92rCyWqKSbbCfc&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_API_KEY}&libraries=places`,
         document.querySelector('head'),
         'google-maps',
       );
@@ -63,6 +73,12 @@ export function LocationSelect() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+    // props.handleLocationChange(options)
+    // console.log(setOptions);
+    // console.log(loaded);
+    // console.log(options);
+    // console.log(event.target.value);
+
   };
 
   const fetch = React.useMemo(
@@ -94,20 +110,26 @@ export function LocationSelect() {
       }
     });
 
+    // console.log(autocompleteService.current);
     return () => {
       active = false;
     };
   }, [inputValue, fetch]);
 
+
+
+
   return (
     <Autocomplete
       id="google-map-demo"
-      style={{ width: 300 }}
+      style={{ width: 514 }}
       getOptionLabel={option => (typeof option === 'string' ? option : option.description)}
       filterOptions={x => x}
       options={options}
       autoComplete
       includeInputInList
+      // autoSelect={true}
+      onChange={(event: any, value:any )=> props.handleLocationChange(event,value)}
       renderInput={params => (
         <TextField
           {...params}
@@ -123,6 +145,8 @@ export function LocationSelect() {
           option.structured_formatting.main_text,
           matches.map((match: any) => [match.offset, match.offset + match.length]),
         );
+
+
 
         return (
           <Grid container alignItems="center">
