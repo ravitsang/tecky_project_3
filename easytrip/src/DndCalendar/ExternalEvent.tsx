@@ -69,12 +69,12 @@ export function ExternalEvent() {
                     {externalEvents.map((event: any) => (
                         <div
                             className="fc-event fc-resizable fc-item"
-                            title={event.title}
+                            title={event.name}
                             // data={event.id}
                             key={event.id}
 
                         >
-                            {event.title}
+                            {event.name}
                         </div>
                     ))}
                 </CardContent>

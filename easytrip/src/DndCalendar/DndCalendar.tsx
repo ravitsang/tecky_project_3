@@ -16,7 +16,7 @@ import './MaterialDesign.scss'
 
 import { TabBar } from '../TabBar'
 import { useDispatch, useSelector } from 'react-redux'
-import { addEvent, resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList, displayEventClick, addStartEndEvent, updateConstraint } from '../trip/actions'
+import { resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList, displayEventClick, addStartEndEvent, updateConstraint } from '../trip/actions'
 import { IRootState } from '../store'
 import { EventModal } from './EventModal';
 import { EventSnackbar } from './SnackBar';

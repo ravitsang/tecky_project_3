@@ -30,24 +30,8 @@ const initialState: ITripState = {
         tripDays: 0
     },
     calendarEvents: [],
-    tripEvents: [
-        { id: 1, title: 'Ocean Park' },
-        { id: 2, title: 'Nan Lian Garden' },
-        { id: 3, title: 'Hong Kong Museum of History' },
-        { id: 4, title: 'Hong Kong Museum of Medical Sciences' },
-        { id: 5, title: 'Latau Island' },
-        { id: 6, title: 'Hong Kong Railway Museum' },
-        { id: 7, title: 'Tian Tan Buddha (Big Buddha)' },
-    ],
-    externalEvents: [
-        { id: 1, title: 'Ocean Park' },
-        { id: 2, title: 'Nan Lian Garden' },
-        { id: 3, title: 'Hong Kong Museum of History' },
-        { id: 4, title: 'Hong Kong Museum of Medical Sciences' },
-        { id: 5, title: 'Latau Island' },
-        { id: 6, title: 'Hong Kong Railway Museum' },
-        { id: 7, title: 'Tian Tan Buddha (Big Buddha)' },
-    ],
+    tripEvents: [],
+    externalEvents: localStorage.getItem('externalEvents')? JSON.parse(localStorage.getItem('externalEvents') || '[]') : [],
     eventTimeConstraint: []
 }
 
@@ -129,9 +113,11 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
             id = Math.max(...ids) + 1
             // console.log(ids);
 
-            const tripEventIds = state.tripEvents.map(event => event.id);
-            const tripEventId = Math.max(...tripEventIds) + 1
+            let tripEventIds = state.tripEvents.map(event => event.id);
+            const tripEventId = tripEventIds.length === 0 ? 1 : Math.max(...tripEventIds) + 1
 
+            // console.log(tripEventIds);
+            console.log(tripEventId);
             // console.log(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.startTime);
 
             
@@ -159,8 +145,8 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                     title:action.eventDetail.eventName,
                     location:action.eventDetail.location,
                     description:action.eventDetail.description,
-                    startTime: action.eventDetail.startTime,
-                    endTime: action.eventDetail.endTime, // e.g "10:00 AM"
+                    startTime: startTime,
+                    endTime: endTime, // e.g "10:00 AM"
                     date: moment(action.eventDetail.date).format().split('T')[0] // e.g "2020-01-02"
                 })
             }
@@ -188,9 +174,10 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
             }
 
         case "DELETE_EXTERNAL_EVENT_LIST":
+            console.log(state.externalEvents);
             return {
                 ...state,
-                externalEvents: state.externalEvents.filter(event => event.title !== action.info.draggedEl.title)
+                externalEvents: state.externalEvents.filter(event => event.name !== action.info.draggedEl.title)
             }
 
         case "ADD_START_END_TIME":
