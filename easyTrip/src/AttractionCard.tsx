@@ -9,13 +9,11 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import './AttractionCard.scss';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { IconType } from 'react-icons/lib/cjs';
 import { IAttraction } from './attraction/state';
 
 interface IAttractionCardProps extends RouteComponentProps{
   value: string | undefined
   attractionOnClick:()=>void
-  isClick: boolean
   attraction:IAttraction
 }
 
@@ -31,11 +29,6 @@ const useStyles = makeStyles({
 export function AttractionCard(props:IAttractionCardProps){
   const classes = useStyles();
   
-  
-  const onAttractionClick = ()=>{
-    props.attractionOnClick();
-  }
-
   return (
     <Card className={classes.root}>
       <CardActionArea >
@@ -48,13 +41,16 @@ export function AttractionCard(props:IAttractionCardProps){
           <Typography gutterBottom variant="h5" component="h2">
            {props.attraction.name}
           </Typography>
+          <Typography gutterBottom variant="h5" component="h2">
+           {props.attraction.id}
+          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.attraction.description}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions className="card-btn">
-        <Button size="small" color="primary" onClick={onAttractionClick}>
+        <Button size="small" color="primary" onClick={()=>props.attractionOnClick()}>
             {props.value}
         </Button>
       </CardActions>

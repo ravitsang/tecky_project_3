@@ -3,8 +3,7 @@ import { IAttractionState } from './state'
 
 
 const initialState = {
-    attractions:[],
-    isClick: false,
+    attractions:[]
 }
 
 export const attractionReducer = (state:IAttractionState = initialState,action:IAttractionActions)=>{
@@ -12,12 +11,25 @@ export const attractionReducer = (state:IAttractionState = initialState,action:I
         case "GET_ALL_ATTRACTIONS":
             return{
                 ...state,
-                attractions: action.attractions,
-                isClick: false
+                attractions: action.attractions
                 }
         case "GET_FILTERED_ATTRACTIONS":
             return{
                 ...state
+            }
+        case "ADD_ATTRACTION":
+            return{
+                ...state,
+                attractions: state.attractions.map(attraction =>{
+                    if(attraction.id === action.attractionId ){
+                        return {
+                            ...attraction,
+                            isClick: !attraction.isClick
+                        }
+                    }else{
+                        return attraction
+                    }
+                })
             }
         case "FAILED":
             return{
