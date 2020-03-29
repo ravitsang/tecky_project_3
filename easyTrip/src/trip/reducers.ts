@@ -124,27 +124,22 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
 
         case "ADD_EVENT":
 
-            console.log(state.calendarEvents);
+            // console.log(state.calendarEvents);
             ids = state.calendarEvents.map(event => event.id)
             id = Math.max(...ids) + 1
-            console.log(ids);
+            // console.log(ids);
 
-            console.log(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.startTime);
+            const tripEventIds = state.tripEvents.map(event => event.id);
+            const tripEventId = Math.max(...tripEventIds) + 1
 
+            // console.log(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.startTime);
+
+            
             startTime = new Date(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.startTime)
             endTime = new Date(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.endTime)
 
-
             console.log(startTime);
             console.log(endTime);
-
-
-            console.log(action.eventDetail.date);
-            console.log(action.eventDetail.startTime);
-            console.log(action.eventDetail.endTime);
-
-
-
 
             return {
                 ...state,
@@ -158,6 +153,15 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                         start: state.eventTimeConstraint[0],
                         end: state.eventTimeConstraint[1]
                     }
+                }),
+                tripEvents:state.tripEvents.concat({
+                    id:tripEventId,
+                    title:action.eventDetail.eventName,
+                    location:action.eventDetail.location,
+                    description:action.eventDetail.description,
+                    startTime: action.eventDetail.startTime,
+                    endTime: action.eventDetail.endTime, // e.g "10:00 AM"
+                    date: moment(action.eventDetail.date).format().split('T')[0] // e.g "2020-01-02"
                 })
             }
 

@@ -46,6 +46,13 @@ export interface ICalendarEvents {
 export interface ITripEvents {
     id: number
     title: string
+    location?: string
+    description?: string
+    startTime?: Date
+    endTime?: Date
+    date?: string
+    image?: string
+
 }
 
 export interface ITripSchedule {
