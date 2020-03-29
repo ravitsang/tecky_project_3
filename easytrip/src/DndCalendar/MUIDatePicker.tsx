@@ -25,13 +25,7 @@ export interface IMaterialUIPickers {
 
 export function MaterialUIPickers(props: IMaterialUIPickers) {
     const classes = useStyles();
-    // The first commit of Material-UI
-    // const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    //     props.defaultDate,
-    // );
-    // const handleDateChange = (date: Date | null) => {
-    //     props.handleDateChange(date);
-    // };
+ 
 
 
 

@@ -148,20 +148,25 @@ export function AddEventForm(props: IAddEventForm) {
     const onSubmit = (values: any) => {
         console.log(values);
         props.showAddEventMessageToggle()
-        dispatch(addEvent(props.eventInfo))
+        dispatch(addEvent(props.eventInfo,values))
         props.hide()
     }
+
+
+
+    
 
     const handleEventNameChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setEventName(event.target.value as string)
         setValue("eventName", event.target.value as string)
     };
 
-    setValue("date", props.eventInfo.date)
+    setValue("date", date)
 
-    const handleDateChange = (date: Date | null) => {
-        setDate(date)
-        setValue("date", date)
+    const handleDateChange = (updatedDate: Date | null) => {
+        console.log(updatedDate);
+        setDate(updatedDate)
+        setValue("date", updatedDate)
     };
 
     setValue("startTime", startTime)

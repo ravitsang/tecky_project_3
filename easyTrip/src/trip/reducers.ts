@@ -60,6 +60,9 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
     let endDate = state.tripSchedule?.dateInfor[1].endDate ? state.tripSchedule.dateInfor[1].endDate : "";
 
 
+    let startTime:Date
+    let endTime:Date
+
     switch (action.type) {
 
         case "GET_TRIPDETAIL":
@@ -126,13 +129,30 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
             id = Math.max(...ids) + 1
             console.log(ids);
 
+            console.log(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.startTime);
+
+            startTime = new Date(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.startTime)
+            endTime = new Date(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.endTime)
+
+
+            console.log(startTime);
+            console.log(endTime);
+
+
+            console.log(action.eventDetail.date);
+            console.log(action.eventDetail.startTime);
+            console.log(action.eventDetail.endTime);
+
+
+
+
             return {
                 ...state,
                 calendarEvents: state.calendarEvents.concat({
                     id: id,
-                    title: 'New Event',
-                    start: action.info.date,
-                    end: moment(action.info.date).add(2, 'hours').toDate(),
+                    title: action.eventDetail.eventName,
+                    start: startTime,
+                    end: endTime,
                     constraint:
                     {
                         start: state.eventTimeConstraint[0],
@@ -215,8 +235,8 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
         case "UPDATE_CONSTRAINT":
             console.log(action.eventId);
             const updateTime = state.calendarEvents.find(event => event.id === action.eventId)
-            const startTime = updateTime?.start ? updateTime?.start : new Date()
-            const endTime = updateTime?.end ? updateTime?.end : new Date()
+            startTime = updateTime?.start ? updateTime?.start : new Date()
+            endTime = updateTime?.end ? updateTime?.end : new Date()
 
 
             console.log(updateTime);

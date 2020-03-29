@@ -53,11 +53,12 @@ export function resizeEvent(info: any) {
 
 }
 
-export function addEvent(info: any) {
+export function addEvent(info: any, values:any) {
 
     return {
         type: "ADD_EVENT" as "ADD_EVENT",
-        info: info
+        info: info,
+        eventDetail: values
     }
 
 }
