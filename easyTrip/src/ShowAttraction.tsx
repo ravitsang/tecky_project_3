@@ -14,51 +14,64 @@ import { deleteScheduleItem, createScheduleItem } from './scheduleItem/actions';
 import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    title: {
-      margin: theme.spacing(4, 0, 2),
-    },
-  }),
+    createStyles({
+        title: {
+            margin: theme.spacing(4, 0, 2),
+        },
+    }),
 );
 
-export function ShowAttraction(){
-    
+export function ShowAttraction() {
+
     const dispatch = useDispatch();
     const classes = useStyles();
-    
-    const attractions = useSelector((state:IRootState)=> state.attraction.attractions);
-    const scheduleItems = useSelector((state:IRootState)=> state.scheduleItem.scheduleItems);
 
-    
-    
-    useEffect(()=>{
+    const attractions = useSelector((state: IRootState) => state.attraction.attractions);
+    const scheduleItems = useSelector((state: IRootState) => state.scheduleItem.scheduleItems);
+
+
+
+    useEffect(() => {
         dispatch(getAllAttractionsThunk());
     },[dispatch])
 
-    const renderAttractions=(i:number,key:string,attraction:IAttraction)=>{
+    const renderAttractions = (i: number, key: string, attraction: IAttraction) => {
         return <AttractionCard
             attraction={attraction}
             key={key}
             value={"+"}
-            attractionOnClick={()=>handleAttractionClick(i)}
-            />
+            attractionOnClick={() => handleAttractionClick(i)}
+        />
     }
 
-    const renderScheduleItems=(i:number,key:string,scheduleItem:IScheduleItem)=>{
+    const renderScheduleItems = (i: number, key: string, scheduleItem: IScheduleItem) => {
         return <ScheduleCard
             scheduleItem={scheduleItem}
             key={key}
-            binOnClick={()=>handleBinClick(i)} />
+            binOnClick={() => handleBinClick(i)} />
     }
 
-    const handleAttractionClick=(i:number)=>{
-        attractions.map(attraction=>{
-            if(attraction.id === i){
+    const handleAttractionClick = (i: number) => {
+        attractions.map(attraction => {
+            if (attraction.id === i) {
                 // dispatch(addAttraction(attraction.id));
                 dispatch(createScheduleItem(attraction));
 
                 const scheduleItemsString = localStorage.getItem('scheduleItems') || "[]";
                 const scheduleItems = JSON.parse(scheduleItemsString);
+
+                // const found = scheduleItems.find((scheduleItem:IScheduleItem) => scheduleItem.attractionId === attraction.id)
+
+                // if (!found){
+                //     scheduleItems.push({
+                //     attractionId: attraction.id,
+                //     name: attraction.name
+                //     });
+                //     localStorage.setItem('scheduleItems',JSON.stringify(scheduleItems));
+                // }else{
+                //     console.log('Item already exists');
+                // }
+
                 scheduleItems.push({
                 attractionId: attraction.id,
                 name: attraction.name,
@@ -66,26 +79,56 @@ export function ShowAttraction(){
                 description: attraction.description,
                 image: attraction.attraction_image
                 });
-                localStorage.setItem('scheduleItems',JSON.stringify(scheduleItems));
+                localStorage.setItem('scheduleItems', JSON.stringify(scheduleItems));
+
+
+                // add items to localstorage of external events  for dragging 
+                const externalEventsString = localStorage.getItem('externalEvents') || "[]";
+                const externalEvents = JSON.parse(externalEventsString);
+
+
+
+
+                externalEvents.push({
+                    attractionId: attraction.id,
+                    name: attraction.name
+                });
+                localStorage.setItem('externalEvents', JSON.stringify(externalEvents));
+
             }
         })
 
-        
+
     }
 
-    const handleBinClick=(i:number)=>{
-        scheduleItems.map(scheduleItem=>{
-            if(scheduleItem.id === i){
+    const handleBinClick = (i: number) => {
+        scheduleItems.map(scheduleItem => {
+            if (scheduleItem.id === i) {
                 dispatch(deleteScheduleItem(scheduleItem.id));
                 const scheduleItemsString = localStorage.getItem('scheduleItems') || "[]";
-                const newScheduleItems:IScheduleItem[] = JSON.parse(scheduleItemsString);
-                newScheduleItems.splice(newScheduleItems.indexOf(scheduleItem),1)
-                localStorage.setItem('scheduleItems',JSON.stringify(newScheduleItems));
+                const newScheduleItems: IScheduleItem[] = JSON.parse(scheduleItemsString);
+
+
+                newScheduleItems.splice(newScheduleItems.indexOf(scheduleItem), 1)
+                localStorage.setItem('scheduleItems', JSON.stringify(newScheduleItems));
+
+
+                // delete the items from external events list
+                const attractionId = scheduleItem.attractionId
+                const externalEventsString = localStorage.getItem('externalEvents') || "[]";
+                const externalEvents = JSON.parse(externalEventsString);
+                const index = externalEvents.findIndex((externalEvent: IScheduleItem) => externalEvent.attractionId === attractionId )
+
+                if (index !== -1) {
+                    externalEvents.splice(index,1)
+                    localStorage.setItem('externalEvents', JSON.stringify(externalEvents));
+                }
             }
         });
+
     }
 
-    return(
+    return (
         <div>
             <div className="map-area">
                 {/* <SimpleMap /> */}
@@ -108,9 +151,9 @@ export function ShowAttraction(){
                                 }
                             </div>
                         ))}
-                    </Col> 
+                    </Col>
                     <Col className="attraction-area" md="9">
-                        {attractions.map(attraction =>(
+                        {attractions.map(attraction => (
                             <div key={`attraction_${attraction.id}`}>
                                 {
                                     renderAttractions(

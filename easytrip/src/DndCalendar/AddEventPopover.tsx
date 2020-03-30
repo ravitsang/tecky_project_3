@@ -83,13 +83,13 @@ export function AddEventPopover(props: IAddEventPopover) {
 
     return (
         <div>
-            {
+            {/* {
                 isShowingForm &&
                 <AddEventForm
                     isShowing={isShowingForm}
                     hide={toggleForm}
                     eventInfo={props.eventInfo} />
-            }
+            } */}
             <Popover
                 // id={id}
                 open={props.isShowing}
@@ -112,8 +112,8 @@ export function AddEventPopover(props: IAddEventPopover) {
                             <CloseIcon fontSize="small" />
                         </IconButton>
                     </div>
-                    <Button disabled className={classes.title}>Add activities</Button>
-                    <Button onClick={handleOnClick} className={classes.createButton}>Create custom event</Button>
+                    {/* <Button disabled className={classes.title}>Add activities</Button> */}
+                    <Button onClick={handleOnClick} className={classes.createButton}>Add custom event</Button>
                 </Typography>
             </Popover>
         </div>

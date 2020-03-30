@@ -16,7 +16,7 @@ import './MaterialDesign.scss'
 
 import { TabBar } from '../TabBar'
 import { useDispatch, useSelector } from 'react-redux'
-import { addEvent, resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList, displayEventClick, addStartEndEvent, updateConstraint } from '../trip/actions'
+import { resizeEvent, moveEvent, addExternalEvent, deleteExternalEventList, displayEventClick, addStartEndEvent, updateConstraint } from '../trip/actions'
 import { IRootState } from '../store'
 import { EventModal } from './EventModal';
 import { EventSnackbar } from './SnackBar';
@@ -51,6 +51,11 @@ export function DndCalendar() {
 
     const [isShowingForm, setIsShowingForm] = useState(false);
 
+    const [isShowingAddEventMessage, setIsShowingAddEventMessage] = useState(false)
+
+
+
+
     function popOverToggle() {
         setIsShowingPopover(!isShowingPopover);
     }
@@ -59,11 +64,15 @@ export function DndCalendar() {
         setIsShowingForm(!isShowingForm);
     }
 
+    function showAddEventMessageToggle() {
+        setIsShowingAddEventMessage(!isShowingAddEventMessage);
+    }
 
-    const [isShowingSnack, setIsShowingSnack] = useState(false);
+
+    // const [isShowingSnack, setIsShowingSnack] = useState(false);
 
     function snackToggle() {
-        setIsShowingSnack(!isShowingSnack);
+        setIsShowingAddEventMessage(!isShowingAddEventMessage);
     }
 
     let countDay = (end - start) / 1000 / 60 / 60 / 24 + 1;
@@ -80,7 +89,7 @@ export function DndCalendar() {
     }, [])
 
 
-    const deleteMessage = "Event added successfully"
+    const addEventMessage = "Event added successfully"
 
     const handleDateClick = (info: any) => {
 
@@ -93,6 +102,11 @@ export function DndCalendar() {
             setIsShowingPopover(true)
             setEventInfo(info)
             // setIsShowingSnack(true)
+            // if(isAddEvent){
+            //     dispatch(addEvent(info))
+            //     console.log('addEvent');
+            // }
+            console.log('handleDateClick');
 
         } else {
             console.log('cannot add event');
@@ -161,9 +175,6 @@ export function DndCalendar() {
                     <button onClick={gotoPast}>go to a date in the past</button>&nbsp;
                     (also, click a date/time to add an event)
                     </div> */}
-
-                {/* <EventSnackbar /> */}
-                {/* { isShowingPopover && <EventSnackbar message={deleteMessage} isShowing={isShowingSnack} hide={snackToggle}/>} */}
                 {
                     isShowingPopover && <AddEventPopover
                         isShowing={isShowingPopover}
@@ -177,7 +188,15 @@ export function DndCalendar() {
                     <AddEventForm
                         isShowing={isShowingForm}
                         hide={addEventFormToggle}
-                        eventInfo={eventInfo} />
+                        eventInfo={eventInfo}
+                        showAddEventMessageToggle={showAddEventMessageToggle} />
+                }
+                {
+                    isShowingAddEventMessage &&
+                    <EventSnackbar
+                        message={addEventMessage}
+                        isShowing={isShowingAddEventMessage}
+                        hide={snackToggle} />
                 }
                 <ExternalEvent />
                 <div>
