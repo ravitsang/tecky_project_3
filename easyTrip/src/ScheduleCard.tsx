@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       margin: theme.spacing(4, 0, 2),
     },
+    list:{
+      width:250
+    }
   }),
 );
 
@@ -43,7 +46,7 @@ export function ScheduleCard(props: IScheduleCardProps) {
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
           <div className={classes.demo}>
-            <List>
+            <List className={classes.list}>
               {
                 <ListItem>
                   <ListItemAvatar>

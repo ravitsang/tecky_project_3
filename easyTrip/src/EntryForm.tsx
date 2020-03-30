@@ -81,7 +81,7 @@ export function EntryForm() {
         let startMonthDays = []
         let endMonthDays = []
 
-        const city = values.city.value;
+        const city = values.city.label;
         const startDate = values['trip-start-date']
         const endDate = values['trip-end-date']
 
@@ -158,7 +158,7 @@ export function EntryForm() {
     const onSubmit = (values: any) => {
         console.log(values);
         calTripDuration(values)
-        // dispatch(push('/calendar'))
+
 
     }
 

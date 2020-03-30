@@ -2,3 +2,9 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.attraction-description{
+    height: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

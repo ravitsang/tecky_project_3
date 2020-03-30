@@ -17,6 +17,7 @@ import './ShowItinerary.scss'
 import './stylePage.scss'
 import moment from 'moment';
 import { ITripEvents } from './trip/state';
+import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -94,7 +95,7 @@ export function ShowItinerary() {
     const calendarEvents = useSelector((state: IRootState) => state.trip.calendarEvents)
     // console.log(calendarEvents);
     console.log(tripEvents);
-    const startDateInfor = tripSchedule.dateInfor[0]
+    const startDate = tripSchedule.dateInfor[0].startDate
 
 
 
@@ -103,8 +104,6 @@ export function ShowItinerary() {
     })
 
     const sortedTripEvents = tripEvents.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
         return (new Date(a.startTime) as any) - (new Date(b.startTime) as any);
     });
 
@@ -115,7 +114,6 @@ export function ShowItinerary() {
 
         const prevIndex = index === 0 ? index : index - 1
         console.log(prevIndex);
-        // console.log(sortedTripEvents[prevIndex].startTime);
         if (moment(sortedTripEvent.startTime).format('l') !== moment(sortedTripEvents[prevIndex].startTime).format('l') || index === 0) {
             return (
                 <>
@@ -129,17 +127,147 @@ export function ShowItinerary() {
         }
     }
 
+    const renderCityName = () => {
+
+        return (
+            <>
+                <div className="vertical"></div>
+                <div className="city-name">{tripSchedule.city}</div>
+            </>
+        )
+    }
+
+    const renderScheduleItem = (sortedTripEvent: ITripEvents, index: number) => {
+
+        // {sortedTripEvents.map((sortedTripEvent, index) => {
+        //     console.log(sortedTripEvent.title);
+        return (
+            <div className="scheduleItem">
+                {renderScheduleDate(sortedTripEvent, index)}
+                {index === 0 ? renderCityName() : <div></div>}
+                <div className="vertical"></div>
+                <div className="add-hotel-column">
+                    <Fab className={classes.hotelIcon} aria-label="edit">
+                        <HotelIcon />
+                    </Fab>
+                    <div className="add-hotel-link"><Link to="/">Add reservation</Link> for better travel calculation</div>
+                </div>
+                <div className="vertical"></div>
+                <div className="drive-time-column">
+                    <DirectionsCarIcon />
+                    <div className="drive-time"> {Math.floor(Math.random() * 60)} mins</div>
+                </div>
+                <div className="vertical"></div>
+                <Card className={`${classes.root} itinerary-card`}>
+                    <Responsive maxWidth={960}>
+                        <div className="sm-time-edit-column">
+                            <CardContent className="time-display">
+                                <div>
+                                    {moment(sortedTripEvent.startTime).format('LT')}
+                                </div>
+                                <div>
+                                    {moment(sortedTripEvent.endTime).format('LT')}
+                                </div>
+                            </CardContent>
+                            <CardContent>
+                                <EditIcon />
+                            </CardContent>
+                        </div>
+                        <div className="sm-media-header-row">
+                            <CardContent>
+                                <CardActionArea className={classes.actionArea}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        image={sortedTripEvent.attraction_image}
+                                        title={sortedTripEvent.title}
+                                    />
+                                </CardActionArea>
+                            </CardContent>
+                            <CardContent>
+                                <CardHeader className={classes.header}
+                                    classes={{
+                                        title: classes.title,
+                                    }}
+                                    title={sortedTripEvent.title}
+                                    subheader={`Location: ${sortedTripEvent.location}`}
+                                />
+                            </CardContent>
+                        </div>
+                    </Responsive>
+                    <Responsive minWidth={960}>
+                        <CardContent className="time-display">
+                            <div>
+                                {moment(sortedTripEvent.startTime).format('LT')}
+                            </div>
+                            <div>
+                                {moment(sortedTripEvent.endTime).format('LT')}
+                            </div>
+                        </CardContent>
+                        <CardContent>
+                            <CardActionArea className={classes.actionArea}>
+                                <CardMedia
+                                    className={classes.media}
+                                    image={sortedTripEvent.attraction_image}
+                                    title={sortedTripEvent.title}
+                                />
+                            </CardActionArea>
+                        </CardContent>
+                        <CardContent className={classes.textArea} >
+                            <CardHeader className={classes.header}
+                                classes={{
+                                    title: classes.title,
+                                    subheader: classes.subheader,
+                                }}
+                                action={
+                                    <IconButton aria-label="settings">
+                                        <EditIcon />
+                                    </IconButton>
+                                }
+                                title={sortedTripEvent.title}
+                                subheader={sortedTripEvent.location}
+                            />
+                            <Typography variant="body2" color="textSecondary" component="p" className="descriptionArea">
+                                {sortedTripEvent.description}
+                            </Typography>
+                        </CardContent>
+                    </Responsive>
+                </Card>
+            </div>
+        )
+        // })}
+    }
+
+
+    const renderEmptyScheduleItem = () => {
+
+        return (
+            <div>
+                <Button className={classes.dateButton} size="medium">
+                    {`${moment(new Date(startDate as any)).format('ddd')},${moment(new Date(startDate as any)).format('MMM Do')}`}
+                </Button>
+                <div className="vertical left-margin"></div>
+                <div className="add-hotel-column">
+                    <Fab className={classes.hotelIcon} aria-label="edit">
+                        <FlightTakeoffIcon />
+                    </Fab>
+                    <div className="add-hotel-link">Plan your trip in <Link to="/calendar">calendar</Link> for displaying your itinerary</div>
+                </div>
+            </div>
+        )
+    }
+
     const printDocument = () => {
-        const input = document.getElementById('itineraryPDF');
+        const input = document.getElementById('divToPrint');
         if (input !== null) {
             html2canvas(input)
                 .then((canvas) => {
                     const imgData = canvas.toDataURL('image/png');
                     const pdf = new jsPDF();
-                    pdf.addImage(imgData, 'PNG', 0, 0, 200, 280);
+                    pdf.addImage(imgData, 'JPEG', 0, 0);
                     // pdf.output('dataurlnewwindow');
-                    pdf.save("EasyTripPlanner.pdf");
+                    pdf.save("download.pdf");
                 })
+                ;
         }
     }
 
@@ -157,103 +285,11 @@ export function ShowItinerary() {
                         <DaysBar />
                     </div>
                 </Responsive>
-                <div className="itinerary" id="itineraryPDF">
-
+                <div className="itinerary">
                     {sortedTripEvents.map((sortedTripEvent, index) => {
-                        console.log(sortedTripEvent.title);
-                        return (
-                            <div className="scheduleItem">
-                                {renderScheduleDate(sortedTripEvent, index)}
-                                <div className="vertical"></div>
-                                <div className="add-hotel-column">
-                                    <Fab className={classes.hotelIcon} aria-label="edit">
-                                        <HotelIcon />
-                                    </Fab>
-                                    <div className="add-hotel-link"><Link to="/">Add reservation</Link> for better travel calculation</div>
-                                </div>
-                                <div className="vertical"></div>
-                                <div className="drive-time-column">
-                                    <DirectionsCarIcon />
-                                    <div className="drive-time"> {Math.floor(Math.random() * 60)} mins</div>
-                                </div>
-                                <div className="vertical"></div>
-                                <Card className={`${classes.root} itinerary-card`}>
-                                    <Responsive maxWidth={960}>
-                                        <div className="sm-time-edit-column">
-                                            <CardContent className="time-display">
-                                                <div>
-                                                    {moment(sortedTripEvent.startTime).format('LT')}
-                                                </div>
-                                                <div>
-                                                    {moment(sortedTripEvent.endTime).format('LT')}
-                                                </div>
-                                            </CardContent>
-                                            <CardContent>
-                                                <EditIcon />
-                                            </CardContent>
-                                        </div>
-                                        <div className="sm-media-header-row">
-                                            <CardContent>
-                                                <CardActionArea className={classes.actionArea}>
-                                                    <CardMedia
-                                                        className={classes.media}
-                                                        image={sortedTripEvent.attraction_image}
-                                                        title={sortedTripEvent.title}
-                                                    />
-                                                </CardActionArea>
-                                            </CardContent>
-                                            <CardContent>
-                                                <CardHeader className={classes.header}
-                                                    classes={{
-                                                        title: classes.title,
-                                                    }}
-                                                    title={sortedTripEvent.title}
-                                                    subheader={`Location: ${sortedTripEvent.location}`}
-                                                />
-                                            </CardContent>
-                                        </div>
-                                    </Responsive>
-                                    <Responsive minWidth={960}>
-                                        <CardContent className="time-display">
-                                            <div>
-                                                {moment(sortedTripEvent.startTime).format('LT')}
-                                            </div>
-                                            <div>
-                                                {moment(sortedTripEvent.endTime).format('LT')}
-                                            </div>
-                                        </CardContent>
-                                        <CardContent>
-                                            <CardActionArea className={classes.actionArea}>
-                                                <CardMedia
-                                                    className={classes.media}
-                                                    image={sortedTripEvent.attraction_image}
-                                                    title={sortedTripEvent.title}
-                                                />
-                                            </CardActionArea>
-                                        </CardContent>
-                                        <CardContent className={classes.textArea} >
-                                            <CardHeader className={classes.header}
-                                                classes={{
-                                                    title: classes.title,
-                                                    subheader: classes.subheader,
-                                                }}
-                                                action={
-                                                    <IconButton aria-label="settings">
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                }
-                                                title={sortedTripEvent.title}
-                                                subheader={sortedTripEvent.location}
-                                            />
-                                            <Typography variant="body2" color="textSecondary" component="p" className="descriptionArea">
-                                                {sortedTripEvent.description}
-                                            </Typography>
-                                        </CardContent>
-                                    </Responsive>
-                                </Card>
-                            </div>
-                        )
+                        return renderScheduleItem(sortedTripEvent, index)
                     })}
+                    {(sortedTripEvents.length === 0) && renderEmptyScheduleItem()}
                 </div>
             </div>
         </div>

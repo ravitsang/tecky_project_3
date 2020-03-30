@@ -17,7 +17,7 @@ import { TabBar } from './TabBar';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
-            margin: theme.spacing(4, 0, 2),
+            margin: theme.spacing(4, 0, 2)
         },
     }),
 );
