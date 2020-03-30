@@ -16,7 +16,7 @@ import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
-            margin: theme.spacing(4, 0, 2),
+            margin: theme.spacing(4, 0, 2)
         },
     }),
 );

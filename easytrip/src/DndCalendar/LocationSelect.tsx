@@ -22,7 +22,7 @@ function loadScript(src: string, position: HTMLElement | null, id: string) {
 
 const autocompleteService = { current: null };
 
-const { REACT_APP_API_KEY } = process.env
+const { REACT_APP_GOOGLE_KEY } = process.env
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -62,7 +62,7 @@ export function LocationSelect(props:ILocationSelect) {
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_API_KEY}&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_KEY}&libraries=places`,
         document.querySelector('head'),
         'google-maps',
       );
