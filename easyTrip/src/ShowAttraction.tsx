@@ -12,6 +12,7 @@ import { Col, Row, Container } from 'reactstrap';
 import { addAttraction } from './attraction/actions';
 import { deleteScheduleItem, createScheduleItem } from './scheduleItem/actions';
 import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
+import { TabBar } from './TabBar';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,14 +34,14 @@ export function ShowAttraction() {
 
     useEffect(() => {
         dispatch(getAllAttractionsThunk());
-    },[dispatch])
+    }, [dispatch])
 
     const renderAttractions = (i: number, key: string, attraction: IAttraction) => {
         return <AttractionCard
             attraction={attraction}
             key={key}
             value={"+"}
-            cardOnClick={()=> handCardClick(i)}
+            cardOnClick={() => handCardClick(i)}
             attractionOnClick={() => handleAttractionClick(i)}
         />
     }
@@ -52,9 +53,9 @@ export function ShowAttraction() {
             binOnClick={() => handleBinClick(i)} />
     }
 
-    const handCardClick = (i:number)=>{
-        attractions.map(attraction=>{
-            if(attraction.id === i){
+    const handCardClick = (i: number) => {
+        attractions.map(attraction => {
+            if (attraction.id === i) {
                 dispatch(getLatLngThunk(attraction.location))
             }
         })
@@ -132,10 +133,10 @@ export function ShowAttraction() {
                 const attractionId = scheduleItem.attractionId
                 const externalEventsString = localStorage.getItem('externalEvents') || "[]";
                 const externalEvents = JSON.parse(externalEventsString);
-                const index = externalEvents.findIndex((externalEvent: IScheduleItem) => externalEvent.attractionId === attractionId )
+                const index = externalEvents.findIndex((externalEvent: IScheduleItem) => externalEvent.attractionId === attractionId)
 
                 if (index !== -1) {
-                    externalEvents.splice(index,1)
+                    externalEvents.splice(index, 1)
                     localStorage.setItem('externalEvents', JSON.stringify(externalEvents));
                 }
             }
@@ -145,8 +146,11 @@ export function ShowAttraction() {
 
     return (
         <div>
+            <div className='tab-column'>
+                <TabBar />
+            </div>
             <div className="map-area">
-                <SimpleMap attractions={attractions}/>
+                <SimpleMap attractions={attractions} />
             </div>
             <Container>
                 <Row>
@@ -154,8 +158,8 @@ export function ShowAttraction() {
                         <Typography variant="h6" className={classes.title}>
                             Selected Attractions
                         </Typography>
-                        {scheduleItems.length === 0 && <EmptyScheduleCard/>}         
-                        {scheduleItems.length > 0 && scheduleItems.map(scheduleItem=>(
+                        {scheduleItems.length === 0 && <EmptyScheduleCard />}
+                        {scheduleItems.length > 0 && scheduleItems.map(scheduleItem => (
                             <div key={`scheduleItem_${scheduleItem.id}`}>
                                 {
                                     renderScheduleItems(

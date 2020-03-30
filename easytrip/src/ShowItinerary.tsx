@@ -17,6 +17,8 @@ import './ShowItinerary.scss'
 import './stylePage.scss'
 import moment from 'moment';
 import { ITripEvents } from './trip/state';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -108,13 +110,13 @@ export function ShowItinerary() {
 
     console.log(sortedTripEvents);
 
-    const renderScheduleDate = (sortedTripEvent:ITripEvents, index:number) => {
+    const renderScheduleDate = (sortedTripEvent: ITripEvents, index: number) => {
 
 
         const prevIndex = index === 0 ? index : index - 1
         console.log(prevIndex);
         // console.log(sortedTripEvents[prevIndex].startTime);
-        if (moment(sortedTripEvent.startTime).format('l') !== moment(sortedTripEvents[prevIndex].startTime).format('l') || index === 0){
+        if (moment(sortedTripEvent.startTime).format('l') !== moment(sortedTripEvents[prevIndex].startTime).format('l') || index === 0) {
             return (
                 <>
                     <Button className={classes.dateButton} size="medium">
@@ -127,6 +129,20 @@ export function ShowItinerary() {
         }
     }
 
+    const printDocument = () => {
+        const input = document.getElementById('itineraryPDF');
+        if (input !== null) {
+            html2canvas(input)
+                .then((canvas) => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF();
+                    pdf.addImage(imgData, 'PNG', 0, 0, 200, 280);
+                    // pdf.output('dataurlnewwindow');
+                    pdf.save("EasyTripPlanner.pdf");
+                })
+        }
+    }
+
 
     return (
         <div>
@@ -134,14 +150,16 @@ export function ShowItinerary() {
                 <TabBar />
             </div>
             <div className="main">
+
                 <Responsive minWidth={600}>
                     <div className="days-bar">
+                        <button onClick={printDocument} style={{ padding: 10, borderRadius: 5, borderColor: '#6A6A6A', backgroundColor: '#6A6A6A', color: '#fff' }}>Export PDF</button>
                         <DaysBar />
                     </div>
                 </Responsive>
-                <div className="itinerary">
+                <div className="itinerary" id="itineraryPDF">
 
-                    {sortedTripEvents.map((sortedTripEvent, index)=> {
+                    {sortedTripEvents.map((sortedTripEvent, index) => {
                         console.log(sortedTripEvent.title);
                         return (
                             <div className="scheduleItem">
@@ -156,7 +174,7 @@ export function ShowItinerary() {
                                 <div className="vertical"></div>
                                 <div className="drive-time-column">
                                     <DirectionsCarIcon />
-                                    <div className="drive-time"> {Math.floor(Math.random()* 60)} mins</div>
+                                    <div className="drive-time"> {Math.floor(Math.random() * 60)} mins</div>
                                 </div>
                                 <div className="vertical"></div>
                                 <Card className={`${classes.root} itinerary-card`}>

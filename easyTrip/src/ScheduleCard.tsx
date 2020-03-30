@@ -13,8 +13,8 @@ import { FaLandmark } from 'react-icons/fa';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { IScheduleItem } from './scheduleItem/state';
 
-interface IScheduleCardProps extends RouteComponentProps{
-  binOnClick:()=>void
+interface IScheduleCardProps extends RouteComponentProps {
+  binOnClick: () => void
   scheduleItem: IScheduleItem
 }
 
@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     demo: {
       backgroundColor: theme.palette.background.paper,
+      width: 280,
+      maxWidth: 280
     },
     title: {
       margin: theme.spacing(4, 0, 2),
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export function ScheduleCard(props:IScheduleCardProps) {
+export function ScheduleCard(props: IScheduleCardProps) {
   const classes = useStyles();
 
   return (
@@ -53,7 +55,7 @@ export function ScheduleCard(props:IScheduleCardProps) {
                     primary={props.scheduleItem.name}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete" onClick={()=>props.binOnClick()}>
+                    <IconButton edge="end" aria-label="delete" onClick={() => props.binOnClick()}>
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>

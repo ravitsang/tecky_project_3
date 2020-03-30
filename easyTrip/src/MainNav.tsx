@@ -101,7 +101,7 @@ export function MainNav() {
                         <Typography variant="h6" className={classes.title}>
                             <Link className="logo" to="/">EasyTrip</Link>
                         </Typography>
-                        <Responsive minWidth={768}>
+                        {/* <Responsive minWidth={768}>
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon />
@@ -123,12 +123,12 @@ export function MainNav() {
                                     <SearchIcon />
                                 </IconButton>
                             </section>
-                        </Responsive>
-                        <Button color="inherit"><Link to="/">EntryForm</Link> </Button>
+                        </Responsive> */}
+                        {/* <Button color="inherit"><Link to="/">EntryForm</Link> </Button>
                         <Button color="inherit"><Link to="/attraction">ShowAttraction</Link></Button>
                         <Button color="inherit"><Link to="/itinerary">ShowItinerary</Link></Button>
                         <Button color="inherit"><Link to="/map">MarkerClusterComponent</Link></Button>
-                        <Button color="inherit"><Link to="/calendar">DndCalendar</Link></Button>
+                        <Button color="inherit"><Link to="/calendar">DndCalendar</Link></Button> */}
                     </Toolbar>
                 </AppBar>
             </div>
