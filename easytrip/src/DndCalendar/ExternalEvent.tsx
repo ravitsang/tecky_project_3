@@ -55,6 +55,8 @@ export function ExternalEvent() {
     const externalEvents = useSelector((state: IRootState) => state.trip.externalEvents)
 
 
+
+
     return (
         <Card className={classes.root}>
             <div id='external-events'>
@@ -70,8 +72,9 @@ export function ExternalEvent() {
                         <div
                             className="fc-event fc-resizable fc-item"
                             title={event.name}
-                            // data={event.id}
-                            key={event.id}
+                            id={event.attractionId} // pass the attraction id into draggedEl 
+                            // data={parseInt(event.attractionId)}
+                            // key={event.id}
 
                         >
                             {event.name}

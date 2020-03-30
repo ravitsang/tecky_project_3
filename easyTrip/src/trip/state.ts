@@ -57,10 +57,9 @@ export interface ITripEvents {
     title: string
     location?: string
     description?: string
-    startTime?: Date
-    endTime?: Date
-    date?: string
-    image?: string
+    startTime: string
+    endTime: string
+    attraction_image?: string
 
 }
 

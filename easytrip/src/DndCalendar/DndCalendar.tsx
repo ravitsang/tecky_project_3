@@ -86,7 +86,7 @@ export function DndCalendar() {
         }
         dispatch(addStartEndEvent())
 
-    }, [])
+    }, [dispatch])
 
 
     const addEventMessage = "Event added successfully"

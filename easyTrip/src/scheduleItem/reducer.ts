@@ -20,6 +20,11 @@ export const scheduleItemReducer = (state:IScheduleItemState = initialState,acti
                     id: state.scheduleItems.length + 1,
                     attractionId: action.attraction.id,
                     name: action.attraction.name,
+                    description: action.attraction.description,
+                    location: action.attraction.location,
+                    telephone: action.attraction.telephone,
+                    url: action.attraction.url,
+                    attraction_image: action.attraction.attraction_image,
                     type: "attraction"
                 }])
             }
