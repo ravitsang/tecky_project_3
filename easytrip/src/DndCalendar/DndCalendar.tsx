@@ -42,8 +42,8 @@ export function DndCalendar() {
     const start = Date.parse((startDate ? startDate : ""));
     const end = Date.parse((endDate ? endDate : ""));
 
-    let startConstraint: any = eventTimeConstraint[0];
-    let endConstraint: any = eventTimeConstraint[1];
+    let startConstraint: any = new Date(eventTimeConstraint[0]);
+    let endConstraint: any = new Date(eventTimeConstraint[1]);
 
     const [isShowingPopover, setIsShowingPopover] = useState(false);
     const [mouseEvent, setMouseEvent] = useState(false);
@@ -54,7 +54,7 @@ export function DndCalendar() {
     const [isShowingAddEventMessage, setIsShowingAddEventMessage] = useState(false)
 
 
-
+    console.log(calendarEvents);
 
     function popOverToggle() {
         setIsShowingPopover(!isShowingPopover);
@@ -84,7 +84,9 @@ export function DndCalendar() {
                 itemSelector: ".fc-event"
             });
         }
-        dispatch(addStartEndEvent())
+        if (calendarEvents.length === 0 ){
+            dispatch(addStartEndEvent())
+        }
 
     }, [dispatch])
 
@@ -95,17 +97,17 @@ export function DndCalendar() {
 
         setIsShowingPopover(false)
 
-        console.log(info);
+        console.log(info.date);
+        console.log(eventTimeConstraint);
+        console.log(new Date(startConstraint));
 
+        console.log(info.date - startConstraint);
         if (info.date - startConstraint > 0 && info.date - endConstraint < 0) {
             setMouseEvent(info.jsEvent) // need to use setstate to store mouseEvent?
             setIsShowingPopover(true)
             setEventInfo(info)
             // setIsShowingSnack(true)
-            // if(isAddEvent){
-            //     dispatch(addEvent(info))
-            //     console.log('addEvent');
-            // }
+
             console.log('handleDateClick');
 
         } else {
@@ -139,6 +141,9 @@ export function DndCalendar() {
     const handleExternalEventDrop = (info: any) => {
 
         console.log(info.date - startConstraint > 0);
+
+        console.log(info.date);
+        console.log(startConstraint);
 
         if (info.date - startConstraint > 0 && info.date - endConstraint < 0) {
             console.log(info.date);

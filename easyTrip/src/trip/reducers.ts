@@ -1,10 +1,10 @@
-import { ITripState } from './state';
+import { ITripState, ITripEvents } from './state';
 import { ITripActions } from './actions';
 import moment from 'moment';
 
 
-let ids = [];
-let id = 0;
+let calendarEventsIds = [];
+let calendarEventsId = 0;
 
 
 
@@ -30,12 +30,12 @@ const initialState: ITripState = {
         tripDays: 0
     },
     // events used for fullcalendar
-    calendarEvents: [],
+    calendarEvents: localStorage.getItem('calendarEvents') ? JSON.parse(localStorage.getItem('calendarEvents') || '[]') : [],
     // events that will be display in the iternary 
-    tripEvents: localStorage.getItem('tripEvents')? JSON.parse(localStorage.getItem('tripEvents') || '[]') : [],
+    tripEvents: localStorage.getItem('tripEvents') ? JSON.parse(localStorage.getItem('tripEvents') || '[]') : [],
     // evnets that was added in show attraction page
-    externalEvents: localStorage.getItem('externalEvents')? JSON.parse(localStorage.getItem('externalEvents') || '[]') : [],
-    eventTimeConstraint: []
+    externalEvents: localStorage.getItem('externalEvents') ? JSON.parse(localStorage.getItem('externalEvents') || '[]') : [],
+    eventTimeConstraint:  localStorage.getItem('eventTimeConstraint') ? JSON.parse(localStorage.getItem('eventTimeConstraint') || '[]') : [],
 }
 
 
@@ -47,12 +47,17 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
     let endDate = state.tripSchedule?.dateInfor[1].endDate ? state.tripSchedule.dateInfor[1].endDate : "";
 
 
-    let startTime:Date
-    let endTime:Date
+    let startTime: Date
+    let endTime: Date
+
+    let calendarEventsString = ""
+    let calendarEvents = []
+
 
     let tripEventsString = ""
-    let tripEvents = []
+    let tripEvents:ITripEvents[]= []
 
+    let eventTimeConstraint = []
 
     switch (action.type) {
 
@@ -73,200 +78,256 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
 
         case "MOVE_EVENT":
 
-            console.log(state.calendarEvents);
+            calendarEvents = state.calendarEvents.map(event => {
+
+                if (event.id === parseInt(action.info.event.id)) {
+                    console.log('can drop');
+                    return {
+                        ...event,
+                        start: action.info.event.start,
+                        end: action.info.event.end
+                    }
+                } else {
+                    console.log('cannot drop');
+                    return event;
+                }
+            })
+
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+
+            tripEvents = state.tripEvents.map(event => {
+
+                if (event.calendarEventsId === parseInt(action.info.event.id)) {
+
+                    console.log('can drop');
+                    return {
+                        ...event,
+                        startTime: action.info.event.start,
+                        endTime: action.info.event.end
+                    }
+                } else {
+                    console.log('cannot drop');
+                    return event;
+                }
+            })
+
+            localStorage.setItem('tripEvents', JSON.stringify(tripEvents));
+
             return {
                 ...state,
-                calendarEvents: state.calendarEvents.map(event => {
+                calendarEvents: calendarEvents,
+                tripEvents:tripEvents
 
-                    if (event.id === parseInt(action.info.event.id)) {
-                        console.log('can drop');
-                        return {
-                            ...event,
-                            start: action.info.event.start,
-                            end: action.info.event.end
-                        }
-                    } else {
-                        console.log('cannot drop');
-                        return event;
-                    }
-                })
             }
 
         case "RESIZE_EVENT":
 
-            console.log(state.calendarEvents);
+
+            calendarEvents = state.calendarEvents.map(event => {
+
+                if (event.id === parseInt(action.info.event.id)) {
+                    console.log('can drop');
+                    return {
+                        ...event,
+                        start: action.info.event.start,
+                        end: action.info.event.end
+                    }
+                } else {
+                    console.log('cannot drop');
+                    return event;
+                }
+            })
+
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+
+
+            tripEvents = state.tripEvents.map(event => {
+
+                if (event.calendarEventsId === parseInt(action.info.event.id)) {
+
+                    console.log('can drop');
+                    return {
+                        ...event,
+                        startTime: action.info.event.start,
+                        endTime: action.info.event.end
+                    }
+                } else {
+                    console.log('cannot drop');
+                    return event;
+                }
+            })
+
+            localStorage.setItem('tripEvents', JSON.stringify(tripEvents));
+
             return {
                 ...state,
-                calendarEvents: state.calendarEvents.map(event => {
-
-                    if (event?.id === parseInt(action.info.event.id)) {
-                        console.log('can update');
-
-                        return {
-                            ...event,
-                            end: action.info.event.end
-                        }
-                    } else {
-                        console.log('cannot update');
-                        return event;
-                    }
-                })
+                calendarEvents: calendarEvents,
+                tripEvents:tripEvents
             }
 
         case "ADD_EVENT":
 
-            // console.log(state.calendarEvents);
-            ids = state.calendarEvents.map(event => event.id)
-            id = Math.max(...ids) + 1
-            // console.log(ids);
 
-            let tripEventIds = state.tripEvents.map(event => event.id);
+            calendarEventsIds = state.calendarEvents.map(event => event.id)
+            calendarEventsId = Math.max(...calendarEventsIds) + 1
+
+
+            let tripEventIds = state.tripEvents.map(event => event.calendarEventsId);
             const tripEventId = tripEventIds.length === 0 ? 1 : Math.max(...tripEventIds) + 1
 
-            // console.log(tripEventIds);
-            console.log(tripEventId);
-            // console.log(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.startTime);
-
-            
             startTime = new Date(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.startTime)
             endTime = new Date(moment(action.eventDetail.date).format().split('T')[0] + " " + action.eventDetail.endTime)
 
-            console.log(startTime);
-            console.log(endTime);
 
 
-            tripEventsString = localStorage.getItem('tripEvents') || "[]";
-            tripEvents = JSON.parse(tripEventsString);
 
-
-            tripEvents.push({
-                id:tripEventId,
-                title:action.eventDetail.eventName,
-                location:action.eventDetail.location,
-                description:action.eventDetail.description,
+            tripEvents = state.tripEvents.concat({
+                tripEventsId: tripEventId,
+                calendarEventsId:calendarEventsId,
+                title: action.eventDetail.eventName,
+                location: action.eventDetail.location,
+                description: action.eventDetail.description,
                 startTime: startTime,
                 endTime: endTime,
             });
 
-            console.log(tripEvents);
-
             localStorage.setItem('tripEvents', JSON.stringify(tripEvents));
 
 
+            calendarEvents = state.calendarEvents.concat({
+                id: calendarEventsId,
+                title: action.eventDetail.eventName,
+                start: startTime,
+                end: endTime,
+                constraint:
+                {
+                    start: state.eventTimeConstraint[0],
+                    end: state.eventTimeConstraint[1]
+                }
+            })
+
+            // console.log(tripEvents);
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+
             return {
                 ...state,
-                calendarEvents: state.calendarEvents.concat({
-                    id: id,
-                    title: action.eventDetail.eventName,
-                    start: startTime,
-                    end: endTime,
-                    constraint:
-                    {
-                        start: state.eventTimeConstraint[0],
-                        end: state.eventTimeConstraint[1]
-                    }
-                }),
-                // tripEvents:state.tripEvents.concat({
-                //     id:tripEventId,
-                //     title:action.eventDetail.eventName,
-                //     location:action.eventDetail.location,
-                //     description:action.eventDetail.description,
-                //     startTime: startTime,
-                //     endTime: endTime
-                // })
+                calendarEvents:calendarEvents,
+                tripEvents: tripEvents
             }
 
         case "ADD_EXTERNAL_EVENT":
 
             console.log(state.calendarEvents);
-            ids = state.calendarEvents.map(event => event.id)
-            id = Math.max(...ids) + 1
+            calendarEventsIds = state.calendarEvents.map(event => event.id)
+            calendarEventsId = Math.max(...calendarEventsIds) + 1
             console.log(action.info.draggedEl.title);
 
 
-            tripEventsString = localStorage.getItem('tripEvents') || "[]";
-            tripEvents = JSON.parse(tripEventsString);
-
-
-            console.log(action.info.draggedEl.id)
+            const tripEventsIds = state.tripEvents.map(event => event.tripEventsId)
+            const tripEventsId = tripEventsIds.length !== 0 ? Math.max(...tripEventsIds) + 1 : 1
+            console.log(tripEventsIds);
+            console.log(tripEventsId);
 
             const attraction = state.externalEvents.find(event => event.attractionId === parseInt(action.info.draggedEl.id))
 
 
             console.log(attraction);
-            tripEvents.push({
-                id: id,
+
+            tripEvents = state.tripEvents.concat({
+                tripEventsId: tripEventsId,
+                calendarEventsId:calendarEventsId,
                 title: action.info.draggedEl.title,
+                location: attraction?.location,
+                description: attraction?.description,
                 startTime: action.info.date,
                 endTime: moment(action.info.date).add(2, 'hours').toDate(),
-                description: attraction?.description,
-                location: attraction?.location,
                 telephone: attraction?.telephone,
                 url: attraction?.url,
                 attraction_image: attraction?.attraction_image
             })
 
-
-
             localStorage.setItem('tripEvents', JSON.stringify(tripEvents));
+
+
+            calendarEvents = state.calendarEvents.concat({
+                id: calendarEventsId,
+                title: action.info.draggedEl.title,
+                start: action.info.date,
+                end: moment(action.info.date).add(2, 'hours').toDate(),
+                constraint:
+                {
+                    start: state.eventTimeConstraint[0],
+                    end: state.eventTimeConstraint[1]
+                }
+            })
+
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
 
             return {
                 ...state,
-                calendarEvents: state.calendarEvents.concat({
-                    id: id,
-                    title: action.info.draggedEl.title,
-                    start: action.info.date,
-                    end: moment(action.info.date).add(2, 'hours').toDate(),
-                    constraint:
-                    {
-                        start: state.eventTimeConstraint[0],
-                        end: state.eventTimeConstraint[1]
-                    }
-                })
+                calendarEvents: calendarEvents,
+                tripEvents:tripEvents
             }
 
         case "DELETE_EXTERNAL_EVENT_LIST":
             console.log(state.externalEvents);
+
+            
+            const externalEvents = state.externalEvents.filter(event => event.name !== action.info.draggedEl.title)
+
+            localStorage.setItem('externalEvents', JSON.stringify(externalEvents));
+
             return {
                 ...state,
-                externalEvents: state.externalEvents.filter(event => event.name !== action.info.draggedEl.title)
+                externalEvents: externalEvents
             }
 
         case "ADD_START_END_TIME":
 
+            
+            eventTimeConstraint = [new Date(startDate), new Date(endDate)]
+            console.log(eventTimeConstraint);
+            localStorage.setItem('eventTimeConstraint', JSON.stringify(eventTimeConstraint));
+
+            calendarEvents = [
+                {
+                    id: 1,
+                    title: 'Arrival',
+                    start: new Date(startDate),
+                    end: moment(new Date(startDate))
+                        .add(0.5, 'hours').toDate(),
+                    overlap: false,
+                    backgroundColor: "#FAFAFA",
+                    durationEditable: false,
+                    constraint:
+                    {
+                        end: new Date(endDate)
+                    }
+                },
+                {
+                    id: 2,
+                    title: 'Departure',
+                    start: new Date(endDate),
+                    end: moment(new Date(endDate)).add(0.5, 'hours').toDate(),
+                    overlap: false,
+                    backgroundColor: "#FAFAFA",
+                    durationEditable: false,
+                    constraint:
+                    {
+                        start: new Date(startDate)
+                    }
+                }
+            ]
+
+
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+
+
             console.log(state.tripSchedule.dateInfor[0].endDate);
             return {
                 ...state,
-                eventTimeConstraint: [new Date(startDate), new Date(endDate)],
-                calendarEvents: [
-                    {
-                        id: 1,
-                        title: 'Arrival',
-                        start: new Date(startDate),
-                        end: moment(new Date(startDate))
-                            .add(0.5, 'hours').toDate(),
-                        overlap: false,
-                        backgroundColor: "#FAFAFA",
-                        durationEditable: false,
-                        constraint:
-                        {
-                            end: new Date(endDate)
-                        }
-                    },
-                    {
-                        id: 2,
-                        title: 'Departure',
-                        start: new Date(endDate),
-                        end: moment(new Date(endDate)).add(0.5, 'hours').toDate(),
-                        overlap: false,
-                        backgroundColor: "#FAFAFA",
-                        durationEditable: false,
-                        constraint:
-                        {
-                            start: new Date(startDate)
-                        }
-                    }
-                ]
+                eventTimeConstraint: eventTimeConstraint,
+                calendarEvents: calendarEvents
             }
 
         // case "DISPLAY_EVENT_CLICK":
@@ -281,37 +342,46 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
             startTime = updateTime?.start ? updateTime?.start : new Date()
             endTime = updateTime?.end ? updateTime?.end : new Date()
 
+            eventTimeConstraint = action.eventId === 1 ? [startTime, state.eventTimeConstraint[1]] : [state.eventTimeConstraint[0], endTime]
 
-            console.log(updateTime);
+            localStorage.setItem('eventTimeConstraint', JSON.stringify(eventTimeConstraint));
+
+            // console.log(updateTime);
+
+            calendarEvents = state.calendarEvents.map(event => {
+
+                if (event.id !== 1 && action.eventId === 1) {
+                    console.log('update start time constraint');
+                    return {
+                        ...event,
+                        constraint:
+                        {
+                            ...event.constraint,
+                            start: updateTime?.start
+                        }
+                    }
+                } else if (event.id !== 2 && action.eventId === 2) {
+                    console.log('update end time constraint');
+                    return {
+                        ...event,
+                        constraint:
+                        {
+                            ...event.constraint,
+                            end: updateTime?.end
+                        }
+                    }
+                } else {
+                    return event
+                }
+            })
+
+
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+            
             return {
                 ...state,
-                eventTimeConstraint: action.eventId === 1 ? [startTime, state.eventTimeConstraint[1]] : [state.eventTimeConstraint[0], endTime],
-                calendarEvents: state.calendarEvents.map(event => {
-
-                    if (event.id !== 1 && action.eventId === 1) {
-                        console.log('update start time constraint');
-                        return {
-                            ...event,
-                            constraint:
-                            {
-                                ...event.constraint,
-                                start: updateTime?.start
-                            }
-                        }
-                    } else if (event.id !== 2 && action.eventId === 2) {
-                        console.log('update end time constraint');
-                        return {
-                            ...event,
-                            constraint:
-                            {
-                                ...event.constraint,
-                                end: updateTime?.end
-                            }
-                        }
-                    } else {
-                        return event
-                    }
-                })
+                eventTimeConstraint: eventTimeConstraint,
+                calendarEvents: calendarEvents
             }
 
 

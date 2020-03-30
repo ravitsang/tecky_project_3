@@ -53,12 +53,15 @@ export interface ITripSchedule {
 }
 
 export interface ITripEvents {
-    id: number
+    tripEventsId: number
+    calendarEventsId:number
     title: string
     location?: string
     description?: string
-    startTime: string
-    endTime: string
+    startTime: Date
+    endTime: Date
+    telephone?:string
+    url?:string
     attraction_image?: string
 
 }
