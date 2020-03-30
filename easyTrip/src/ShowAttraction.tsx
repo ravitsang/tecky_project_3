@@ -80,12 +80,16 @@ export function ShowAttraction() {
                 //     console.log('Item already exists');
                 // }
 
+                console.log(attraction);
+
                 scheduleItems.push({
-                attractionId: attraction.id,
-                name: attraction.name,
-                location: attraction.location,
-                description: attraction.description,
-                image: attraction.attraction_image
+                    attractionId: attraction.id,
+                    name: attraction.name,
+                    description: attraction.description,
+                    location: attraction.location,
+                    telephone: attraction.telephone,
+                    url: attraction.url,
+                    attraction_image: attraction.attraction_image
                 });
                 localStorage.setItem('scheduleItems', JSON.stringify(scheduleItems));
 
@@ -95,11 +99,14 @@ export function ShowAttraction() {
                 const externalEvents = JSON.parse(externalEventsString);
 
 
-
-
                 externalEvents.push({
                     attractionId: attraction.id,
-                    name: attraction.name
+                    name: attraction.name,
+                    description: attraction.description,
+                    location: attraction.location,
+                    telephone: attraction.telephone,
+                    url: attraction.url,
+                    attraction_image: attraction.attraction_image
                 });
                 localStorage.setItem('externalEvents', JSON.stringify(externalEvents));
 

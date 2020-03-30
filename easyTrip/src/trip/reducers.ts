@@ -29,8 +29,11 @@ const initialState: ITripState = {
             }],
         tripDays: 0
     },
+    // events used for fullcalendar
     calendarEvents: [],
-    tripEvents: [],
+    // events that will be display in the iternary 
+    tripEvents: localStorage.getItem('tripEvents')? JSON.parse(localStorage.getItem('tripEvents') || '[]') : [],
+    // evnets that was added in show attraction page
     externalEvents: localStorage.getItem('externalEvents')? JSON.parse(localStorage.getItem('externalEvents') || '[]') : [],
     eventTimeConstraint: []
 }
@@ -46,6 +49,10 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
 
     let startTime:Date
     let endTime:Date
+
+    let tripEventsString = ""
+    let tripEvents = []
+
 
     switch (action.type) {
 
@@ -127,6 +134,25 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
             console.log(startTime);
             console.log(endTime);
 
+
+            tripEventsString = localStorage.getItem('tripEvents') || "[]";
+            tripEvents = JSON.parse(tripEventsString);
+
+
+            tripEvents.push({
+                id:tripEventId,
+                title:action.eventDetail.eventName,
+                location:action.eventDetail.location,
+                description:action.eventDetail.description,
+                startTime: startTime,
+                endTime: endTime,
+            });
+
+            console.log(tripEvents);
+
+            localStorage.setItem('tripEvents', JSON.stringify(tripEvents));
+
+
             return {
                 ...state,
                 calendarEvents: state.calendarEvents.concat({
@@ -140,15 +166,14 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                         end: state.eventTimeConstraint[1]
                     }
                 }),
-                tripEvents:state.tripEvents.concat({
-                    id:tripEventId,
-                    title:action.eventDetail.eventName,
-                    location:action.eventDetail.location,
-                    description:action.eventDetail.description,
-                    startTime: startTime,
-                    endTime: endTime, // e.g "10:00 AM"
-                    date: moment(action.eventDetail.date).format().split('T')[0] // e.g "2020-01-02"
-                })
+                // tripEvents:state.tripEvents.concat({
+                //     id:tripEventId,
+                //     title:action.eventDetail.eventName,
+                //     location:action.eventDetail.location,
+                //     description:action.eventDetail.description,
+                //     startTime: startTime,
+                //     endTime: endTime
+                // })
             }
 
         case "ADD_EXTERNAL_EVENT":
@@ -157,6 +182,33 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
             ids = state.calendarEvents.map(event => event.id)
             id = Math.max(...ids) + 1
             console.log(action.info.draggedEl.title);
+
+
+            tripEventsString = localStorage.getItem('tripEvents') || "[]";
+            tripEvents = JSON.parse(tripEventsString);
+
+
+            console.log(action.info.draggedEl.id)
+
+            const attraction = state.externalEvents.find(event => event.attractionId === parseInt(action.info.draggedEl.id))
+
+
+            console.log(attraction);
+            tripEvents.push({
+                id: id,
+                title: action.info.draggedEl.title,
+                startTime: action.info.date,
+                endTime: moment(action.info.date).add(2, 'hours').toDate(),
+                description: attraction?.description,
+                location: attraction?.location,
+                telephone: attraction?.telephone,
+                url: attraction?.url,
+                attraction_image: attraction?.attraction_image
+            })
+
+
+
+            localStorage.setItem('tripEvents', JSON.stringify(tripEvents));
 
             return {
                 ...state,

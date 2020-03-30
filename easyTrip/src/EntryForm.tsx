@@ -140,7 +140,7 @@ export function EntryForm() {
             tripDays: numberOfDays
         }
         localStorage.setItem("tripSchedule", JSON.stringify(tripSchedule));
-        window.location.href = "/calendar";
+        window.location.href = "/attraction";
     }
 
 

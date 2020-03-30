@@ -1,15 +1,24 @@
 .main{
     display: flex;
     justify-content: center;
+    margin-top: 0px;
 }
 
 .itinerary{
     display: flex;
     flex-direction: column;
-    padding-left: 30px;
+    padding-left: 50px;
     align-items: center;
+    
 }
 
+.scheduleItem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+}
 
 .vertical { 
     border-left: 2px solid#DEDEDE; 
@@ -44,6 +53,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.time-display{
+    min-width: 100px;
+}
+
+
+.descriptionArea{
+    overflow: hidden;
+    text-overflow: clip;
+    height: 67px;
+    padding-top: 8px;
+}
+
+.days-bar{
+    padding-top: 50px;
 }
 
 @media (max-width:600px){

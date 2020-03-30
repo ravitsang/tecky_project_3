@@ -15,14 +15,17 @@ import Responsive from "react-responsive";
 import { TabBar } from './TabBar';
 import './ShowItinerary.scss'
 import './stylePage.scss'
+import moment from 'moment';
+import { ITripEvents } from './trip/state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             [theme.breakpoints.up('sm')]: {
                 height: 200,
-                width: 750,
+                width: 700,
                 display: 'flex',
+                paddingTop: 15
             },
             [theme.breakpoints.down('sm')]: {
                 height: 300,
@@ -59,19 +62,25 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             fontSize: 17
         },
+        subheader: {
+            fontSize: 14
+        },
         hotelIcon: {
             backgroundColor: '#FFFFFF'
         },
         dateButton: {
             fontWeight: 'bold',
             width: 150,
-            height: 40,
+            height: 47,
             backgroundColor: "#444444",
             color: "#FFFFFF",
             borderRadius: 100,
-            fontSize: 15,
-            marginBottom: 20,
-            textTransform: "none"
+            fontSize: 18,
+            textTransform: "none",
+            marginTop: 50
+        },
+        textArea: {
+            width: 360
         }
     }))
 
@@ -80,10 +89,43 @@ export function ShowItinerary() {
     const classes = useStyles();
     const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
     const tripEvents = useSelector((state: IRootState) => state.trip.tripEvents)
-
+    const calendarEvents = useSelector((state: IRootState) => state.trip.calendarEvents)
+    // console.log(calendarEvents);
     console.log(tripEvents);
     const startDateInfor = tripSchedule.dateInfor[0]
 
+
+
+    tripEvents.map((event) => {
+        console.log(new Date(event.startTime));
+    })
+
+    const sortedTripEvents = tripEvents.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return (new Date(a.startTime) as any) - (new Date(b.startTime) as any);
+    });
+
+    console.log(sortedTripEvents);
+
+    const renderScheduleDate = (sortedTripEvent:ITripEvents, index:number) => {
+
+
+        const prevIndex = index === 0 ? index : index - 1
+        console.log(prevIndex);
+        // console.log(sortedTripEvents[prevIndex].startTime);
+        if (moment(sortedTripEvent.startTime).format('l') !== moment(sortedTripEvents[prevIndex].startTime).format('l') || index === 0){
+            return (
+                <>
+                    <Button className={classes.dateButton} size="medium">
+                        {`${moment(sortedTripEvent.startTime).format('ddd')},${moment(sortedTripEvent.startTime).format('MMM Do')}`}
+                    </Button>
+                </>
+            )
+        } else {
+            return <div></div>
+        }
+    }
 
 
     return (
@@ -93,90 +135,107 @@ export function ShowItinerary() {
             </div>
             <div className="main">
                 <Responsive minWidth={600}>
-                    <DaysBar />
+                    <div className="days-bar">
+                        <DaysBar />
+                    </div>
                 </Responsive>
                 <div className="itinerary">
-                    <Button className={classes.dateButton} size="medium">
-                        {`${startDateInfor.month[0]}, ${startDateInfor.days[0]}`}
-                    </Button>
-                    <div className="vertical"></div>
-                    <div className="add-hotel-column">
-                        <Fab className={classes.hotelIcon} aria-label="edit">
-                            <HotelIcon />
-                        </Fab>
-                        <div className="add-hotel-link"><Link to="/">Add reservation</Link> for better travel calculation</div>
-                    </div>
-                    <div className="vertical"></div>
-                    <div className="drive-time-column">
-                        <DirectionsCarIcon />
-                        <div className="drive-time"> 26 min</div>
-                    </div>
-                    <div className="vertical"></div>
-                    <Card className={`${classes.root} itinerary-card`}>
-                        <Responsive maxWidth={960}>
-                            <div className="sm-time-edit-column">
-                                <CardContent className="time-display">
-                                    10:00am
-                                    12:30pm
-                                </CardContent>
-                                <CardContent>
-                                    <EditIcon />
-                                </CardContent>
+
+                    {sortedTripEvents.map((sortedTripEvent, index)=> {
+                        console.log(sortedTripEvent.title);
+                        return (
+                            <div className="scheduleItem">
+                                {renderScheduleDate(sortedTripEvent, index)}
+                                <div className="vertical"></div>
+                                <div className="add-hotel-column">
+                                    <Fab className={classes.hotelIcon} aria-label="edit">
+                                        <HotelIcon />
+                                    </Fab>
+                                    <div className="add-hotel-link"><Link to="/">Add reservation</Link> for better travel calculation</div>
+                                </div>
+                                <div className="vertical"></div>
+                                <div className="drive-time-column">
+                                    <DirectionsCarIcon />
+                                    <div className="drive-time"> {Math.floor(Math.random()* 60)} mins</div>
+                                </div>
+                                <div className="vertical"></div>
+                                <Card className={`${classes.root} itinerary-card`}>
+                                    <Responsive maxWidth={960}>
+                                        <div className="sm-time-edit-column">
+                                            <CardContent className="time-display">
+                                                <div>
+                                                    {moment(sortedTripEvent.startTime).format('LT')}
+                                                </div>
+                                                <div>
+                                                    {moment(sortedTripEvent.endTime).format('LT')}
+                                                </div>
+                                            </CardContent>
+                                            <CardContent>
+                                                <EditIcon />
+                                            </CardContent>
+                                        </div>
+                                        <div className="sm-media-header-row">
+                                            <CardContent>
+                                                <CardActionArea className={classes.actionArea}>
+                                                    <CardMedia
+                                                        className={classes.media}
+                                                        image={sortedTripEvent.attraction_image}
+                                                        title={sortedTripEvent.title}
+                                                    />
+                                                </CardActionArea>
+                                            </CardContent>
+                                            <CardContent>
+                                                <CardHeader className={classes.header}
+                                                    classes={{
+                                                        title: classes.title,
+                                                    }}
+                                                    title={sortedTripEvent.title}
+                                                    subheader={`Location: ${sortedTripEvent.location}`}
+                                                />
+                                            </CardContent>
+                                        </div>
+                                    </Responsive>
+                                    <Responsive minWidth={960}>
+                                        <CardContent className="time-display">
+                                            <div>
+                                                {moment(sortedTripEvent.startTime).format('LT')}
+                                            </div>
+                                            <div>
+                                                {moment(sortedTripEvent.endTime).format('LT')}
+                                            </div>
+                                        </CardContent>
+                                        <CardContent>
+                                            <CardActionArea className={classes.actionArea}>
+                                                <CardMedia
+                                                    className={classes.media}
+                                                    image={sortedTripEvent.attraction_image}
+                                                    title={sortedTripEvent.title}
+                                                />
+                                            </CardActionArea>
+                                        </CardContent>
+                                        <CardContent className={classes.textArea} >
+                                            <CardHeader className={classes.header}
+                                                classes={{
+                                                    title: classes.title,
+                                                    subheader: classes.subheader,
+                                                }}
+                                                action={
+                                                    <IconButton aria-label="settings">
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                }
+                                                title={sortedTripEvent.title}
+                                                subheader={sortedTripEvent.location}
+                                            />
+                                            <Typography variant="body2" color="textSecondary" component="p" className="descriptionArea">
+                                                {sortedTripEvent.description}
+                                            </Typography>
+                                        </CardContent>
+                                    </Responsive>
+                                </Card>
                             </div>
-                            <div className="sm-media-header-row">
-                                <CardContent>
-                                    <CardActionArea className={classes.actionArea}>
-                                        <CardMedia
-                                            className={classes.media}
-                                            image="https://img.icons8.com/clouds/200/000000/retro-tv.png"
-                                            title="Contemplative Reptile"
-                                        />
-                                    </CardActionArea>
-                                </CardContent>
-                                <CardContent>
-                                    <CardHeader className={classes.header}
-                                        classes={{
-                                            title: classes.title,
-                                        }}
-                                        title="Sik Sik Yuen Wong Tai Sin Temple"
-                                        subheader="September 14, 2016"
-                                    />
-                                </CardContent>
-                            </div>
-                        </Responsive>
-                        <Responsive minWidth={960}>
-                            <CardContent className="time-display">
-                                10:00am
-                                12:30pm
-                            </CardContent>
-                            <CardContent>
-                                <CardActionArea className={classes.actionArea}>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image="https://img.icons8.com/clouds/200/000000/retro-tv.png"
-                                        title="Contemplative Reptile"
-                                    />
-                                </CardActionArea>
-                            </CardContent>
-                            <CardContent>
-                                <CardHeader className={classes.header}
-                                    classes={{
-                                        title: classes.title,
-                                    }}
-                                    action={
-                                        <IconButton aria-label="settings">
-                                            <EditIcon />
-                                        </IconButton>
-                                    }
-                                    title="Sik Sik Yuen Wong Tai Sin Temple"
-                                    subheader="September 14, 2016"
-                                />
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                    Popular for its claim to make wishes come true, Sik Sik Yuen Wong Tai Sin Temple hosts three religions including Taoism, Buddhism, and Confuc
-                                </Typography>
-                            </CardContent>
-                        </Responsive>
-                    </Card>
+                        )
+                    })}
                 </div>
             </div>
         </div>
