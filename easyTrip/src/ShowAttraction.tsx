@@ -33,8 +33,7 @@ export function ShowAttraction() {
 
     useEffect(() => {
         dispatch(getAllAttractionsThunk());
-        // dispatch(getAllScheduleItems());
-    }, [dispatch])
+    },[dispatch])
 
     const renderAttractions = (i: number, key: string, attraction: IAttraction) => {
         return <AttractionCard
@@ -142,13 +141,13 @@ export function ShowAttraction() {
                 {/* <SimpleMap /> */}
             </div>
             <Container>
-                <Typography variant="h6" className={classes.title}>
-                    Selected Attractions
-                </Typography>
                 <Row>
                     <Col className="schedule-area" md="3">
-                        {scheduleItems.length === 0 && <EmptyScheduleCard />}
-                        {scheduleItems.length > 0 && scheduleItems.map(scheduleItem => (
+                        <Typography variant="h6" className={classes.title}>
+                            Selected Attractions
+                        </Typography>
+                        {scheduleItems.length === 0 && <EmptyScheduleCard/>}         
+                        {scheduleItems.length > 0 && scheduleItems.map(scheduleItem=>(
                             <div key={`scheduleItem_${scheduleItem.id}`}>
                                 {
                                     renderScheduleItems(
