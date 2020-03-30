@@ -84,7 +84,7 @@ export function EmptyScheduleCard() {
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary="You haven't selected any attraction"
+                    primary="No selected attraction"
                   />
                 </ListItem>
               }

@@ -33,7 +33,6 @@ export function ShowAttraction(){
     
     useEffect(()=>{
         dispatch(getAllAttractionsThunk());
-        // dispatch(getAllScheduleItems());
     },[dispatch])
 
     const renderAttractions=(i:number,key:string,attraction:IAttraction)=>{
@@ -62,7 +61,10 @@ export function ShowAttraction(){
                 const scheduleItems = JSON.parse(scheduleItemsString);
                 scheduleItems.push({
                 attractionId: attraction.id,
-                name: attraction.name
+                name: attraction.name,
+                location: attraction.location,
+                description: attraction.description,
+                image: attraction.attraction_image
                 });
                 localStorage.setItem('scheduleItems',JSON.stringify(scheduleItems));
             }
@@ -89,11 +91,11 @@ export function ShowAttraction(){
                 {/* <SimpleMap /> */}
             </div>
             <Container>
-                <Typography variant="h6" className={classes.title}>
-                    Selected Attractions
-                </Typography>
                 <Row>
                     <Col className="schedule-area" md="3">
+                        <Typography variant="h6" className={classes.title}>
+                            Selected Attractions
+                        </Typography>
                         {scheduleItems.length === 0 && <EmptyScheduleCard/>}         
                         {scheduleItems.length > 0 && scheduleItems.map(scheduleItem=>(
                             <div key={`scheduleItem_${scheduleItem.id}`}>
