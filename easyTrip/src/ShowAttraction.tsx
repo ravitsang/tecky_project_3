@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from './store';
 import { IAttraction } from './attraction/state';
 import { IScheduleItem } from './scheduleItem/state';
-import { getAllAttractionsThunk } from './attraction/thunks';
+import { getAllAttractionsThunk, getLatLngThunk } from './attraction/thunks';
 import SimpleMap from './Map';
 import AttractionCard from './AttractionCard';
 import './ShowAttraction.scss'
@@ -40,6 +40,7 @@ export function ShowAttraction() {
             attraction={attraction}
             key={key}
             value={"+"}
+            cardOnClick={()=> handCardClick(i)}
             attractionOnClick={() => handleAttractionClick(i)}
         />
     }
@@ -51,6 +52,13 @@ export function ShowAttraction() {
             binOnClick={() => handleBinClick(i)} />
     }
 
+    const handCardClick = (i:number)=>{
+        attractions.map(attraction=>{
+            if(attraction.id === i){
+                dispatch(getLatLngThunk(attraction.location))
+            }
+        })
+    }
     const handleAttractionClick = (i: number) => {
         attractions.map(attraction => {
             if (attraction.id === i) {
@@ -131,11 +139,11 @@ export function ShowAttraction() {
     return (
         <div>
             <div className="map-area">
-                {/* <SimpleMap /> */}
+                <SimpleMap attractions={attractions}/>
             </div>
             <Container>
                 <Row>
-                    <Col className="schedule-area" md="3">
+                    <Col className="schedule-area" lg="3">
                         <Typography variant="h6" className={classes.title}>
                             Selected Attractions
                         </Typography>
@@ -152,7 +160,7 @@ export function ShowAttraction() {
                             </div>
                         ))}
                     </Col>
-                    <Col className="attraction-area" md="9">
+                    <Col className="attraction-area" lg="9">
                         {attractions.map(attraction => (
                             <div key={`attraction_${attraction.id}`}>
                                 {
