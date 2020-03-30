@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react'
 import { Marker } from './Marker';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { IAttraction } from './attraction/state';
+import { getAllAttractions } from './attraction/actions';
+import { useSelector } from 'react-redux';
+import { IRootState } from './store';
 
 interface IMapProps extends RouteComponentProps{
   // zoom: number
   // center: number
+  attractions:IAttraction[]
 }
 
 export const SimpleMap = (props: IMapProps) => {
 
-  const renderMarkers = (lat:number,lng:number) =>{
+  const attractions = useSelector((state: IRootState) => state.attraction.attractions);
+  const renderMarkers = (attraction:IAttraction) =>{
     return <Marker 
-            lat={lat}
-            lng={lng} />
+            lat={attraction.lat}
+            lng={attraction.lng}
+            color={'Red'}
+            name={attraction.name} />
   }
 
   const getMapOptions = (maps: any) => {
@@ -28,20 +36,24 @@ export const SimpleMap = (props: IMapProps) => {
     const [center, setCenter] = useState({lat: 22.396427, lng: 114.109497 });
     const [zoom, setZoom] = useState(11);
     
+
     return (
         <div style={{ height: '100%', width: '100%' }}>
         <GoogleMapReact
           bootstrapURLKeys={{ key: `${process.env.REACT_APP_GOOGLE_KEY}` }}
           defaultCenter={center}
           defaultZoom={zoom}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={()=>{
+            }}
           options={getMapOptions}
         >
-          <Marker
-            lat={22.321550}
-            lng={114.171112}
-            name="My Marker"
-            color="red"
-          />
+        {attractions.map(attraction=>(
+          <div key={`scheduleItem_${attraction.id}`}>
+            {renderMarkers(attraction)}
+          </div>
+        ))}
+        <Marker lat={'22.3018574'} lng={'114.1773471'} color={"Red"} name={'Hong Kong Museum of History'}/>
         </GoogleMapReact>
       </div>
     );

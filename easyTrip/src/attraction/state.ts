@@ -9,6 +9,8 @@ export interface IAttraction{
     telephone: string
     url:string
     isClick: boolean
+    lat:number
+    lng:number
 }
 
 export interface IAttractionState{

@@ -22,6 +22,15 @@ export function addAttraction(attractionId:number){
     }
 }
 
+export function getLatLng(lat:number,lng:number){
+    return{
+        type: "GET_LAT_LNG" as "GET_LAT_LNG",
+
+        lat,
+        lng
+    }
+}
+
 export function failed(msg:string){
     return{
         type: "FAILED" as "FAILED",
@@ -33,6 +42,7 @@ export function failed(msg:string){
 type actionCreators = typeof getAllAttractions |
                         typeof addAttraction |
                         typeof getFilteredAttraction |
+                        typeof getLatLng |
                         typeof failed
 
 export type IAttractionActions = ReturnType<actionCreators>
