@@ -12,6 +12,7 @@ import './AttractionCard.scss';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { IAttraction } from './attraction/state';
 import { Divider } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 interface IAttractionCardProps extends RouteComponentProps{
   value: string | undefined
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme)=>({
   section1: {
     margin: theme.spacing(3),
   },
+  addButton:{
+    color:"#424242"
+  }
 }));
 
 export function AttractionCard(props:IAttractionCardProps){
@@ -52,7 +56,7 @@ export function AttractionCard(props:IAttractionCardProps){
             <Typography gutterBottom variant="subtitle2" component="h2">
             Description
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body2" color="textSecondary" component="p" className="attraction-description">
               {props.attraction.description}
             </Typography>
           </div>
@@ -80,7 +84,9 @@ export function AttractionCard(props:IAttractionCardProps){
       </CardActionArea>
       <CardActions className="card-btn">
         <Button size="small" color="primary" onClick={()=>props.attractionOnClick()}>
-            {props.value}
+            {/* {props.value} */}
+
+            <AddIcon className={classes.addButton}/>
         </Button>
       </CardActions>
     </Card>
