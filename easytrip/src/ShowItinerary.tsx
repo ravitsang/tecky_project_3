@@ -31,15 +31,15 @@ const useStyles = makeStyles((theme: Theme) =>
                 paddingTop: 15
             },
             [theme.breakpoints.down('sm')]: {
-                height: 300,
-                width: 350,
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                height:360,
+                width:300
             }
         },
         actionArea: {
-            height: 144,
-            width: 216
+            // height: 144,
+            // width: 216
         },
 
         media: {
@@ -50,10 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
                 display: 'flex'
             },
             [theme.breakpoints.down('sm')]: {
-                height: 144,
-                width: 216,
-                display: 'flex',
-                padding: 0
+                height: 0,
+                paddingTop: '67.25%', // 16:9
+                // display: 'flex',
+                // padding: 0
             }
 
         },
@@ -163,26 +163,21 @@ export function ShowItinerary() {
                         <div className="sm-time-edit-column">
                             <CardContent className="time-display">
                                 <div>
-                                    {moment(sortedTripEvent.startTime).format('LT')}
-                                </div>
-                                <div>
-                                    {moment(sortedTripEvent.endTime).format('LT')}
+                                    {`${moment(sortedTripEvent.startTime).format('LT')} - ${moment(sortedTripEvent.endTime).format('LT')}`}
                                 </div>
                             </CardContent>
                             <CardContent>
-                                <EditIcon />
+                                <EditIcon fontSize='small'/>
                             </CardContent>
                         </div>
                         <div className="sm-media-header-row">
-                            <CardContent>
-                                <CardActionArea className={classes.actionArea}>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image={sortedTripEvent.attraction_image}
-                                        title={sortedTripEvent.title}
-                                    />
-                                </CardActionArea>
-                            </CardContent>
+                            <CardActionArea className={classes.actionArea}>
+                                <CardMedia
+                                    className={classes.media}
+                                    image={sortedTripEvent.attraction_image}
+                                    title={sortedTripEvent.title}
+                                />
+                            </CardActionArea>
                             <CardContent>
                                 <CardHeader className={classes.header}
                                     classes={{
@@ -257,7 +252,7 @@ export function ShowItinerary() {
     }
 
     const printDocument = () => {
-        const input = document.getElementById('divToPrint');
+        const input = document.getElementById('1');
         if (input !== null) {
             html2canvas(input)
                 .then((canvas) => {
@@ -277,7 +272,7 @@ export function ShowItinerary() {
             <div className='tab-column'>
                 <TabBar />
             </div>
-            <div className="main">
+            <div className="main" id="1">
 
                 <Responsive minWidth={600}>
                     <div className="days-bar">

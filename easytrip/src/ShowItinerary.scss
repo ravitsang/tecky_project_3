@@ -44,7 +44,9 @@
 .add-hotel-link, .drive-time{
     margin-left: 20px;
 }
-
+.add-hotel-link{
+    font-size: 0.9rem;
+}
 
 .left-margin{
     margin-left: 28px;
@@ -90,7 +92,12 @@
     }
 
     .time-display{
-        padding-right: 0px;
+        padding: 0px;
+    }
+
+    .sm-time-edit-column{
+        margin-bottom: 10px;
+        font-size: 15px;
     }
 
 }

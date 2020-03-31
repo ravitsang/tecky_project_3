@@ -7,21 +7,24 @@ import { getAllAttractions } from './attraction/actions';
 import { useSelector } from 'react-redux';
 import { IRootState } from './store';
 
-interface IMapProps extends RouteComponentProps{
+interface IMapProps extends RouteComponentProps {
   // zoom: number
   // center: number
-  attractions:IAttraction[]
+  attractions: IAttraction[]
 }
 
 export const SimpleMap = (props: IMapProps) => {
 
   const attractions = useSelector((state: IRootState) => state.attraction.attractions);
-  const renderMarkers = (attraction:IAttraction) =>{
-    return <Marker 
-            lat={attraction.lat}
-            lng={attraction.lng}
-            color={'Red'}
-            name={attraction.name} />
+  const renderMarkers = (attraction: IAttraction) => {
+    // console.log(attraction);
+    return <Marker
+      lat={attraction.lat}
+      lng={attraction.lng}
+      color={'Red'}
+      name={attraction.name}
+      key={`scheduleItem_${attraction.id}`}
+    />
   }
 
   const getMapOptions = (maps: any) => {
@@ -33,30 +36,30 @@ export const SimpleMap = (props: IMapProps) => {
     };
   };
 
-    const [center, setCenter] = useState({lat: 22.396427, lng: 114.109497 });
-    const [zoom, setZoom] = useState(11);
-    
+  const [center, setCenter] = useState({ lat: 22.396427, lng: 114.109497 });
+  const [zoom, setZoom] = useState(11);
 
-    return (
-        <div style={{ height: '100%', width: '100%' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: `${process.env.REACT_APP_GOOGLE_KEY}` }}
-          defaultCenter={center}
-          defaultZoom={zoom}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={()=>{
-            }}
-          options={getMapOptions}
-        >
-        {attractions.map(attraction=>(
-          <div key={`scheduleItem_${attraction.id}`}>
-            {renderMarkers(attraction)}
-          </div>
+
+  return (
+    <div style={{ height: '100%', width: '100%' }}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: `${process.env.REACT_APP_GOOGLE_KEY}` }}
+        defaultCenter={center}
+        defaultZoom={zoom}
+        yesIWantToUseGoogleMapApiInternals
+        onGoogleApiLoaded={() => {
+        }}
+        options={getMapOptions}
+      >
+        {attractions.map(attraction => (
+
+          renderMarkers(attraction) 
+
         ))}
-        <Marker lat={'22.3018574'} lng={'114.1773471'} color={"Red"} name={'Hong Kong Museum of History'}/>
-        </GoogleMapReact>
-      </div>
-    );
+        {/* <Marker lat={'22.3018574'} lng={'114.1773471'} color={"Red"} name={'Hong Kong Museum of History'} /> */}
+      </GoogleMapReact>
+    </div>
+  );
 }
 
 export default withRouter(SimpleMap)

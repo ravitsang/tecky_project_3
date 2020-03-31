@@ -32,6 +32,7 @@ export const attractionReducer = (state:IAttractionState = initialState,action:I
                 })
             }
         case "GET_LAT_LNG":
+            
             return{
                 ...state,
                 attractions: state.attractions.map(attraction =>{

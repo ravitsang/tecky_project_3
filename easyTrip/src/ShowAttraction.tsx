@@ -54,6 +54,7 @@ export function ShowAttraction() {
     }
 
     const handCardClick = (i: number) => {
+        console.log('handCardClick');
         attractions.map(attraction => {
             if (attraction.id === i) {
                 dispatch(getLatLngThunk(attraction.location))
@@ -64,6 +65,7 @@ export function ShowAttraction() {
         attractions.map(attraction => {
             if (attraction.id === i) {
                 // dispatch(addAttraction(attraction.id));
+                // console.log('handleAttractionClick');
                 dispatch(createScheduleItem(attraction));
 
                 const scheduleItemsString = localStorage.getItem('scheduleItems') || "[]";
