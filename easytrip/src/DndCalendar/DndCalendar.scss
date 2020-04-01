@@ -29,7 +29,6 @@
 .tab-column{
   display: flex;
   justify-content: center;
-  margin-top: 50px;
 }
 
 .calendar-title-column{
@@ -54,12 +53,12 @@
   .fc-unthemed{
     max-width: 375px !important;
     min-width: 375px !important;
-    height: 684px !important;
+    height: 575px !important;
     // margin-left: 50px;
   }
 
   .fc-time-grid-container{
-    height: 600px  !important;
+    height: 491px  !important;
   }
 
 
@@ -72,5 +71,10 @@
 
   .fc-unthemed .fc-toolbar{
     margin-bottom: 0px;
+  }
+
+  .calendar-layout{
+    display: flex;
+    flex-direction: column-reverse;
   }
 }

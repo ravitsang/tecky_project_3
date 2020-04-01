@@ -273,7 +273,6 @@ export function ShowItinerary() {
             {/* <div className='tab-column'>
                 <TabBar />
             </div> */}
-            <div className="main" id="itienrary">
 
                 <Responsive minWidth={600}>
                     <div className="days-bar">
@@ -281,6 +280,7 @@ export function ShowItinerary() {
                         <DaysBar />
                     </div>
                 </Responsive>
+            <div className="main" id="itienrary">
                 <div className="itinerary">
                     {sortedTripEvents.map((sortedTripEvent, index) => {
                         return renderScheduleItem(sortedTripEvent, index)

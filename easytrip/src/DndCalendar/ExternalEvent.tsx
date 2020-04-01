@@ -20,30 +20,57 @@ import { IRootState } from '../store';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            // maxWidth: 250,
-            minWidth:228,
-            height: 500,
-            marginTop: 80,
-            // marginRight: 20,
-            marginLeft: 20,
-            textAlign: 'center',
-            position: 'absolute'
+            [theme.breakpoints.up('sm')]: {
+                minWidth: 228,
+                height: 500,
+                marginTop: 80,
+                marginLeft: 20,
+                textAlign: 'center',
+                position: 'absolute'
+            },
+            [theme.breakpoints.down('sm')]: {
+
+                minWidth: 228,
+                maxWidth: 375,
+                height: 186,
+                textAlign: 'center',
+                position: 'relative',
+                borderRadius: 0
+            }
         },
         header: {
-            backgroundColor: "#424242",
-            color: '#fafafa',
-            textAlign: "center",
-            height: 60
-            
+            [theme.breakpoints.up('sm')]: {
+                backgroundColor: "#424242",
+                color: '#fafafa',
+                textAlign: "center",
+                height: 60
+            },
+            [theme.breakpoints.down('sm')]: {
+                backgroundColor: "#ffffff",
+                color: '#424242',
+                textAlign: "center",
+                height: 20,
+                padding: 19
+            }
+
+
         },
         title: {
-            fontSize: 20,
-            paddingLeft: 0,
-            paddingRight: 0
+            [theme.breakpoints.up('sm')]: {
+                fontSize: 20,
+                paddingLeft: 0,
+                paddingRight: 0
+            },
+            [theme.breakpoints.down('sm')]: {
+                fontSize: 14,
+                paddingLeft: 0,
+                paddingRight: 0,
+                fontWeight: 600
+            }
+            
         },
-        cards:{
-            paddingLeft: 0,
-            paddingRight:0
+        cards: {
+            padding:0
         }
     }),
 );
@@ -80,8 +107,8 @@ export function ExternalEvent() {
                             className="fc-event fc-resizable fc-item"
                             title={event.name}
                             id={event.attractionId} // pass the attraction id into draggedEl 
-                            // data={parseInt(event.attractionId)}
-                            // key={event.id}
+                        // data={parseInt(event.attractionId)}
+                        // key={event.id}
 
                         >
                             {event.name}

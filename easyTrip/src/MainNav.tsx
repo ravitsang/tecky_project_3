@@ -6,6 +6,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import Responsive from "react-responsive";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import './MainNav.scss';
+import { MUIDrawer } from './MUIDrawer'
+
+
 
 const theme = createMuiTheme({
     palette: {
@@ -20,7 +23,14 @@ const theme = createMuiTheme({
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            flexGrow: 1
+            [theme.breakpoints.up('sm')]: {
+                flexGrow: 1,
+                minHeight: 50,
+            },
+            [theme.breakpoints.down('sm')]: {
+                maxHeight: 30,
+                flexGrow: 1
+            }
         },
         menuButton: {
             marginRight: theme.spacing(2),
@@ -80,7 +90,12 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: 'center'
         },
         toolBar: {
-            minHeight: 50,
+            [theme.breakpoints.up('sm')]: {
+                minHeight: 50,
+            },
+            [theme.breakpoints.down('sm')]: {
+                minHeight: 50,
+            }
         }
     }),
 );
@@ -92,10 +107,11 @@ export function MainNav() {
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
                 <AppBar position="fixed">
-                    <Toolbar className={classes.toolBar}>
+                    <Toolbar className={`${classes.toolBar} tool-bar`}>
                         <Responsive maxWidth={599}>
                             <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-                                <MenuIcon />
+
+                                <MUIDrawer />
                             </IconButton>
                         </Responsive>
                         <Typography variant="h6" className={classes.title}>

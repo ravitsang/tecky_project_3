@@ -172,13 +172,9 @@ export function DndCalendar() {
 
     return (
 
-        <div>
-            {/* <div className='tab-column'>
-                <TabBar />
-            </div> */}
-            <Responsive minWidth={600}>
-                <ExternalEvent />
-            </Responsive>
+        <div className="calendar-layout">
+            <ExternalEvent />
+
             <div className="calendar-page">
                 {/* <div className='demo-app-top'>
                         <button onClick={toggleWeekends}>toggle weekends</button>&nbsp;
@@ -209,58 +205,58 @@ export function DndCalendar() {
                         hide={snackToggle} />
                 }
 
-                <div>
-                    <div className='demo-app-calendar'>
-                        <div className='calendar-title-column'>
-                            <div className="calendar-title">{`${tripSchedule.tripDays} days in ${tripSchedule.city}`}</div>
-                        </div>
-                        <Responsive minWidth={600}>
-                            <FullCalendar
-                                defaultView="timeGrid"
-                                dayCount={countDay < 5 ? countDay : 5}
-                                header={{
-                                    left: 'prev',
-                                    center: '',
-                                    right: 'next'
-                                }}
-                                // titleFormat="\'Hello, World!\'"
-                                plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
-                                ref={calendarComponentRef}
-                                events={calendarEvents}
-                                // rerenderDelay={10}
-                                editable={true}
-                                droppable={true}
-                                dateClick={handleDateClick}
-                                eventClick={handleEventClick}
-                                eventResize={handleEventResize}
-                                eventDrop={handleEventDrop}
-                                drop={handleExternalEventDrop}
-                                allDaySlot={false}
-                                defaultDate={startDate}
-                                slotDuration={'00:60:00'}
-                                eventOverlap={false}
-                                // displayEventTime={false}
-                                aspectRatio={1.7}
-                                // dateIncrement={{ day: 1 }}
-                                // eventConstraint={
-                                //     {
-                                //         start: calendarEvents[0]?.start,
-                                //         end: calendarEvents[1]?.end
-                                //     }
-                                // }
-                                // visibleRange={
-                                //     {
-                                //         start: '2020-03-01',
-                                //         end: '2020-03-30'
-                                //     }
-                                // }
 
-                                // timeGridEventMinHeight={30}
-                                // scrollTime={'12:00:00'}
-                                schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
-                            />
-                        </Responsive>
+                <div className='demo-app-calendar'>
+                    <div className='calendar-title-column'>
+                        <div className="calendar-title">{tripSchedule.city}</div>
                     </div>
+                    <Responsive minWidth={600}>
+                        <FullCalendar
+                            defaultView="timeGrid"
+                            dayCount={countDay < 5 ? countDay : 5}
+                            header={{
+                                left: 'prev',
+                                center: '',
+                                right: 'next'
+                            }}
+                            // titleFormat="\'Hello, World!\'"
+                            plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
+                            ref={calendarComponentRef}
+                            events={calendarEvents}
+                            // rerenderDelay={10}
+                            editable={true}
+                            droppable={true}
+                            dateClick={handleDateClick}
+                            eventClick={handleEventClick}
+                            eventResize={handleEventResize}
+                            eventDrop={handleEventDrop}
+                            drop={handleExternalEventDrop}
+                            allDaySlot={false}
+                            defaultDate={startDate}
+                            slotDuration={'00:60:00'}
+                            eventOverlap={false}
+                            // displayEventTime={false}
+                            aspectRatio={1.7}
+                            // dateIncrement={{ day: 1 }}
+                            // eventConstraint={
+                            //     {
+                            //         start: calendarEvents[0]?.start,
+                            //         end: calendarEvents[1]?.end
+                            //     }
+                            // }
+                            // visibleRange={
+                            //     {
+                            //         start: '2020-03-01',
+                            //         end: '2020-03-30'
+                            //     }
+                            // }
+
+                            // timeGridEventMinHeight={30}
+                            // scrollTime={'12:00:00'}
+                            schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                        />
+
+                    </Responsive>
                     <Responsive maxWidth={600}>
                         <FullCalendar
                             defaultView="timeGridDay"

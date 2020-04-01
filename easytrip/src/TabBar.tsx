@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import { AppBar, Theme, createStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
+import Responsive from "react-responsive";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,25 +54,26 @@ export function TabBar() {
 
 
   return (
-
-    <Paper className={classes.root} >
-      <div>
-        <Tabs
-          className={classes.tabs}
-          value={value}
-          onChange={handleChange}
-          classes={{
-            indicator: classes.indicator
-          }}
-          centered
-        >
-          <Tab onClick={() => dispatch(push('/attraction'))} className={classes.tab} label="Attraction" />
-          <Tab onClick={() => dispatch(push('/calendar'))} className={classes.tab} label="Calender" />
-          <Tab onClick={() => dispatch(push('/itinerary'))} className={classes.tab} label="Itinerary" />
-          <Tab onClick={() => dispatch(push('/maps'))} className={classes.tab} label="Map" />
-        </Tabs>
-      </div>
-    </Paper>
+    <Responsive minWidth={600}>
+      <Paper className={classes.root} >
+        <div>
+          <Tabs
+            className={classes.tabs}
+            value={value}
+            onChange={handleChange}
+            classes={{
+              indicator: classes.indicator
+            }}
+            centered
+          >
+            <Tab onClick={() => dispatch(push('/attraction'))} className={classes.tab} label="Attraction" />
+            <Tab onClick={() => dispatch(push('/calendar'))} className={classes.tab} label="Calender" />
+            <Tab onClick={() => dispatch(push('/itinerary'))} className={classes.tab} label="Itinerary" />
+            <Tab onClick={() => dispatch(push('/maps'))} className={classes.tab} label="Map" />
+          </Tabs>
+        </div>
+      </Paper>
+    </Responsive>
 
   );
 }
