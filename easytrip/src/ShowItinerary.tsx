@@ -115,12 +115,13 @@ export function ShowItinerary() {
         const prevIndex = index === 0 ? index : index - 1
         console.log(prevIndex);
         if (moment(sortedTripEvent.startTime).format('l') !== moment(sortedTripEvents[prevIndex].startTime).format('l') || index === 0) {
+            const day = moment(sortedTripEvent.startTime).format('l').split('/')[1];
             return (
-                <>
+                <div id={day}>
                     <Button className={classes.dateButton} size="medium">
                         {`${moment(sortedTripEvent.startTime).format('ddd')},${moment(sortedTripEvent.startTime).format('MMM Do')}`}
                     </Button>
-                </>
+                </div>
             )
         } else {
             return <div></div>
@@ -252,7 +253,7 @@ export function ShowItinerary() {
     }
 
     const printDocument = () => {
-        const input = document.getElementById('1');
+        const input = document.getElementById('itienrary');
         if (input !== null) {
             html2canvas(input)
                 .then((canvas) => {
@@ -269,10 +270,10 @@ export function ShowItinerary() {
 
     return (
         <div>
-            <div className='tab-column'>
+            {/* <div className='tab-column'>
                 <TabBar />
-            </div>
-            <div className="main" id="1">
+            </div> */}
+            <div className="main" id="itienrary">
 
                 <Responsive minWidth={600}>
                     <div className="days-bar">

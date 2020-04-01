@@ -16,7 +16,9 @@
 
 .demo-app-calendar {
   margin: 0;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .calendar-page{
@@ -28,4 +30,47 @@
   display: flex;
   justify-content: center;
   margin-top: 50px;
+}
+
+.calendar-title-column{
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-title{
+  position: absolute;
+  padding-top: 20px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+@media (max-width: 600px){
+  .sm-calendar{
+    max-width: 375px;
+  }
+
+
+  .fc-unthemed{
+    max-width: 375px !important;
+    min-width: 375px !important;
+    height: 684px !important;
+    // margin-left: 50px;
+  }
+
+  .fc-time-grid-container{
+    height: 600px  !important;
+  }
+
+
+  .calendar-title{
+    padding-top: 14px;
+    font-size: 16px;
+    // padding-left: 56px;
+
+  }
+
+  .fc-unthemed .fc-toolbar{
+    margin-bottom: 0px;
+  }
 }

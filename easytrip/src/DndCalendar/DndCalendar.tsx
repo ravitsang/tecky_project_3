@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
-
+// import dayGridPlugin from '@fullcalendar/dayGrid'
+import momentPlugin from '@fullcalendar/moment';
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
@@ -12,7 +13,7 @@ import "@fullcalendar/timegrid/main.css";
 
 import './DndCalendar.scss'
 import './MaterialDesign.scss'
-
+import Responsive from "react-responsive";
 
 import { TabBar } from '../TabBar'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,6 +37,7 @@ export function DndCalendar() {
     const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
     const eventTimeConstraint = useSelector((state: IRootState) => state.trip.eventTimeConstraint)
 
+    console.log(tripSchedule.city);
     const startDate = tripSchedule.dateInfor[0].startDate;
     const endDate = tripSchedule.dateInfor[1].endDate;
 
@@ -84,7 +86,7 @@ export function DndCalendar() {
                 itemSelector: ".fc-event"
             });
         }
-        if (calendarEvents.length === 0 ){
+        if (calendarEvents.length === 0) {
             dispatch(addStartEndEvent())
         }
 
@@ -171,9 +173,12 @@ export function DndCalendar() {
     return (
 
         <div>
-            <div className='tab-column'>
+            {/* <div className='tab-column'>
                 <TabBar />
-            </div>
+            </div> */}
+            <Responsive minWidth={600}>
+                <ExternalEvent />
+            </Responsive>
             <div className="calendar-page">
                 {/* <div className='demo-app-top'>
                         <button onClick={toggleWeekends}>toggle weekends</button>&nbsp;
@@ -203,19 +208,70 @@ export function DndCalendar() {
                         isShowing={isShowingAddEventMessage}
                         hide={snackToggle} />
                 }
-                <ExternalEvent />
+
                 <div>
                     <div className='demo-app-calendar'>
+                        <div className='calendar-title-column'>
+                            <div className="calendar-title">{`${tripSchedule.tripDays} days in ${tripSchedule.city}`}</div>
+                        </div>
+                        <Responsive minWidth={600}>
+                            <FullCalendar
+                                defaultView="timeGrid"
+                                dayCount={countDay < 5 ? countDay : 5}
+                                header={{
+                                    left: 'prev',
+                                    center: '',
+                                    right: 'next'
+                                }}
+                                // titleFormat="\'Hello, World!\'"
+                                plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
+                                ref={calendarComponentRef}
+                                events={calendarEvents}
+                                // rerenderDelay={10}
+                                editable={true}
+                                droppable={true}
+                                dateClick={handleDateClick}
+                                eventClick={handleEventClick}
+                                eventResize={handleEventResize}
+                                eventDrop={handleEventDrop}
+                                drop={handleExternalEventDrop}
+                                allDaySlot={false}
+                                defaultDate={startDate}
+                                slotDuration={'00:60:00'}
+                                eventOverlap={false}
+                                // displayEventTime={false}
+                                aspectRatio={1.7}
+                                // dateIncrement={{ day: 1 }}
+                                // eventConstraint={
+                                //     {
+                                //         start: calendarEvents[0]?.start,
+                                //         end: calendarEvents[1]?.end
+                                //     }
+                                // }
+                                // visibleRange={
+                                //     {
+                                //         start: '2020-03-01',
+                                //         end: '2020-03-30'
+                                //     }
+                                // }
+
+                                // timeGridEventMinHeight={30}
+                                // scrollTime={'12:00:00'}
+                                schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                            />
+                        </Responsive>
+                    </div>
+                    <Responsive maxWidth={600}>
                         <FullCalendar
-                            defaultView="timeGrid"
+                            defaultView="timeGridDay"
                             dayCount={countDay < 5 ? countDay : 5}
                             header={{
                                 left: 'prev',
                                 center: '',
                                 right: 'next'
                             }}
-                            // titleFormat={'[Hong Kong]'}
-                            plugins={[timeGridPlugin, interactionPlugin, listPlugin]}
+                            // titleFormat="\'Hello, World!\'"
+                            plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
                             ref={calendarComponentRef}
                             events={calendarEvents}
                             // rerenderDelay={10}
@@ -230,27 +286,10 @@ export function DndCalendar() {
                             defaultDate={startDate}
                             slotDuration={'00:60:00'}
                             eventOverlap={false}
-                            // displayEventTime={false}
                             aspectRatio={1.7}
-                            dateIncrement={{ day: 1 }}
-                            // eventConstraint={
-                            //     {
-                            //         start: calendarEvents[0]?.start,
-                            //         end: calendarEvents[1]?.end
-                            //     }
-                            // }
-                            // visibleRange={
-                            //     {
-                            //         start: '2020-03-01',
-                            //         end: '2020-03-30'
-                            //     }
-                            // }
-
-                            // timeGridEventMinHeight={30}
-                            // scrollTime={'12:00:00'}
                             schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
                         />
-                    </div>
+                    </Responsive>
                 </div>
                 {eventClick && <EventModal />}
 

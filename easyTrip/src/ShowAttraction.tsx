@@ -148,9 +148,9 @@ export function ShowAttraction() {
 
     return (
         <div>
-            <div className='tab-column'>
+            {/* <div className='tab-column'>
                 <TabBar />
-            </div>
+            </div> */}
             <div className="map-area">
                 <SimpleMap attractions={attractions} />
             </div>

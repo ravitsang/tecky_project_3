@@ -16,26 +16,24 @@ import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { DndCalendar } from './DndCalendar/DndCalendar';
 
-
-
-
-
 import  { ShowAttraction }  from './ShowAttraction';
+import { TabBar } from './TabBar';
 
 export function App() {
   // const dispatch = useDispatch();
   return (
     <ConnectedRouter history={history}>
       <MainNav />
-      <Switch>
+      {/* <Switch> */}
         <Route path='/' exact={true} component={EntryForm}/>
+        <div className='tab-column'>
+            <TabBar />
+        </div>
         <Route path='/attraction' component={ShowAttraction}/>
         <Route path='/itinerary' component={ShowItinerary}/>
         <Route path='/map' component={MarkerClusterComponent}/>
         <Route path='/calendar' component={DndCalendar} />
-
-
-      </Switch>
+      {/* </Switch> */}
     </ConnectedRouter>
   );
 }

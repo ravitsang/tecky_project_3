@@ -20,13 +20,14 @@ import { IRootState } from '../store';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxWidth: 250,
-            minWidth:250,
+            // maxWidth: 250,
+            minWidth:228,
             height: 500,
             marginTop: 80,
-            marginRight: 50,
-            marginLeft: 50,
-            textAlign: 'center'
+            // marginRight: 20,
+            marginLeft: 20,
+            textAlign: 'center',
+            position: 'absolute'
         },
         header: {
             backgroundColor: "#424242",
@@ -36,7 +37,13 @@ const useStyles = makeStyles((theme: Theme) =>
             
         },
         title: {
-            fontSize: 20
+            fontSize: 20,
+            paddingLeft: 0,
+            paddingRight: 0
+        },
+        cards:{
+            paddingLeft: 0,
+            paddingRight:0
         }
     }),
 );
@@ -67,7 +74,7 @@ export function ExternalEvent() {
                     }}
                     title="Unplanned Event">
                 </CardHeader>
-                <CardContent>
+                <CardContent className={classes.cards}>
                     {externalEvents.map((event: any) => (
                         <div
                             className="fc-event fc-resizable fc-item"

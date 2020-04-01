@@ -42,12 +42,16 @@ export function DaysBar() {
                 <Button className={classes.monthButton} href="#">{startDateInfor.month[0]}</Button>
                 {
                     startDateInfor.days.map((num) => {
+                        console.log(num);
+                        console.log(startDateInfor.month[1]);
                         return <Button className={classes.dayButton} href={`#${num}`}>{num}</Button>
                     })
                 }
                 <Button className={classes.monthButton} href="#">{endDateInfor.month[0]}</Button>
                 {
                     endDateInfor.days.map((num) => {
+                        console.log(num);
+                        console.log(console.log(endDateInfor.month[1]));
                         return <Button className={classes.dayButton} href={`#${num}`}>{num}</Button>
                     })
                 }
