@@ -9,7 +9,10 @@ type actionCreators = typeof getTripDetail |
     typeof deleteExternalEventList |
     typeof displayEventClick |
     typeof addStartEndEvent |
-    typeof updateConstraint
+    typeof updateConstraint |
+    typeof getDriving |
+    typeof getTransit |
+    typeof failed
 
 export type ITripActions = ReturnType<actionCreators>
 
@@ -109,4 +112,25 @@ export function updateConstraint(eventId: number) {
         eventId: eventId
     }
 
+}
+
+export function getDriving(duration:string){
+    return{
+        type: "GET_DRIVING" as "GET_DRIVING",
+        duration
+    }
+}
+
+export function getTransit(duration:string){
+    return{
+        type: "GET_TRANSIT" as "GET_TRANSIT",
+        duration
+    }
+}
+
+export function failed(msg:string){
+    return{
+        type: "FAILED" as "FAILED",
+        msg
+    }
 }

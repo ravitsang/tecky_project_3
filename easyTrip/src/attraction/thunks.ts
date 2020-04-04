@@ -33,7 +33,6 @@ export function getFilteredAttractionThunk(tagId:number){
 
 export function getLatLngThunk(address:string){
     return async (dispatch:ThunkDispatch)=>{
-        console.log(address);
         const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GOOGLE_KEY}`);
         const result = await res.json();
         console.log(result);
@@ -44,13 +43,5 @@ export function getLatLngThunk(address:string){
         }else {
             dispatch(failed(result.msg));
         }
-    }
-}
-
-export function getDirectionThunk(origin:string,destination:string){
-    return async (dispatch:ThunkDispatch)=>{
-        const res = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.REACT_APP_GOOGLE_KEY}`);
-        const result = await res.json();
-        console.log(result)
     }
 }

@@ -63,7 +63,7 @@ export interface ITripEvents {
     telephone?:string
     url?:string
     attraction_image?: string
-
+    duration: string
 }
 
 export interface ITripState {
