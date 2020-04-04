@@ -12,7 +12,7 @@ import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 
 import './DndCalendar.scss'
-import './MaterialDesign.scss'
+import './FullcalendarStyle.scss'
 import Responsive from "react-responsive";
 
 import { TabBar } from '../TabBar'
@@ -26,6 +26,7 @@ import { EventSnackbar } from './SnackBar';
 // import { AddEventModal } from './AddEventModal';
 import { AddEventPopover } from './AddEventPopover';
 import { AddEventForm } from './AddEventForm';
+import { Grid } from '@material-ui/core';
 
 export function DndCalendar() {
 
@@ -172,15 +173,18 @@ export function DndCalendar() {
 
     return (
 
-        <div className="calendar-layout">
-            <ExternalEvent />
+        <div>
 
+
+
+            <TabBar tabState={1}/>
             <div className="calendar-page">
                 {/* <div className='demo-app-top'>
                         <button onClick={toggleWeekends}>toggle weekends</button>&nbsp;
                     <button onClick={gotoPast}>go to a date in the past</button>&nbsp;
                     (also, click a date/time to add an event)
                     </div> */}
+
                 {
                     isShowingPopover && <AddEventPopover
                         isShowing={isShowingPopover}
@@ -207,91 +211,113 @@ export function DndCalendar() {
 
 
                 <div className='demo-app-calendar'>
-                    <div className='calendar-title-column'>
-                        <div className="calendar-title">{tripSchedule.city}</div>
-                    </div>
-                    <Responsive minWidth={600}>
-                        <FullCalendar
-                            defaultView="timeGrid"
-                            dayCount={countDay < 5 ? countDay : 5}
-                            header={{
-                                left: 'prev',
-                                center: '',
-                                right: 'next'
-                            }}
-                            // titleFormat="\'Hello, World!\'"
-                            plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
-                            ref={calendarComponentRef}
-                            events={calendarEvents}
-                            // rerenderDelay={10}
-                            editable={true}
-                            droppable={true}
-                            dateClick={handleDateClick}
-                            eventClick={handleEventClick}
-                            eventResize={handleEventResize}
-                            eventDrop={handleEventDrop}
-                            drop={handleExternalEventDrop}
-                            allDaySlot={false}
-                            defaultDate={startDate}
-                            slotDuration={'00:60:00'}
-                            eventOverlap={false}
-                            // displayEventTime={false}
-                            aspectRatio={1.7}
-                            // dateIncrement={{ day: 1 }}
-                            // eventConstraint={
-                            //     {
-                            //         start: calendarEvents[0]?.start,
-                            //         end: calendarEvents[1]?.end
-                            //     }
-                            // }
-                            // visibleRange={
-                            //     {
-                            //         start: '2020-03-01',
-                            //         end: '2020-03-30'
-                            //     }
-                            // }
+                    <Grid container spacing={4}>
+                        <Grid item xs={2}>
+                            <ExternalEvent />
+                        </Grid>
+                        <Grid item xs={10}>
+                            <div className='calendar-title-column'>
+                                <div className="calendar-title">{tripSchedule.city ? tripSchedule.city : 'City'} </div>
+                            </div>
+                            <Responsive minWidth={1440}>
+                                <FullCalendar
+                                    defaultView="timeGrid"
+                                    dayCount={countDay < 5 ? countDay : 5}
+                                    header={{
+                                        left: 'prev',
+                                        center: '',
+                                        right: 'next'
+                                    }}
+                                    // titleFormat="\'Hello, World!\'"
+                                    plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
+                                    ref={calendarComponentRef}
+                                    events={calendarEvents}
+                                    // rerenderDelay={10}
+                                    editable={true}
+                                    droppable={true}
+                                    dateClick={handleDateClick}
+                                    eventClick={handleEventClick}
+                                    eventResize={handleEventResize}
+                                    eventDrop={handleEventDrop}
+                                    drop={handleExternalEventDrop}
+                                    allDaySlot={false}
+                                    defaultDate={startDate}
+                                    slotDuration={'00:60:00'}
+                                    eventOverlap={false}
+                                    aspectRatio={1.7}
 
-                            // timeGridEventMinHeight={30}
-                            // scrollTime={'12:00:00'}
-                            schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
-                        />
+                                    schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                                />
 
-                    </Responsive>
-                    <Responsive maxWidth={600}>
-                        <FullCalendar
-                            defaultView="timeGridDay"
-                            dayCount={countDay < 5 ? countDay : 5}
-                            header={{
-                                left: 'prev',
-                                center: '',
-                                right: 'next'
-                            }}
-                            // titleFormat="\'Hello, World!\'"
-                            plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
-                            ref={calendarComponentRef}
-                            events={calendarEvents}
-                            // rerenderDelay={10}
-                            editable={true}
-                            droppable={true}
-                            dateClick={handleDateClick}
-                            eventClick={handleEventClick}
-                            eventResize={handleEventResize}
-                            eventDrop={handleEventDrop}
-                            drop={handleExternalEventDrop}
-                            allDaySlot={false}
-                            defaultDate={startDate}
-                            slotDuration={'00:60:00'}
-                            eventOverlap={false}
-                            aspectRatio={1.7}
-                            schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
-                        />
-                    </Responsive>
+                            </Responsive>
+                            <Responsive minWidth={600} maxWidth={1439}>
+                                <FullCalendar
+                                    defaultView="timeGrid"
+                                    dayCount={countDay < 5 ? countDay : 4}
+                                    header={{
+                                        left: 'prev',
+                                        center: '',
+                                        right: 'next'
+                                    }}
+                                    // titleFormat="\'Hello, World!\'"
+                                    plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
+                                    ref={calendarComponentRef}
+                                    events={calendarEvents}
+                                    // rerenderDelay={10}
+                                    editable={true}
+                                    droppable={true}
+                                    dateClick={handleDateClick}
+                                    eventClick={handleEventClick}
+                                    eventResize={handleEventResize}
+                                    eventDrop={handleEventDrop}
+                                    drop={handleExternalEventDrop}
+                                    allDaySlot={false}
+                                    defaultDate={startDate}
+                                    slotDuration={'00:60:00'}
+                                    eventOverlap={false}
+                                    aspectRatio={1.7}
+
+                                    schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                                />
+
+                            </Responsive>
+                            <Responsive maxWidth={599}>
+                                <FullCalendar
+                                    defaultView="timeGridDay"
+                                    dayCount={countDay < 5 ? countDay : 5}
+                                    header={{
+                                        left: 'prev',
+                                        center: '',
+                                        right: 'next'
+                                    }}
+                                    // titleFormat="\'Hello, World!\'"
+                                    plugins={[timeGridPlugin, interactionPlugin, listPlugin, momentPlugin]}
+                                    ref={calendarComponentRef}
+                                    events={calendarEvents}
+                                    // rerenderDelay={10}
+                                    editable={true}
+                                    droppable={true}
+                                    dateClick={handleDateClick}
+                                    eventClick={handleEventClick}
+                                    eventResize={handleEventResize}
+                                    eventDrop={handleEventDrop}
+                                    drop={handleExternalEventDrop}
+                                    allDaySlot={false}
+                                    defaultDate={startDate}
+                                    slotDuration={'00:60:00'}
+                                    eventOverlap={false}
+                                    aspectRatio={1.7}
+                                    schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                                />
+                            </Responsive>
+                        </Grid>
+                    </Grid>
                 </div>
                 {eventClick && <EventModal />}
 
             </div>
-
         </div>
+
     )
 }
 

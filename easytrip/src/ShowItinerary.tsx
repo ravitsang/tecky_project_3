@@ -1,7 +1,7 @@
 import React from 'react';
 import { Theme, makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { CardActionArea, CardContent, CardMedia, Typography, CardHeader, IconButton, Fab, Button, Card } from '@material-ui/core';
+import { CardActionArea, CardContent, CardMedia, Typography, CardHeader, IconButton, Fab, Button, Card, Grid } from '@material-ui/core';
 
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import EditIcon from '@material-ui/icons/Edit';
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.down('sm')]: {
                 display: 'flex',
                 flexDirection: 'column',
-                height:360,
-                width:300
+                height: 360,
+                width: 300
             }
         },
         actionArea: {
@@ -143,91 +143,95 @@ export function ShowItinerary() {
         // {sortedTripEvents.map((sortedTripEvent, index) => {
         //     console.log(sortedTripEvent.title);
         return (
-            <div className="scheduleItem">
-                {renderScheduleDate(sortedTripEvent, index)}
-                {index === 0 ? renderCityName() : <div></div>}
-                <div className="vertical"></div>
-                <div className="add-hotel-column">
-                    <Fab className={classes.hotelIcon} aria-label="edit">
-                        <HotelIcon />
-                    </Fab>
-                    <div className="add-hotel-link"><Link to="/">Add reservation</Link> for better travel calculation</div>
-                </div>
-                <div className="vertical"></div>
-                <div className="drive-time-column">
-                    <DirectionsCarIcon />
-                    <div className="drive-time"> {Math.floor(Math.random() * 60)} mins</div>
-                </div>
-                <div className="vertical"></div>
-                <Card className={`${classes.root} itinerary-card`}>
-                    <Responsive maxWidth={960}>
-                        <div className="sm-time-edit-column">
+            <div>
+
+
+                <div className="scheduleItem">
+                    {renderScheduleDate(sortedTripEvent, index)}
+                    {index === 0 ? renderCityName() : <div></div>}
+                    <div className="vertical"></div>
+                    <div className="add-hotel-column">
+                        <Fab className={classes.hotelIcon} aria-label="edit">
+                            <HotelIcon />
+                        </Fab>
+                        <div className="add-hotel-link"><Link to="/">Add reservation</Link> for better travel calculation</div>
+                    </div>
+                    <div className="vertical"></div>
+                    <div className="drive-time-column">
+                        <DirectionsCarIcon />
+                        <div className="drive-time"> {Math.floor(Math.random() * 60)} mins</div>
+                    </div>
+                    <div className="vertical"></div>
+                    <Card className={`${classes.root} itinerary-card`}>
+                        <Responsive maxWidth={960}>
+                            <div className="sm-time-edit-column">
+                                <CardContent className="time-display">
+                                    <div>
+                                        {`${moment(sortedTripEvent.startTime).format('LT')} - ${moment(sortedTripEvent.endTime).format('LT')}`}
+                                    </div>
+                                </CardContent>
+                                <CardContent>
+                                    <EditIcon fontSize='small' />
+                                </CardContent>
+                            </div>
+                            <div className="sm-media-header-row">
+                                <CardActionArea className={classes.actionArea}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        image={sortedTripEvent.attraction_image}
+                                        title={sortedTripEvent.title}
+                                    />
+                                </CardActionArea>
+                                <CardContent>
+                                    <CardHeader className={classes.header}
+                                        classes={{
+                                            title: classes.title,
+                                        }}
+                                        title={sortedTripEvent.title}
+                                        subheader={`Location: ${sortedTripEvent.location}`}
+                                    />
+                                </CardContent>
+                            </div>
+                        </Responsive>
+                        <Responsive minWidth={960}>
                             <CardContent className="time-display">
                                 <div>
-                                    {`${moment(sortedTripEvent.startTime).format('LT')} - ${moment(sortedTripEvent.endTime).format('LT')}`}
+                                    {moment(sortedTripEvent.startTime).format('LT')}
+                                </div>
+                                <div>
+                                    {moment(sortedTripEvent.endTime).format('LT')}
                                 </div>
                             </CardContent>
                             <CardContent>
-                                <EditIcon fontSize='small'/>
+                                <CardActionArea className={classes.actionArea}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        image={sortedTripEvent.attraction_image}
+                                        title={sortedTripEvent.title}
+                                    />
+                                </CardActionArea>
                             </CardContent>
-                        </div>
-                        <div className="sm-media-header-row">
-                            <CardActionArea className={classes.actionArea}>
-                                <CardMedia
-                                    className={classes.media}
-                                    image={sortedTripEvent.attraction_image}
-                                    title={sortedTripEvent.title}
-                                />
-                            </CardActionArea>
-                            <CardContent>
+                            <CardContent className={classes.textArea} >
                                 <CardHeader className={classes.header}
                                     classes={{
                                         title: classes.title,
+                                        subheader: classes.subheader,
                                     }}
+                                    action={
+                                        <IconButton aria-label="settings">
+                                            <EditIcon />
+                                        </IconButton>
+                                    }
                                     title={sortedTripEvent.title}
-                                    subheader={`Location: ${sortedTripEvent.location}`}
+                                    subheader={sortedTripEvent.location}
                                 />
+                                <Typography variant="body2" color="textSecondary" component="p" className="descriptionArea">
+                                    {sortedTripEvent.description}
+                                </Typography>
                             </CardContent>
-                        </div>
-                    </Responsive>
-                    <Responsive minWidth={960}>
-                        <CardContent className="time-display">
-                            <div>
-                                {moment(sortedTripEvent.startTime).format('LT')}
-                            </div>
-                            <div>
-                                {moment(sortedTripEvent.endTime).format('LT')}
-                            </div>
-                        </CardContent>
-                        <CardContent>
-                            <CardActionArea className={classes.actionArea}>
-                                <CardMedia
-                                    className={classes.media}
-                                    image={sortedTripEvent.attraction_image}
-                                    title={sortedTripEvent.title}
-                                />
-                            </CardActionArea>
-                        </CardContent>
-                        <CardContent className={classes.textArea} >
-                            <CardHeader className={classes.header}
-                                classes={{
-                                    title: classes.title,
-                                    subheader: classes.subheader,
-                                }}
-                                action={
-                                    <IconButton aria-label="settings">
-                                        <EditIcon />
-                                    </IconButton>
-                                }
-                                title={sortedTripEvent.title}
-                                subheader={sortedTripEvent.location}
-                            />
-                            <Typography variant="body2" color="textSecondary" component="p" className="descriptionArea">
-                                {sortedTripEvent.description}
-                            </Typography>
-                        </CardContent>
-                    </Responsive>
-                </Card>
+                        </Responsive>
+                    </Card>
+                </div>
             </div>
         )
         // })}
@@ -270,22 +274,23 @@ export function ShowItinerary() {
 
     return (
         <div>
-            {/* <div className='tab-column'>
-                <TabBar />
-            </div> */}
-
+            <TabBar tabState={2} />
+            <div className="itinerary-page">
                 <Responsive minWidth={600}>
-                    <div className="days-bar">
-                        <button onClick={printDocument} style={{ padding: 10, borderRadius: 5, borderColor: '#6A6A6A', backgroundColor: '#6A6A6A', color: '#fff' }}>Export PDF</button>
+                    <div className="days-bar-row">
+                        <div className="export-button-row">
+                            <button onClick={printDocument} style={{ padding: 10, borderRadius: 5, borderColor: '#6A6A6A', backgroundColor: '#6A6A6A', color: '#fff' }}>Export PDF</button>
+                        </div>
                         <DaysBar />
                     </div>
                 </Responsive>
-            <div className="main" id="itienrary">
-                <div className="itinerary">
-                    {sortedTripEvents.map((sortedTripEvent, index) => {
-                        return renderScheduleItem(sortedTripEvent, index)
-                    })}
-                    {(sortedTripEvents.length === 0) && renderEmptyScheduleItem()}
+                <div className="main" id="itienrary">
+                    <div className="itinerary">
+                        {sortedTripEvents.map((sortedTripEvent, index) => {
+                            return renderScheduleItem(sortedTripEvent, index)
+                        })}
+                        {(sortedTripEvents.length === 0) && renderEmptyScheduleItem()}
+                    </div>
                 </div>
             </div>
         </div>

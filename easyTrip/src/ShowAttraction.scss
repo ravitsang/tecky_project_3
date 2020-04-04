@@ -24,3 +24,10 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+
+@media (max-width:600px){
+    .attraction-area div{
+        margin: 0px
+    }
+}

@@ -36,9 +36,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
   }))
 
-export function TabBar() {
+
+export interface ITabBarProps{
+
+  tabState:number
+
+}
+
+
+export function TabBar(props:ITabBarProps) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(props.tabState);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     console.log(newValue);

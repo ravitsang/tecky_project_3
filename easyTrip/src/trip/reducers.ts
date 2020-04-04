@@ -43,8 +43,6 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
 
 
 
-    let startDate = state.tripSchedule?.dateInfor[0].startDate ? state.tripSchedule.dateInfor[0].startDate : "";
-    let endDate = state.tripSchedule?.dateInfor[1].endDate ? state.tripSchedule.dateInfor[1].endDate : "";
 
 
     let startTime: Date
@@ -285,7 +283,10 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
         case "ADD_START_END_TIME":
 
             
-            eventTimeConstraint = [new Date(startDate), new Date(endDate)]
+            const startDate: Date = state.tripSchedule?.dateInfor[0].startDate ? new Date(state.tripSchedule.dateInfor[0].startDate) : new Date();
+            const endDate: Date = state.tripSchedule?.dateInfor[1].endDate ? new Date(state.tripSchedule.dateInfor[1].endDate) : moment(new Date()). add(4,'days').toDate()
+            
+            eventTimeConstraint = [startDate, endDate]
             console.log(eventTimeConstraint);
             localStorage.setItem('eventTimeConstraint', JSON.stringify(eventTimeConstraint));
 
@@ -293,28 +294,28 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                 {
                     id: 1,
                     title: 'Arrival',
-                    start: new Date(startDate),
-                    end: moment(new Date(startDate))
+                    start: startDate,
+                    end: moment(startDate)
                         .add(0.5, 'hours').toDate(),
                     overlap: false,
                     backgroundColor: "#FAFAFA",
                     durationEditable: false,
                     constraint:
                     {
-                        end: new Date(endDate)
+                        end: endDate
                     }
                 },
                 {
                     id: 2,
                     title: 'Departure',
-                    start: new Date(endDate),
-                    end: moment(new Date(endDate)).add(0.5, 'hours').toDate(),
+                    start: endDate,
+                    end: moment(endDate).add(0.5, 'hours').toDate(),
                     overlap: false,
                     backgroundColor: "#FAFAFA",
                     durationEditable: false,
                     constraint:
                     {
-                        start: new Date(startDate)
+                        start: startDate
                     }
                 }
             ]

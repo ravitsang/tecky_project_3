@@ -25,10 +25,9 @@ export function App() {
     <ConnectedRouter history={history}>
       <MainNav />
       {/* <Switch> */}
+
+        {/* <TabBar /> */}
         <Route path='/' exact={true} component={EntryForm}/>
-        <div className='tab-column'>
-            <TabBar />
-        </div>
         <Route path='/attraction' component={ShowAttraction}/>
         <Route path='/itinerary' component={ShowItinerary}/>
         <Route path='/map' component={MarkerClusterComponent}/>
