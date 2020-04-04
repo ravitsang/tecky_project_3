@@ -7,7 +7,7 @@ import Responsive from "react-responsive";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import './MainNav.scss';
 import { MUIDrawer } from './MUIDrawer'
-
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 
 const theme = createMuiTheme({
@@ -113,6 +113,9 @@ export function MainNav() {
 
                                 <MUIDrawer />
                             </IconButton>
+                            {/* <IconButton edge="end" className={classes.menuButton} aria-label="menu">
+                                <PlaylistAddCheckIcon />
+                            </IconButton> */}
                         </Responsive>
                         <Typography variant="h6" className={classes.title}>
                             <Link className="logo" to="/">EasyTrip</Link>
@@ -147,6 +150,9 @@ export function MainNav() {
                         <Button color="inherit"><Link to="/calendar">DndCalendar</Link></Button> */}
                     </Toolbar>
                 </AppBar>
+                <IconButton edge="end" className={classes.menuButton} aria-label="menu">
+                    <PlaylistAddCheckIcon />
+                </IconButton>
             </div>
         </ThemeProvider>
     );

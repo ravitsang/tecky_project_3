@@ -134,6 +134,7 @@
 
 .fc-unthemed{
     width: 1362px;
+
     min-width: 970px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     
@@ -173,6 +174,16 @@
     background-color: #eeeeee;
     border-color: #eeeeee;
 }
+
+@media (max-width:1440px){
+    .fc-unthemed{
+        width: 1000px;
+        // min-width: 970px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        
+    }
+}
+
 
 
 @media (max-width:600px){

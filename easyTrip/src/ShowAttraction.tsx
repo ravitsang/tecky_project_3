@@ -153,9 +153,7 @@ export function ShowAttraction() {
 
     return (
         <div>
-            {/* <div className='tab-column'>
-                <TabBar />
-            </div> */}
+            <TabBar tabState={0}/>
             <div className="map-area">
                 <SimpleMap attractions={attractions} zoom={zoom} center={center}/>
             </div>

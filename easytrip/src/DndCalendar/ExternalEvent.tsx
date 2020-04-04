@@ -5,6 +5,7 @@ import "@fullcalendar/timegrid/main.css";
 import { Card, CardHeader, CardContent, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
+import './ExternalEvent.scss'
 
 
 // let eventData = [
@@ -24,9 +25,8 @@ const useStyles = makeStyles((theme: Theme) =>
                 minWidth: 228,
                 height: 500,
                 marginTop: 80,
-                marginLeft: 20,
                 textAlign: 'center',
-                position: 'absolute'
+                position: 'relative'
             },
             [theme.breakpoints.down('sm')]: {
 
@@ -42,8 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up('sm')]: {
                 backgroundColor: "#424242",
                 color: '#fafafa',
-                textAlign: "center",
-                height: 60
+                textAlign: "center"
             },
             [theme.breakpoints.down('sm')]: {
                 backgroundColor: "#ffffff",
@@ -66,7 +65,12 @@ const useStyles = makeStyles((theme: Theme) =>
                 paddingLeft: 0,
                 paddingRight: 0,
                 fontWeight: 600
-            }
+            },
+            [theme.breakpoints.down('xl')]: {
+                fontSize: 15,
+                paddingLeft: 0,
+                paddingRight: 0
+            },
             
         },
         cards: {
@@ -92,10 +96,10 @@ export function ExternalEvent() {
 
 
     return (
-        <Card className={classes.root}>
+        <Card className={`${classes.root} external-event`}>
             <div id='external-events'>
                 <CardHeader
-                    className={classes.header}
+                    className={`${classes.header} external-event-header`}
                     classes={{
                         title: classes.title,
                     }}
