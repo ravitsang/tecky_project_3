@@ -263,9 +263,9 @@ export function ShowItinerary() {
                 .then((canvas) => {
                     const imgData = canvas.toDataURL('image/png');
                     const pdf = new jsPDF();
-                    pdf.addImage(imgData, 'JPEG', 0, 0);
+                    pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
                     // pdf.output('dataurlnewwindow');
-                    pdf.save("download.pdf");
+                    pdf.save("EasyTrip_Itinerary.pdf");
                 })
                 ;
         }
