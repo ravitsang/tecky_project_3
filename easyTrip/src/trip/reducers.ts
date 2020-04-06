@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import { ITripState, ITripEvents } from './state';
 import { ITripActions } from './actions';
 import moment, { duration } from 'moment';
@@ -36,6 +37,7 @@ const initialState: ITripState = {
     // evnets that was added in show attraction page
     externalEvents: localStorage.getItem('externalEvents') ? JSON.parse(localStorage.getItem('externalEvents') || '[]') : [],
     eventTimeConstraint:  localStorage.getItem('eventTimeConstraint') ? JSON.parse(localStorage.getItem('eventTimeConstraint') || '[]') : [],
+    drivingDuration: []
 }
 
 
@@ -388,9 +390,10 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
             }
 
         case "GET_DRIVING":
+            console.log(state.drivingDuration);
             return{
                 ...state,
-                
+                drivingDuration: state.drivingDuration.concat(action.duration)
             }
         case "GET_TRANSIT":
             return{

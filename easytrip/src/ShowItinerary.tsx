@@ -94,11 +94,22 @@ export function ShowItinerary() {
     const tripSchedule = useSelector((state: IRootState) => state.trip.tripSchedule)
     const tripEvents = useSelector((state: IRootState) => state.trip.tripEvents)
     const calendarEvents = useSelector((state: IRootState) => state.trip.calendarEvents)
-    // console.log(calendarEvents);
+    const drivingDuration = useSelector((state: IRootState) => state.trip.drivingDuration)
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        calDrivingDuration()
+        return () => {
+
+        }
+    }, [])
+
+
+
     console.log(tripEvents);
     const startDate = tripSchedule.dateInfor[0].startDate
-    
-    const dispatch = useDispatch();
+
 
     tripEvents.map((event) => {
         console.log(new Date(event.startTime));
@@ -110,6 +121,13 @@ export function ShowItinerary() {
 
     console.log(sortedTripEvents);
 
+    // calculate the driving time between two aattractions
+    const calDrivingDuration = () => {
+        sortedTripEvents.map((event, num) => {
+            event.location && sortedTripEvents.length - 1 !== num ? dispatch(getDrivingThunk(event.location, sortedTripEvents[num + 1].location as string)) : Math.floor(Math.random() * 60)
+            console.log(drivingDuration);
+        })
+    }
 
     // the date header in the itinerary
     const renderScheduleDate = (sortedTripEvent: ITripEvents, index: number) => {
@@ -140,6 +158,7 @@ export function ShowItinerary() {
         )
     }
 
+
     const renderScheduleItem = (sortedTripEvent: ITripEvents, index: number) => {
 
 
@@ -160,9 +179,9 @@ export function ShowItinerary() {
                     <div className="vertical"></div>
                     <div className="drive-time-column">
                         <DirectionsCarIcon />
-                        <div className="drive-time"> {sortedTripEvents.map(event=>
-                        event.location ? dispatch(getDrivingThunk(event.location,event.location)) : Math.floor(Math.random() * 60)
-                    )}</div>
+                        <div className="drive-time">
+                        { index !== 0 ? drivingDuration[index - 1 ] : "" }
+                        </div>
                     </div>
                     <div className="vertical"></div>
                     <Card className={`${classes.root} itinerary-card`}>

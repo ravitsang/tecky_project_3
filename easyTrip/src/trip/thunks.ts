@@ -9,7 +9,8 @@ export function getDrivingThunk(origin:string,destination:string){
         const result = await res.json();
         console.log(result);
         if(result.status === "OK"){
-            const duration = result.routes.legs.duration.text;
+            const duration = result.routes[0].legs[0].duration.text
+            // console.log(result.routes[0].legs[0].duration.text);
             dispatch(getDriving(duration));
         }else{
             dispatch(failed(result.msg))

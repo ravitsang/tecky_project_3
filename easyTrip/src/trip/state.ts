@@ -73,4 +73,5 @@ export interface ITripState {
     tripEvents: ITripEvents[]
     externalEvents: IScheduleItem[]
     eventTimeConstraint: Date []
+    drivingDuration:String []
 }
