@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Theme, makeStyles, createStyles } from '@material-ui/core/styles';
 
 import { CardActionArea, CardContent, CardMedia, Typography, CardHeader, IconButton, Fab, Button, Card, Grid } from '@material-ui/core';
@@ -7,7 +7,7 @@ import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import EditIcon from '@material-ui/icons/Edit';
 import HotelIcon from '@material-ui/icons/Hotel';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from './store';
 import { DaysBar } from './DaysBar';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,7 @@ import { ITripEvents } from './trip/state';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { getDrivingThunk } from './trip/thunks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -96,8 +97,8 @@ export function ShowItinerary() {
     // console.log(calendarEvents);
     console.log(tripEvents);
     const startDate = tripSchedule.dateInfor[0].startDate
-
-
+    
+    const dispatch = useDispatch();
 
     tripEvents.map((event) => {
         console.log(new Date(event.startTime));
@@ -159,7 +160,9 @@ export function ShowItinerary() {
                     <div className="vertical"></div>
                     <div className="drive-time-column">
                         <DirectionsCarIcon />
-                        <div className="drive-time"> {Math.floor(Math.random() * 60)} mins</div>
+                        <div className="drive-time"> {sortedTripEvents.map(event=>
+                        event.location ? dispatch(getDrivingThunk(event.location,event.location)) : Math.floor(Math.random() * 60)
+                    )}</div>
                     </div>
                     <div className="vertical"></div>
                     <Card className={`${classes.root} itinerary-card`}>
@@ -263,9 +266,9 @@ export function ShowItinerary() {
                 .then((canvas) => {
                     const imgData = canvas.toDataURL('image/png');
                     const pdf = new jsPDF();
-                    pdf.addImage(imgData, 'JPEG', 0, 0);
+                    pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
                     // pdf.output('dataurlnewwindow');
-                    pdf.save("download.pdf");
+                    pdf.save("EasyTrip_Itinerary.pdf");
                 })
                 ;
         }

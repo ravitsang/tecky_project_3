@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from './store';
 import { IAttraction } from './attraction/state';
@@ -26,6 +26,9 @@ export function ShowAttraction() {
 
     const dispatch = useDispatch();
     const classes = useStyles();
+
+    const [center, setCenter] = useState({ lat: 22.396427, lng: 114.109497 });
+    const [zoom, setZoom] = useState(11);
 
     const attractions = useSelector((state: IRootState) => state.attraction.attractions);
     const scheduleItems = useSelector((state: IRootState) => state.scheduleItem.scheduleItems);
@@ -58,6 +61,8 @@ export function ShowAttraction() {
         attractions.map(attraction => {
             if (attraction.id === i) {
                 dispatch(getLatLngThunk(attraction.location))
+                setCenter({ lat: attraction.lat, lng: attraction.lng });
+                setZoom(13);
             }
         })
     }
@@ -150,7 +155,7 @@ export function ShowAttraction() {
         <div>
             <TabBar tabState={0}/>
             <div className="map-area">
-                <SimpleMap attractions={attractions} />
+                <SimpleMap attractions={attractions} zoom={zoom} center={center}/>
             </div>
             <Container>
                 <Row>

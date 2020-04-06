@@ -25,7 +25,6 @@ export function addAttraction(attractionId:number){
 export function getLatLng(lat:number,lng:number){
     return{
         type: "GET_LAT_LNG" as "GET_LAT_LNG",
-
         lat,
         lng
     }

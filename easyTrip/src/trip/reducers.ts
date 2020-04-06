@@ -1,6 +1,6 @@
 import { ITripState, ITripEvents } from './state';
 import { ITripActions } from './actions';
-import moment from 'moment';
+import moment, { duration } from 'moment';
 
 
 let calendarEventsIds = [];
@@ -187,6 +187,7 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                 description: action.eventDetail.description,
                 startTime: startTime,
                 endTime: endTime,
+                duration: action.eventDetail.duration
             });
 
             localStorage.setItem('tripEvents', JSON.stringify(tripEvents));
@@ -241,7 +242,8 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                 endTime: moment(action.info.date).add(2, 'hours').toDate(),
                 telephone: attraction?.telephone,
                 url: attraction?.url,
-                attraction_image: attraction?.attraction_image
+                attraction_image: attraction?.attraction_image,
+                duration: action.info.duration
             })
 
             localStorage.setItem('tripEvents', JSON.stringify(tripEvents));
@@ -385,7 +387,15 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                 calendarEvents: calendarEvents
             }
 
-
+        case "GET_DRIVING":
+            return{
+                ...state,
+                
+            }
+        case "GET_TRANSIT":
+            return{
+                ...state
+            }
         default:
             console.log(action);
             return state

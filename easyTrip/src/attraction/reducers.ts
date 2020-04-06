@@ -32,7 +32,6 @@ export const attractionReducer = (state:IAttractionState = initialState,action:I
                 })
             }
         case "GET_LAT_LNG":
-            
             return{
                 ...state,
                 attractions: state.attractions.map(attraction =>{
@@ -41,7 +40,6 @@ export const attractionReducer = (state:IAttractionState = initialState,action:I
                             lat: action.lat,
                             lng: action.lng
                         }
-
                 })
             }
         case "FAILED":
