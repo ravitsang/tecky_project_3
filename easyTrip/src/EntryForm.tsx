@@ -42,6 +42,7 @@ export function EntryForm() {
         const day = splitStartDate[2].split(',')[0]
         const year = splitStartDate[3]
         const month = moment(startDate).format('l').split('/')[0];
+        console.log(textMonth);
 
         setValue("trip-start-date", {
             days: days,
@@ -53,7 +54,7 @@ export function EntryForm() {
     }
 
     if (endDate) {
-        const endDateValue = moment(endDate).format('LLLL');
+        const endDateValue = moment(endDate).format('llll');
         const splitendDate = endDateValue.split(' ')//.slice(0,4).join('')
         const days = splitendDate[0].split(',')[0]
         const textMonth = splitendDate[1]
@@ -61,7 +62,7 @@ export function EntryForm() {
         const year = splitendDate[3]
         const month = moment(endDate).format('l').split('/')[0];
 
-
+        console.log(textMonth);
         setValue("trip-end-date", {
             days: days,
             textMonth: textMonth,

@@ -39,7 +39,7 @@ export function DaysBar() {
     return (
         <div className="days-bar-row">
             <div className={classes.buttonGroup}>
-                <Button className={classes.monthButton} href="#">{startDateInfor.month[0]}</Button>
+                <Button className={classes.monthButton} href="#">{startDateInfor.month[0].toUpperCase()}</Button>
                 {
                     startDateInfor.days.map((num) => {
                         console.log(num);
@@ -47,7 +47,7 @@ export function DaysBar() {
                         return <Button className={classes.dayButton} href={`#${num}`}>{num}</Button>
                     })
                 }
-                <Button className={classes.monthButton} href="#">{endDateInfor.month[0]}</Button>
+                {startDateInfor.month[0] !== endDateInfor.month[0] && <Button className={classes.monthButton} href="#">{endDateInfor.month[0].toUpperCase()}</Button>}
                 {
                     endDateInfor.days.map((num) => {
                         console.log(num);

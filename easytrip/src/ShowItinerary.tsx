@@ -109,8 +109,9 @@ export function ShowItinerary() {
 
     console.log(sortedTripEvents);
 
-    const renderScheduleDate = (sortedTripEvent: ITripEvents, index: number) => {
 
+    // the date header in the itinerary
+    const renderScheduleDate = (sortedTripEvent: ITripEvents, index: number) => {
 
         const prevIndex = index === 0 ? index : index - 1
         console.log(prevIndex);
@@ -140,8 +141,7 @@ export function ShowItinerary() {
 
     const renderScheduleItem = (sortedTripEvent: ITripEvents, index: number) => {
 
-        // {sortedTripEvents.map((sortedTripEvent, index) => {
-        //     console.log(sortedTripEvent.title);
+
         return (
             <div>
 
