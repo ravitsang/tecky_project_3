@@ -1,4 +1,5 @@
 import { ITrip, IDaysInfor } from "./state"
+import { IAttraction } from "../attraction/state"
 
 type actionCreators = typeof getTripDetail |
     typeof storeDays |
@@ -6,6 +7,7 @@ type actionCreators = typeof getTripDetail |
     typeof resizeEvent |
     typeof addEvent |
     typeof addExternalEvent |
+    typeof updateExternalEvent |
     typeof deleteExternalEventList |
     typeof displayEventClick |
     typeof addStartEndEvent |
@@ -65,6 +67,17 @@ export function addEvent(info: any, values:any) {
     }
 
 }
+
+
+export function updateExternalEvent(attraction: IAttraction) {
+
+    return {
+        type: "UPDATE_EXTERNAL_EVENT" as "UPDATE_EXTERNAL_EVENT",
+        attraction: attraction
+    }
+
+}
+
 
 
 export function addExternalEvent(info: any) {

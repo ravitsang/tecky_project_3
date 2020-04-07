@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
@@ -93,6 +93,13 @@ export function ExternalEvent() {
     const externalEvents = useSelector((state: IRootState) => state.trip.externalEvents)
 
 
+    console.log(externalEvents);
+    // useEffect(() => {
+    //     effect
+    //     return () => {
+    //         cleanup
+    //     }
+    // }, [input])
 
 
     return (

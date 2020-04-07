@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         header: {
             padding: 0,
-            marginBottom: 30,
+            marginBottom: 10,
 
         },
         title: {
@@ -95,7 +95,7 @@ export function ShowItinerary() {
     const tripEvents = useSelector((state: IRootState) => state.trip.tripEvents)
     const calendarEvents = useSelector((state: IRootState) => state.trip.calendarEvents)
     const drivingDuration = useSelector((state: IRootState) => state.trip.drivingDuration)
-
+    const externalEvents = useSelector((state: IRootState) => state.trip.externalEvents)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -108,6 +108,7 @@ export function ShowItinerary() {
 
 
     console.log(tripEvents);
+    console.log(externalEvents);
     const startDate = tripSchedule.dateInfor[0].startDate
 
 
@@ -130,21 +131,42 @@ export function ShowItinerary() {
     }
 
     // the date header in the itinerary
-    const renderScheduleDate = (sortedTripEvent: ITripEvents, index: number) => {
+    const renderScheduleDetail = (sortedTripEvent: ITripEvents, index: number) => {
 
         const prevIndex = index === 0 ? index : index - 1
         console.log(prevIndex);
         if (moment(sortedTripEvent.startTime).format('l') !== moment(sortedTripEvents[prevIndex].startTime).format('l') || index === 0) {
             const day = moment(sortedTripEvent.startTime).format('l').split('/')[1];
             return (
-                <div id={day}>
-                    <Button className={classes.dateButton} size="medium">
-                        {`${moment(sortedTripEvent.startTime).format('ddd')},${moment(sortedTripEvent.startTime).format('MMM Do')}`}
-                    </Button>
-                </div>
+                <>
+                    <div id={day}>
+                        <Button className={classes.dateButton} size="medium">
+                            {`${moment(sortedTripEvent.startTime).format('ddd')},${moment(sortedTripEvent.startTime).format('MMM Do')}`}
+                        </Button>
+                    </div>
+                    {index === 0 ? renderCityName() : <div></div>}
+                    <div className="vertical"></div>
+                    <div className="add-hotel-column">
+                        <Fab className={classes.hotelIcon} aria-label="edit">
+                            <HotelIcon />
+                        </Fab>
+                        <div className="add-hotel-link"><Link to="/">Add reservation</Link> for better travel calculation</div>
+                    </div>
+                </>
             )
         } else {
-            return <div></div>
+            return (
+                <>
+                    <div className="vertical"></div>
+                    <div className="drive-time-column">
+                        <DirectionsCarIcon />
+                        <div className="drive-time">
+                            {drivingDuration[index - 1]}
+                            {drivingDuration}
+                        </div>
+                    </div>
+                </>
+                )
         }
     }
 
@@ -167,22 +189,23 @@ export function ShowItinerary() {
 
 
                 <div className="scheduleItem">
-                    {renderScheduleDate(sortedTripEvent, index)}
-                    {index === 0 ? renderCityName() : <div></div>}
-                    <div className="vertical"></div>
+                    {renderScheduleDetail(sortedTripEvent, index)}
+
+                    {/* <div className="vertical"></div>
                     <div className="add-hotel-column">
                         <Fab className={classes.hotelIcon} aria-label="edit">
                             <HotelIcon />
                         </Fab>
                         <div className="add-hotel-link"><Link to="/">Add reservation</Link> for better travel calculation</div>
-                    </div>
-                    <div className="vertical"></div>
+                    </div> */}
+                    {/* <div className="vertical"></div>
                     <div className="drive-time-column">
                         <DirectionsCarIcon />
                         <div className="drive-time">
-                        { index !== 0 ? drivingDuration[index - 1 ] : "" }
+                            {index !== 0 ? drivingDuration[index - 1] : ""}
+                            {console.log(index)}
                         </div>
-                    </div>
+                    </div> */}
                     <div className="vertical"></div>
                     <Card className={`${classes.root} itinerary-card`}>
                         <Responsive maxWidth={960}>

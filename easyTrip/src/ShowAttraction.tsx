@@ -13,6 +13,7 @@ import { addAttraction } from './attraction/actions';
 import { deleteScheduleItem, createScheduleItem } from './scheduleItem/actions';
 import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
 import { TabBar } from './TabBar';
+import { updateExternalEvent } from './trip/actions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -101,6 +102,9 @@ export function ShowAttraction() {
                 });
                 localStorage.setItem('scheduleItems', JSON.stringify(scheduleItems));
 
+
+
+                dispatch(updateExternalEvent(attraction));
 
                 // add items to localstorage of external events  for dragging 
                 const externalEventsString = localStorage.getItem('externalEvents') || "[]";

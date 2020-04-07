@@ -66,12 +66,25 @@ export interface ITripEvents {
     duration: string
 }
 
+export interface IExternalEvents {
+
+    attractionId:number
+    name:string
+    description: string
+    location: string
+    telephone: string
+    url: string
+    attraction_image: string
+
+
+}
+
 export interface ITripState {
 
     tripSchedule: ITripSchedule
     calendarEvents: ICalendarEvents[]
     tripEvents: ITripEvents[]
-    externalEvents: IScheduleItem[]
+    externalEvents: IExternalEvents[]
     eventTimeConstraint: Date []
     drivingDuration:String []
 }

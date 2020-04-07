@@ -216,6 +216,20 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                 tripEvents: tripEvents
             }
 
+        case "UPDATE_EXTERNAL_EVENT":
+            return{
+                ...state,
+                externalEvents: state.externalEvents.concat({
+                    attractionId: action.attraction.id,
+                    name: action.attraction.name,
+                    description: action.attraction.description,
+                    location: action.attraction.location,
+                    telephone: action.attraction.telephone,
+                    url: action.attraction.url,
+                    attraction_image: action.attraction.attraction_image
+                })
+            }
+
         case "ADD_EXTERNAL_EVENT":
 
             console.log(state.calendarEvents);
@@ -287,8 +301,8 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
         case "ADD_START_END_TIME":
 
             
-            const startDate: Date = state.tripSchedule?.dateInfor[0].startDate ? new Date(state.tripSchedule.dateInfor[0].startDate) : new Date();
-            const endDate: Date = state.tripSchedule?.dateInfor[1].endDate ? new Date(state.tripSchedule.dateInfor[1].endDate) : moment(new Date()). add(4,'days').toDate()
+            const startDate: Date = state.tripSchedule?.dateInfor[0].startDate ? new Date(`${state.tripSchedule.dateInfor[0].startDate} 09:00`) : new Date();
+            const endDate: Date = state.tripSchedule?.dateInfor[1].endDate ? new Date(`${state.tripSchedule.dateInfor[1].endDate} 09:00`) : moment(new Date()). add(4,'days').toDate()
             
             eventTimeConstraint = [startDate, endDate]
             console.log(eventTimeConstraint);
