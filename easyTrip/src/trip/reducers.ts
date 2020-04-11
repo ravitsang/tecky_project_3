@@ -409,6 +409,15 @@ export const tripReducer = (state: ITripState = initialState, action: ITripActio
                 ...state,
                 drivingDuration: state.drivingDuration.concat(action.duration)
             }
+
+        case "RESET_DRIVING":
+            // console.log(state.drivingDuration);
+            return{
+                ...state,
+                drivingDuration: []
+            }
+
+
         case "GET_TRANSIT":
             return{
                 ...state

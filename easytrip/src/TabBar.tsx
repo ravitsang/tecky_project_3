@@ -77,7 +77,7 @@ export function TabBar(props:ITabBarProps) {
             <Tab onClick={() => dispatch(push('/attraction'))} className={classes.tab} label="Attraction" />
             <Tab onClick={() => dispatch(push('/calendar'))} className={classes.tab} label="Calender" />
             <Tab onClick={() => dispatch(push('/itinerary'))} className={classes.tab} label="Itinerary" />
-            <Tab onClick={() => dispatch(push('/maps'))} className={classes.tab} label="Map" />
+            {/* <Tab onClick={() => dispatch(push('/maps'))} className={classes.tab} label="Map" /> */}
           </Tabs>
         </div>
       </Paper>

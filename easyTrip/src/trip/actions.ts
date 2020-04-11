@@ -13,6 +13,7 @@ type actionCreators = typeof getTripDetail |
     typeof addStartEndEvent |
     typeof updateConstraint |
     typeof getDriving |
+    typeof resetDriving |
     typeof getTransit |
     typeof failed
 
@@ -131,6 +132,13 @@ export function getDriving(duration:string){
     return{
         type: "GET_DRIVING" as "GET_DRIVING",
         duration
+    }
+}
+
+
+export function resetDriving(){
+    return{
+        type: "RESET_DRIVING" as "RESET_DRIVING"
     }
 }
 

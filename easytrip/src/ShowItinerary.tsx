@@ -21,6 +21,7 @@ import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { getDrivingThunk } from './trip/thunks';
+import { resetDriving } from './trip/actions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -99,7 +100,8 @@ export function ShowItinerary() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        calDrivingDuration()
+        dispatch(resetDriving());
+        calDrivingDuration();
         return () => {
 
         }
@@ -121,6 +123,9 @@ export function ShowItinerary() {
     });
 
     console.log(sortedTripEvents);
+
+    
+    console.log(drivingDuration);
 
     // calculate the driving time between two aattractions
     const calDrivingDuration = () => {
@@ -162,7 +167,7 @@ export function ShowItinerary() {
                         <DirectionsCarIcon />
                         <div className="drive-time">
                             {drivingDuration[index - 1]}
-                            {drivingDuration}
+                            {/* {drivingDuration} */}
                         </div>
                     </div>
                 </>
