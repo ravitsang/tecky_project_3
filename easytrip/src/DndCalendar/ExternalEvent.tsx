@@ -90,20 +90,21 @@ export function ExternalEvent() {
 
     const classes = useStyles();
 
-    const externalEvents = useSelector((state: IRootState) => state.trip.externalEvents)
+    // const externalEvents = useSelector((state: IRootState) => state.trip.externalEvents)
+    const scheduleItem = useSelector((state: IRootState) => state.trip.scheduleItems)
 
+    console.log(scheduleItem);
 
-    console.log(externalEvents);
-    // useEffect(() => {
-    //     effect
-    //     return () => {
-    //         cleanup
-    //     }
-    // }, [input])
+    useEffect(() => {
+        console.log('component did updated');
+
+    },[])
 
 
     return (
+        
         <Card className={`${classes.root} external-event`}>
+            {console.log('component did updated')}
             <div id='external-events'>
                 <CardHeader
                     className={`${classes.header} external-event-header`}
@@ -113,7 +114,7 @@ export function ExternalEvent() {
                     title="Unplanned Event">
                 </CardHeader>
                 <CardContent className={classes.cards}>
-                    {externalEvents.map((event: any) => (
+                    {scheduleItem.map((event: any) => (
                         <div
                             className="fc-event fc-resizable fc-item"
                             title={event.name}

@@ -17,6 +17,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { DndCalendar } from './DndCalendar/DndCalendar';
 
 import  { ShowAttraction }  from './ShowAttraction';
+import  { Login }  from './Login';
 import { TabBar } from './TabBar';
 
 export function App() {
@@ -24,15 +25,16 @@ export function App() {
   return (
     <ConnectedRouter history={history}>
       <MainNav />
-      {/* <Switch> */}
+      {/* <TabBar /> */}
+      <Switch>
 
-        {/* <TabBar /> */}
         <Route path='/' exact={true} component={EntryForm}/>
         <Route path='/attraction' component={ShowAttraction}/>
         <Route path='/itinerary' component={ShowItinerary}/>
-        <Route path='/map' component={MarkerClusterComponent}/>
+        <Route path='/login' component={Login}/>
+        {/* <Route path='/map' component={MarkerClusterComponent}/> */}
         <Route path='/calendar' component={DndCalendar} />
-      {/* </Switch> */}
+      </Switch>
     </ConnectedRouter>
   );
 }

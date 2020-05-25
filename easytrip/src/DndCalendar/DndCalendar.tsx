@@ -60,12 +60,12 @@ export function DndCalendar() {
     console.log(calendarEvents);
 
     function popOverToggle() {
-        setIsShowingPopover(!isShowingPopover);
+        setIsShowingPopover(isShowingPopover => !isShowingPopover);
     }
 
-    function addEventFormToggle() {
-        setIsShowingForm(!isShowingForm);
-    }
+    const addEventFormToggle = React.useCallback(function () {
+        setIsShowingForm(isShowingForm => !isShowingForm);
+    }, [setIsShowingForm]);
 
     function showAddEventMessageToggle() {
         setIsShowingAddEventMessage(!isShowingAddEventMessage);
@@ -244,9 +244,8 @@ export function DndCalendar() {
                                     defaultDate={startDate}
                                     slotDuration={'00:60:00'}
                                     eventOverlap={false}
-                                    aspectRatio={1.7}
-
-                                    schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                                    // aspectRatio={1.7}
+                                    // schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
                                 />
 
                             </Responsive>
@@ -277,7 +276,7 @@ export function DndCalendar() {
                                     eventOverlap={false}
                                     aspectRatio={1.7}
 
-                                    schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                                    // schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
                                 />
 
                             </Responsive>
@@ -307,7 +306,7 @@ export function DndCalendar() {
                                     slotDuration={'00:60:00'}
                                     eventOverlap={false}
                                     aspectRatio={1.7}
-                                    schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+                                    // schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
                                 />
                             </Responsive>
                         </Grid>

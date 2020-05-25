@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
+// import useAutocomplete from '@material-ui/lab/useAutocomplete';
 
 function loadScript(src: string, position: HTMLElement | null, id: string) {
   if (!position) {
@@ -21,6 +22,7 @@ function loadScript(src: string, position: HTMLElement | null, id: string) {
 }
 
 const autocompleteService = { current: null };
+
 
 const { REACT_APP_GOOGLE_KEY } = process.env
 
@@ -94,7 +96,13 @@ export function LocationSelect(props:ILocationSelect) {
 
     if (!autocompleteService.current && (window as any).google) {
       autocompleteService.current = new (window as any).google.maps.places.AutocompleteService();
+      console.log(autocompleteService.current);
+      console.log('autocomplete');
     }
+
+    // console.log(new (window as any).google.maps.places.AutocompleteService());
+    console.log(autocompleteService.current);
+
     if (!autocompleteService.current) {
       return undefined;
     }
@@ -110,7 +118,6 @@ export function LocationSelect(props:ILocationSelect) {
       }
     });
 
-    // console.log(autocompleteService.current);
     return () => {
       active = false;
     };

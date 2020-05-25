@@ -1,3 +1,5 @@
+import { IAuthActions } from './auth/actions';
+import { IAuthState } from './auth/state';
 import { ITripActions } from './trip/actions';
 import { tripReducer } from './trip/reducers';
 import { ITripState } from './trip/state';
@@ -12,6 +14,7 @@ import { attractionReducer } from './attraction/reducers';
 import { IScheduleItemState } from './scheduleItem/state';
 import { scheduleItemReducer } from './scheduleItem/reducer';
 import { IScheduleItemActions } from './scheduleItem/actions';
+import { authReducer } from './auth/reducer';
 
 
 
@@ -24,17 +27,23 @@ export interface IRootState {
   trip: ITripState
   attraction: IAttractionState
   scheduleItem: IScheduleItemState
+  auth:IAuthState
 }
 
  
-export type IRootAction =  CallHistoryMethodAction | ITripActions | IAttractionActions | IScheduleItemActions
+export type IRootAction =  CallHistoryMethodAction |
+                           ITripActions |
+                           IAttractionActions |
+                           IScheduleItemActions |
+                           IAuthActions
 
 
 const rootReducer = combineReducers<IRootState>({
   router: connectRouter(history), 
   trip: tripReducer,
   attraction: attractionReducer,
-  scheduleItem: scheduleItemReducer
+  scheduleItem: scheduleItemReducer,
+  auth: authReducer
 });
 
 declare global {

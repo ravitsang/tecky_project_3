@@ -4,7 +4,7 @@ import { Theme, makeStyles, createStyles } from '@material-ui/core/styles';
 import { CardActionArea, CardContent, CardMedia, Typography, CardHeader, IconButton, Fab, Button, Card, Grid } from '@material-ui/core';
 
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
-import EditIcon from '@material-ui/icons/Edit';
+// import EditIcon from '@material-ui/icons/Edit';
 import HotelIcon from '@material-ui/icons/Hotel';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -96,7 +96,7 @@ export function ShowItinerary() {
     const tripEvents = useSelector((state: IRootState) => state.trip.tripEvents)
     const calendarEvents = useSelector((state: IRootState) => state.trip.calendarEvents)
     const drivingDuration = useSelector((state: IRootState) => state.trip.drivingDuration)
-    const externalEvents = useSelector((state: IRootState) => state.trip.externalEvents)
+    // const externalEvents = useSelector((state: IRootState) => state.trip.externalEvents)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -110,8 +110,8 @@ export function ShowItinerary() {
 
 
     console.log(tripEvents);
-    console.log(externalEvents);
-    const startDate = tripSchedule.dateInfor[0].startDate
+    // console.log(externalEvents);
+    const startDate = tripSchedule.dateInfor[0]?.startDate
 
 
     tripEvents.map((event) => {
@@ -130,7 +130,7 @@ export function ShowItinerary() {
     // calculate the driving time between two aattractions
     const calDrivingDuration = () => {
         sortedTripEvents.map((event, num) => {
-            event.location && sortedTripEvents.length - 1 !== num ? dispatch(getDrivingThunk(event.location, sortedTripEvents[num + 1].location as string)) : Math.floor(Math.random() * 60)
+            event.location && sortedTripEvents.length - 1 !== num ? dispatch(getDrivingThunk(event.location, sortedTripEvents[num + 1].location! )) : Math.floor(Math.random() * 60)
             console.log(drivingDuration);
         })
     }
@@ -220,9 +220,6 @@ export function ShowItinerary() {
                                         {`${moment(sortedTripEvent.startTime).format('LT')} - ${moment(sortedTripEvent.endTime).format('LT')}`}
                                     </div>
                                 </CardContent>
-                                <CardContent>
-                                    <EditIcon fontSize='small' />
-                                </CardContent>
                             </div>
                             <div className="sm-media-header-row">
                                 <CardActionArea className={classes.actionArea}>
@@ -267,11 +264,6 @@ export function ShowItinerary() {
                                         title: classes.title,
                                         subheader: classes.subheader,
                                     }}
-                                    action={
-                                        <IconButton aria-label="settings">
-                                            <EditIcon />
-                                        </IconButton>
-                                    }
                                     title={sortedTripEvent.title}
                                     subheader={sortedTripEvent.location}
                                 />
